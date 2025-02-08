@@ -339,3 +339,34 @@
 .incbin "data/credits-font.gfx"
 .endautoregion
 
+; Credits music changes
+.autoregion
+    .align 2
+.func @PlaySamusImageMusic
+    push    { r0-r3 }
+    mov     r0, #50h
+    mov     r1, #0Eh
+    bl      Music_Play
+    pop     { r0-r3 }
+    ldr     r0, =#80A1CFDh
+    bl      08000B88h ; A function call in the original code
+    bl      080A2554h ; Return to where the original function would have gone
+    .pool
+.endfunc
+.endautoregion
+
+; Hijack the original code location that starts the Samus Image display, to change the music
+.org 080A254Eh
+.area 06h, 0
+    bl     @PlaySamusImageMusic
+.endarea
+
+.org 087A6000h
+    SamusImageSongData:
+    .incbin "data/music/endscreen.bin"
+
+; Replace track 50 with the new header at the end of the above bin file
+.org 080A8FBCh
+    .dw     087A6724h
+
+;7DF000
