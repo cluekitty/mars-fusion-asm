@@ -107,6 +107,11 @@
     mov     r0, #0
     strb    r0, [r5, SamusTimers_SubzeroKnockback]
     b       @@return_true
+@@clear_timers:
+    mov     r0, #0
+    strb    r0, [r5, SamusTimers_EnvironmentalDamage]
+    strb    r0, [r5, SamusTimers_EnvironmentalDamageSfx]
+    strb    r0, [r5, SamusTimers_EnvironmentalDamageVfx]
 @@check_hp:
     ldr     r1, =SamusUpgrades
     ldrh    r0, [r1, SamusUpgrades_CurrEnergy]
@@ -115,11 +120,6 @@
 @@return_true:
     mov     r0, #1
     b       @@return
-@@clear_timers:
-    mov     r0, #0
-    strb    r0, [r5, SamusTimers_EnvironmentalDamage]
-    strb    r0, [r5, SamusTimers_EnvironmentalDamageSfx]
-    strb    r0, [r5, SamusTimers_EnvironmentalDamageVfx]
 @@return_false:
     mov     r0, #0
 @@return:
