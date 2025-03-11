@@ -117,6 +117,8 @@ RevealHiddenTilesFlag equ 087FF08Ch
 .include "src/qol/unhidden-map-doors.s"
 .endif
 
+.endif
+
 ; Physics patches
 ; Patches which alter Samus's movement physics
 .if PHYSICS
