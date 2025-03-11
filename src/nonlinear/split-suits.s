@@ -13,8 +13,8 @@
     ldr     r5, =SamusTimers
     ldr     r1, =SamusState
     ldrb    r0, [r1, SamusState_Pose]
-    cmp     r0, #3Eh
-    beq     @@clear_timers
+    cmp     r0, #SamusPose_Dying
+    beq     @@return_false
     ldrh    r0, [r1, SamusState_PositionY]
     ldrh    r1, [r1, SamusState_PositionX]
     bl      08068E70h
@@ -107,6 +107,11 @@
     mov     r0, #0
     strb    r0, [r5, SamusTimers_SubzeroKnockback]
     b       @@return_true
+@@clear_timers:
+    mov     r0, #0
+    strb    r0, [r5, SamusTimers_EnvironmentalDamage]
+    strb    r0, [r5, SamusTimers_EnvironmentalDamageSfx]
+    strb    r0, [r5, SamusTimers_EnvironmentalDamageVfx]
 @@check_hp:
     ldr     r1, =SamusUpgrades
     ldrh    r0, [r1, SamusUpgrades_CurrEnergy]
@@ -115,11 +120,6 @@
 @@return_true:
     mov     r0, #1
     b       @@return
-@@clear_timers:
-    mov     r0, #0
-    strb    r0, [r5, SamusTimers_EnvironmentalDamage]
-    strb    r0, [r5, SamusTimers_EnvironmentalDamageSfx]
-    strb    r0, [r5, SamusTimers_EnvironmentalDamageVfx]
 @@return_false:
     mov     r0, #0
 @@return:
