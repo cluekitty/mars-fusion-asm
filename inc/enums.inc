@@ -190,6 +190,7 @@ Tank_Missiles equ 1
 Tank_Energy equ 2
 Tank_PowerBombs equ 3
 
+SamusPose_Dying equ 3Eh
 SamusPose_FrozenRequest equ 0FBh
 
 StandingFlag_Ground equ 00h

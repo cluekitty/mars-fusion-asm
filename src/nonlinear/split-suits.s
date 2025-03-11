@@ -13,8 +13,8 @@
     ldr     r5, =SamusTimers
     ldr     r1, =SamusState
     ldrb    r0, [r1, SamusState_Pose]
-    cmp     r0, #3Eh
-    beq     @@clear_timers
+    cmp     r0, #SamusPose_Dying
+    beq     @@return_false
     ldrh    r0, [r1, SamusState_PositionY]
     ldrh    r1, [r1, SamusState_PositionX]
     bl      08068E70h
