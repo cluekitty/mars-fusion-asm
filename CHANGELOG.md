@@ -17,16 +17,16 @@
 
 ### Room modifications
 #### Main Deck
-- Fixed: In Arachnus Arena, Arachnus no longer despawns before being defeated after triggering the escape sequence.
-- Fixed: Removed event based door transition from Reactor Silo.
+- Fixed: Arachnus Arena: Arachnus no longer despawns before being defeated after triggering the escape sequence.
+- Fixed: Reactor Silo: Removed event based door transition.
 #### Sector 2
-- Changed: In Data Courtyard, the Reo is now always in it's first pass state.
-- Changed: In Cathedral, the Zoro is now moved away from the door to Ripper Tower.
-- Changed: In Overgrown Checkpoint, moved the scroll so the missile block is visible from below.
-- Fixed: In Cathedral, fixed being able to clip through some of the Zoro cocoons.
-- Fixed: In Cultivation Station, fixed a block being always revealed.
+- Changed: Data Courtyard: the top Reo is now always in it's first pass location.
+- Changed: Cathedral: the Zoro near the door to Ripper Tower is now moved away.
+- Changed: Overgrown Checkpoint: moved the scroll so the missile block is visible from below.
+- Fixed: Cathedral: fixed being able to clip through some of the Zoro cocoons.
+- Fixed: Cultivation Station: fixed a block being always revealed.
 #### Sector 4
-- Fixed: In Reservoir East, the Scizer on the wall is now always present.
+- Fixed: Reservoir East: the Scizer on the wall is now always present.
 
 ## 0.2.0 - 2025-03-01
 
