@@ -5,11 +5,12 @@
 ## 0.3.0 - 2025-03-15
 
 ### Randomizer
-- Fixed: Removed event based door transition from Reactor Silo.
+- Added: Snowflake gfx added to Ice Traps.
+- Added: Option to reveal doors on map once visited.
+- Changed: Ice traps now always freeze you regardless of Varia.
 - Fixed: Escape music now triggers properly.
 - Fixed: Respawning after warping to start now loads your most recent save location if you Game Over.
 - Fixed: Removed bug when Samus would land on a frozen enemy while taking lethal damage.
-- Added: Snowflake gfx added to Ice Traps.
 
 ### Quality of Life
 - Changed: Ice Beam volume lowered for uncharged shots.
@@ -17,11 +18,13 @@
 ### Room modifications
 #### Main Deck
 - Fixed: In Arachnus Arena, Arachnus no longer despawns before being defeated after triggering the escape sequence.
+- Fixed: Removed event based door transition from Reactor Silo.
 #### Sector 2
-- Fixed: In Catherdral, fixed being able to clip through some of the Zoro cocoons.
 - Changed: In Data Courtyard, the Reo is now always in it's first pass state.
 - Changed: In Cathedral, the Zoro is now moved away from the door to Ripper Tower.
-- Changed: In Overgrown Checkpoint, moved the scroll so the missile block is visbile from below.
+- Changed: In Overgrown Checkpoint, moved the scroll so the missile block is visible from below.
+- Fixed: In Catherdral, fixed being able to clip through some of the Zoro cocoons.
+- Fixed: In Cultivation Station, fixed a block being always revealed.
 #### Sector 4
 - Fixed: In Reservoir East, the Scizer on the wall is now always present.
 
