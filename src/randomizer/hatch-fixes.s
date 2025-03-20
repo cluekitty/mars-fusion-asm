@@ -30,11 +30,11 @@
 .endarea
 
 
-; change event hatch to normal hatch after event triggered
+; Modifying code in CheckUnlockHatches
 .org 08063CA0h
     bl      @ResetEventHatches
 
-; hijack door load code to store original hatch types
+; Modifying code in LoadDoors
 .org 08065608h
     bl      @StoreHatchTypes
 
@@ -42,7 +42,7 @@
 .autoregion
 .align 4
 .func @StoreHatchTypes
-    push    { r0 - r3 }
+    push    { r1 - r3 }
     ; Check if code should run
     ldr     r0, =NonGameplayFlag
     ldrb    r0, [r0]
@@ -63,9 +63,10 @@
     cmp     r3, #6
     bne     @@hatchLoop ; Loop for all hatches
 @@return:
-    pop     { r0 - r3 }
+    pop     { r1 - r3 }
+    ; Hijacked code simply pops r0 and returns, same functionality must be maintained
     pop     r0
-    bx      r0 ; Return to original code flow
+    bx      r0
     .pool
 .endfunc
 .endautoregion
