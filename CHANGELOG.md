@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Randomizer
+- Fixed: Rooms with Event doors no longer occasionally display the incorrect lock.
+
 ## 0.3.0 - 2025-03-15
 
 ### Randomizer
