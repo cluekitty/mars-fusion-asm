@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+- Changed: Hidden Tanks are now revealed when "Reveal Hidden Tiles" is enabled. They will show as a beam-weak block.
+
+### Randomizer
+- Fixed: Rooms with Event doors no longer occasionally display the incorrect lock.
 
 ## 0.3.0 - 2025-03-15
 
