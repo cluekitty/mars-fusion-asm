@@ -76,18 +76,15 @@
     ldr     r1, =NonGameplayFlag
     mov     r0, #0
     strb    r0, [r1]
-    b       @@reinit_audio
+    b       @@reset_volume
 @@intro:
     mov     r0, #GameMode_FileSelect
     strh    r0, [r1]
     ldr     r1, =SubGameMode2
     mov     r0, #1
     strb    r0, [r1]
-@@reinit_audio:
-    ldr     r5, =04000082h
-    ldrh    r4, [r5]
-    bl      InitializeAudio
-    strh    r4, [r5]
+@@reset_volume:
+    bl      ResetMusicVolume
 @@exit:
     pop     { r4-r5, pc }
     .pool
