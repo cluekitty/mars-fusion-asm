@@ -7,6 +7,8 @@ Music_CheckSet equ 08003498h
 Music_CheckPlay equ 080034F4h
 Music_Play equ 08003538h
 Music_FadeOut equ 080036F0h
+DecreaseMusicVolume equ 08003C84h ; Decrease volume when paused
+ResetMusicVolume equ 08003C84h ; Reset volume after pausing
 
 Samus_SetPose equ 08008FA0h
 
