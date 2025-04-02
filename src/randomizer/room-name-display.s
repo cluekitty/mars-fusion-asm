@@ -71,7 +71,7 @@
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
-    .dw     @UnknownRoom, @UnknownRoom
+    .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom
 .endautoregion
 
 .autoregion
@@ -90,7 +90,7 @@
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
-    .dw     @UnknownRoom
+    .dw     @UnknownRoom, @UnknownRoom
 .endautoregion
 
 .autoregion
@@ -111,6 +111,7 @@
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
+    .dw     @UnknownRoom
 .endautoregion
 
 .autoregion
@@ -125,7 +126,7 @@
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
-    .dw     @UnknownRoom, @UnknownRoom
+    .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom
 .endautoregion
 
 .autoregion
@@ -142,7 +143,7 @@
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
-    .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom
+    .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
 .endautoregion
 
 .autoregion
@@ -160,7 +161,7 @@
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
-    .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom
+    .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
 .endautoregion
 
 .autoregion
@@ -176,4 +177,5 @@
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
+    .dw     @UnknownRoom
 .endautoregion
