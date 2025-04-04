@@ -2,10 +2,12 @@
 
 ## Unreleased - 2025-XX-XX
 - Changed: Hidden Tanks are now revealed when "Reveal Hidden Tiles" is enabled. They will show as a beam-weak block.
+- Changed: Message box duration for major items is back to its vanilla value (the previous music track will resume faster).
 
 ### Randomizer
 - Fixed: Rooms with Event doors no longer occasionally display the incorrect lock.
 - Fixed: Warp to Start correctly plays background music on fresh file.
+- Fixed: Tables for room names now allocate sufficient space to store name pointers.
 
 ## 0.3.0 - 2025-03-15
 
