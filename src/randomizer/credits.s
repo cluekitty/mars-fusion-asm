@@ -362,8 +362,12 @@
 .endarea
 
 .org 087A6000h
+.area 750h
     SamusImageSongData:
     .incbin "data/music/endscreen.bin"
+.endarea
+
+
 
 ; Replace track 50 with the new header at the end of the above bin file
 .org 080A8FBCh

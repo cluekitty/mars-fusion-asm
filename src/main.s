@@ -46,6 +46,8 @@
 StartingItems equ 0828D2ACh
 HintTargets equ 085766ECh
 Credits equ 0874B0B0h
+ equ 087A6000h
+
 ReservedSpace equ 087F0000h
 ReservedSpace_Len equ 0F000h
 MinorLocationTable equ 087FF000h
