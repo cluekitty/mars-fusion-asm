@@ -1,11 +1,16 @@
 DeflateVram equ 080009ECh
 InitializeAudio equ 08002298h
 Sfx_Play equ 0800270Ch
+Sfx_PlayIfNotPlaying equ 08002854h
 BitFill equ 08002FECh
 Music_CheckSet equ 08003498h
 Music_CheckPlay equ 080034F4h
 Music_Play equ 08003538h
 Music_FadeOut equ 080036F0h
+DecreaseMusicVolume equ 08003C84h ; Decrease volume when paused
+ResetMusicVolume equ 08003C84h ; Reset volume after pausing
+
+Samus_SetPose equ 08008FA0h
 
 SpawnPrimarySprite equ 0800FBC8h
 Nightmare_MakeMissilesFall equ 0805DD40h
@@ -13,6 +18,8 @@ Nightmare_MakeMissilesFall equ 0805DD40h
 LockHatches equ 08063070h
 ChangeSuit equ 08063190h
 SetEventEffect equ 0806342Ch
+RemoveNeverReformBlocksAndCollectedTanks equ 08064ADCh
+RemoveNeverReformBlocks equ 0806B130h
 SetBg1Tile equ 0806C614h
 SetSpecialBg1Tile equ 0806C6E4h
 SetClipdata equ 0806C82Ch
@@ -58,3 +65,7 @@ Sprite_CreatePlasmaDebris equ 080831C4h
 Divide equ 080A3468h
 memcpy equ 080A4EF0h
 memset equ 080A4F50h
+
+.definelabel Sram_CheckLoadSaveFileWithBlank, 08080968h
+.definelabel Sram_RestoreBackupSaveFileAfterReload, 0807FB48h ; We completely replace this unused vanilla function
+.definelabel DmaTransfer, 08002F1Ch ; r0=channel, r1=src, r2=dst, r3=len, [sp]=bitsize

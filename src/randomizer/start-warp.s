@@ -1,7 +1,6 @@
 ; Allows warp to start location from the sleep mode menu.
 
-.org 0856F71Ch
-.incbin "data/warp-map.gfx"
+; Graphics moved to src/randomizer/menu-edits.s
 
 .autoregion
     .align 4
@@ -69,6 +68,7 @@
     strh    r0, [r1, SaveData_MusicUnk2 - SaveData_MusicSlot1]
     bl      08080968h
     ldr     r1, =GameMode
+    ldrh    r0, [r1]
     cmp     r0, #0
     beq     @@intro
     mov     r0, #GameMode_InGame
@@ -76,18 +76,15 @@
     ldr     r1, =NonGameplayFlag
     mov     r0, #0
     strb    r0, [r1]
-    b       @@reinit_audio
+    b       @@reset_volume
 @@intro:
     mov     r0, #GameMode_FileSelect
     strh    r0, [r1]
     ldr     r1, =SubGameMode2
     mov     r0, #1
     strb    r0, [r1]
-@@reinit_audio:
-    ldr     r5, =04000082h
-    ldrh    r4, [r5]
-    bl      InitializeAudio
-    strh    r4, [r5]
+@@reset_volume:
+    bl      ResetMusicVolume
 @@exit:
     pop     { r4-r5, pc }
     .pool
@@ -99,6 +96,7 @@
     strb    r0, [r3, #6]
     nop :: nop
 
+; Hijack the sleep function in EasySleepMenuSubroutine for warp to start.
 .org 0807EE12h
 .area 6Eh
     ldr     r4, =03001488h

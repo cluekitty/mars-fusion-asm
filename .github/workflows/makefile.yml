@@ -3,12 +3,21 @@ name: Makefile CI
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - '*'
   pull_request:
     branches: [ "main" ]
 
 jobs:
   build:
-
+    strategy:
+      matrix:
+        config:
+          - mode: randomizer
+            zip-name: Randomizer Patches
+          - mode: nonlinear
+            zip-name: Nonlinear patches
+            
     runs-on: self-hosted
 
     steps:
@@ -18,21 +27,45 @@ jobs:
       run: cp --no-preserve=mode $METROID_FUSION_U_PATH ./metroid4.gba
 
     - name: Run make
-      run: make dist AS=armips FLIPS=flips
+      run: make dist AS=armips FLIPS=flips BUILD_TYPE=release MODIFICATION_MODE=${{ matrix.config.mode }}
 
     - name: Remove ROM
       run: rm ./bin/m4rs.gba
 
+    - name: Zip the patches up
+      run: zip -9 "${{ matrix.config.zip-name }}.zip" ./bin/*.ips ./bin/*.bps
+
     - name: Upload patches as artifacts
-      if: github.ref == 'refs/heads/main'
+      if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
       uses: actions/upload-artifact@v4.0.0
       with:
-        name: Fusion Patches
+        name: ${{ matrix.config.zip-name }}.zip
         if-no-files-found: error
-        path: |
-          ./bin/*.ips
-          ./bin/*.bps
+        path: ${{ matrix.config.zip-name }}.zip
 
-    # TODO: upload releases on tag? would require setting DEBUG to false.
+  release:
+    runs-on: 'ubuntu-latest'
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    needs:
+      - build
+    permissions: write-all
+
+    steps:
+      - name: Download all the artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Create a Draft Release
+        uses: svenstaro/upload-release-action@2.9.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: ${{ github.event.release.tag_name }}
+          file: artifacts/**
+          file_glob: true
+          tag: ${{ github.ref }}
+          draft: true
+          body: "Insert Changelog here"
+        
 
       

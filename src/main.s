@@ -35,6 +35,9 @@
 .ifndef UNHIDDEN_MAP
 .definelabel UNHIDDEN_MAP, 0
 .endif
+.ifndef UNHIDDEN_MAP_DOORS
+.definelabel UNHIDDEN_MAP_DOORS, 0
+.endif
 
 .include "inc/constants.inc"
 .include "inc/enums.inc"
@@ -46,10 +49,15 @@
 StartingItems equ 0828D2ACh
 HintTargets equ 085766ECh
 Credits equ 0874B0B0h
- equ 087A6000h
+MessageTableLookupAddr equ 0879CDF4h ; This is not the location of the table itself. The pointers, offset by language, at this location will be the table location
 
-ReservedSpace equ 087F0000h
-ReservedSpace_Len equ 0F000h
+; Reserved space addresses. Used by the patcher to know where it should write
+; data to. The first address here should be used below when defining the free
+; space region for the asm to use
+PatcherFreeSpace equ 087D0000h
+CreditsMusicSpace equ 087F0000h ; takes up 0x14E0h
+FutureReservedSpace equ 087F14E0h
+FutureReservedSpace_Len equ 0DB20h
 MinorLocationTable equ 087FF000h
 MajorLocations equ 087FF01Ch
 TankIncrements equ 087FF046h
@@ -62,12 +70,12 @@ HintSecurityLevels equ 087FF059h
 EnvironmentalHazardDps equ 087FF065h
 MissileLimit equ 087FF06Ah
 MinorLocationsAddr equ 087FF06Ch
-MessageTableLookupAddr equ 0879CDF4h ; This is not the location of the table itself. The pointers, offset by language, at this location will be the table location
 RoomNamesAddr equ 087FF070h
+RevealHiddenTilesFlag equ 087FF08Ch
 
 ; Mark end-of-file padding as free space
-@@EOF equ 0879FAC8h ; 0879ECC8h
-.defineregion @@EOF, ReservedSpace - @@EOF, 0FFh
+@@EOF equ 0879ECC8h
+.defineregion @@EOF, PatcherFreeSpace - @@EOF, 0FFh
 
 ; Debug mode patch
 .if DEBUG
@@ -94,16 +102,22 @@ RoomNamesAddr equ 087FF070h
 .include "src/qol/cross-sector-maps.s"
 .include "src/qol/fast-doors.s"
 .include "src/qol/fast-elevators.s"
+.include "src/qol/ice-beam-volume.s"
 .include "src/qol/increase-red-x-drops.s"
 .include "src/qol/map-info.s"
 .include "src/qol/sax-softlock.s"
 .include "src/qol/screw-unbonk.s"
 .include "src/qol/skip-ending.s"
 .include "src/qol/skip-intro.s"
+.include "src/qol/unhidden-breakable-tiles.s"
 
 .if UNHIDDEN_MAP
 .include "src/qol/unhidden-map.s"
 .endif
+.if UNHIDDEN_MAP_DOORS
+.include "src/qol/unhidden-map-doors.s"
+.endif
+
 .endif
 
 ; Physics patches
@@ -111,7 +125,6 @@ RoomNamesAddr equ 087FF070h
 .if PHYSICS
 .notice "Applying physics patches..."
 .include "src/physics/air-momentum.s"
-.include "src/physics/single-walljump.s"
 .include "src/physics/speedkeep.s"
 .endif
 
@@ -138,8 +151,10 @@ RoomNamesAddr equ 087FF070h
 .include "src/nonlinear/null-event.s"
 .include "src/nonlinear/operations-room.s"
 .include "src/nonlinear/security-unlock.s"
+.include "src/physics/single-walljump.s"
 .include "src/nonlinear/split-suits.s"
 .include "src/nonlinear/story-flags.s"
+
 
 .if !DEBUG
 .include "src/nonlinear/item-select.s"
@@ -157,11 +172,12 @@ RoomNamesAddr equ 087FF070h
 .include "src/randomizer/hatch-fixes.s"
 .include "src/randomizer/hints.s"
 .include "src/randomizer/less-map-info.s"
-.include "src/randomizer/room-name-display.s"
+.include "src/randomizer/menu-edits.s"
 .include "src/randomizer/open-escape.s"
 .include "src/randomizer/start-warp.s"
 .include "src/randomizer/start-location.s"
 .include "src/randomizer/tank-majors.s"
+.include "src/randomizer/room-name-display.s"
 .endif
 
 .close

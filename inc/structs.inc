@@ -1,8 +1,18 @@
+DecompressedBG0Data equ 02029000h
+DecompressedBG1Data equ 0202C000h
+DecompressedBG2Data equ 0202F000h
+DecompressedBG3Data equ 02032000h
+.sym off
+DecompressBGData_Size equ 3000h
+.sym on
+
 MinimapData equ 02034000h
 DecompressedMinimapData equ 02034800h
 MinimapVisited equ 02037C00h
 
 TanksCollected equ 02037200h
+
+ScrewAttackWJFlag equ 3000001h ; Flag that is set when WallJumping with Screw Attack, non-vanilla
 
 LongFrameCounter equ 03000002h
 ShortFrameCounter equ 03000BE5h
@@ -83,6 +93,9 @@ BgPositions_Bg2Y equ 0Ah
 BgPositions_Bg3X equ 0Ch
 BgPositions_Bg3Y equ 0Eh
 .sym on
+
+; TODO: Move to hatch ram if hatch struct is rewritten
+OriginalHatchTypes equ 30000E0h ; Stores original hatch types when event doors are locked, non-vanilla
 
 ArmCannonPos equ 03000B80h
 .sym off
@@ -218,6 +231,7 @@ SamusState_Unk01 equ 0Bh
 SamusState_ChargeCounter equ 0Ch
 SamusState_DiagonalAim equ 0Dh
 SamusState_ArmSwing equ 0Eh
+SamusState_WallJumpDirection equ 10h
 SamusState_Direction equ 12h
 SamusState_PositionX equ 16h
 SamusState_PositionY equ 18h
@@ -226,6 +240,7 @@ SamusState_VelocityY equ 1Ch
 SamusState_StandingFlag equ 20h
 SamusState_AnimationFrame equ 21h
 SamusState_Animation equ 22h
+SamusState_HitboxTop equ 26h
 .sym on
 
 SamusTimers equ 030012F0h
@@ -295,6 +310,11 @@ ButtonAssignments_Pause equ 06h
 ; navigation hatch left     26h
 ; navigation hatch right    27h
 
+NonGameplayRam equ 03001484h
+.sym off
+NonGamePlayRam_OamData equ 02Ch
+.sym on
+
 MenuSprites equ 030014B0h
 .sym off
 MenuSprites_Len equ 28h
@@ -334,6 +354,13 @@ MusicInfo_NextTrack equ 22h
 
 SpecialTileset equ 03004DE4h
 HatchData equ 0x3004DEC
+.sym off
+HatchData_Status equ 00h
+HatchData_Animation equ 01h
+HatchData_XPosition equ 02h
+HatchData_YPosition equ 03h
+.sym on
+
 DestinationRoom equ 03004E3Ch
 
 RoomTanks equ 030053DCh
@@ -470,6 +497,7 @@ SaveMeta_Size equ 14h
 .sym on
 
 SaveData equ 0858225Ch
+BackupSaveData equ 08582268h
 .sym off
 SaveData_Area equ 1Dh
 SaveData_Room equ 1Eh
@@ -587,6 +615,29 @@ DMA_DAD equ 04h
 DMA_CNT equ 08h
 .sym on
 
+PauseScreenGfxOamPointer equ 08076B10h
+VanillaPauseScreenOamData equ 0879BEC0h
+
+SamusPhysics equ 03001330h
+.sym off
+SamusPhysics_SlowSpeedFlag equ 00h
+SamusPhysics_YAcceleration equ 02h
+SamusPhysics_YVelocityCap equ 04h
+SamusPhysics_MidairXAcceleration equ 06h
+SamusPhysics_MidairXVelocityCap equ 08h
+SamusPhysics_MidairMorphedXVelocityCap equ 0Ah
+SamusPhysics_XAcceleration equ 0Ch
+SamusPhysics_XVelocityCap equ 0Eh
+.sym on
+
+;BrokenBlock
+.sym off
+BrokenBlock_Stage equ 00h
+BrokenBlock_Timer equ 01h
+BrokenBlock_XPos equ 02h
+BrokenBlock_YPos equ 03h
+.sym on
+
 ; non-vanilla structs:
 
 UpgradeLookup equ 03001800h
@@ -629,3 +680,12 @@ StartingLocation_Size equ 08h
 RedX_OAMData equ 083BE2C0h
 
 SpritePalettePtrs equ 0879A8D4h
+
+StoredRevealedTiles equ 03005630h
+.sym off
+StoredRevealedTiles_Len equ 40h
+StoredRevealedTiles_Type equ 0
+StoredRevealedTiles_YPos equ 2
+StoredRevealedTiles_XPos equ 3
+StoredRevealedTiles_Size equ 4
+.sym on

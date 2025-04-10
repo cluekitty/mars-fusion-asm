@@ -171,6 +171,16 @@
     .db     19h
 .endarea
 
+; Main Deck - Arachnus Arena
+; remove sprite layer that removes Arachnus during the escape
+.org MainDeckLevels + 26h * LevelMeta_Size + LevelMeta_Spriteset1Event
+.area LevelMeta_Spriteset2Event - LevelMeta_Spriteset1Event
+    .db     0
+    .skip 2
+    .dw     NullSpriteset
+    .db     0
+.endarea
+
 ; Main Deck - Main Elevator Access
 ; remove event-based transition
 .org MainDeckDoors + 4Ah * DoorEntry_Size + DoorEntry_Type
@@ -235,6 +245,14 @@
 .defineregion readptr(MainDeckLevels + 31h * LevelMeta_Size + LevelMeta_Clipdata), 1E2h
 .defineregion readptr(MainDeckLevels + 3Bh * LevelMeta_Size + LevelMeta_Bg1), 457h
 .defineregion readptr(MainDeckLevels + 3Bh * LevelMeta_Size + LevelMeta_Clipdata), 16Ah
+
+; remove event-based transitions to wrecked Silo Access
+.if RANDOMIZER
+.org MainDeckDoors + 86h * DoorEntry_Size + DoorEntry_Type
+.area 1
+    .db     DoorType_OpenHatch | DoorType_ShowsLocationName
+.endarea
+.endif
 
 ; Main Deck - Operations Room
 ; change lv4 security door to lv0 security
@@ -355,21 +373,7 @@
     .db 32h, 1Bh, 14h
 .endarea
 
-; Sector 2 - Cultivation Station
-; change bomb block to shot block to prevent softlock
-.if ANTI_SOFTLOCK
-.org readptr(Sector2Levels + 0Ah * LevelMeta_Size + LevelMeta_Bg1)
-.area 50Fh, 00h
-.incbin "data/rooms/S2-0A-BG1.rlebg"
-.endarea
-
-.org readptr(Sector2Levels + 0Ah * LevelMeta_Size + LevelMeta_Clipdata)
-.area 11Ah
-.incbin "data/rooms/S2-0A-Clip.rlebg"
-.endarea
-.endif
-
-; Sector 2 - Central Shaft
+; Sector 2 - Cathedral
 ; make door to reo room functional
 ; remove hatch to ripper roost
 ; move zoro out of the way of ripper roost
@@ -403,24 +407,28 @@
     .dw     @S2_CentralShaft_KihunterSpriteset
 .endarea
 
-.org readptr(Sector2Levels + 0Dh * LevelMeta_Size + LevelMeta_Spriteset0) + 1 * 03h
-.area 09h
-    .db     1Bh, 05h, 24h
-    .skip 3
+.org readptr(Sector2Levels + 0Dh * LevelMeta_Size + LevelMeta_Spriteset0) + (1 * Spriteset_SpriteSize)
+.area 03h
+    .db     17h, 05h, 24h
+.endarea
+
+.org readptr(Sector2Levels + 0Dh * LevelMeta_Size + LevelMeta_Spriteset0) + (3 * Spriteset_SpriteSize)
+.area 03h
     .db     2Bh, 03h, 24h
 .endarea
 
-.org readptr(Sector2Levels + 2Eh * LevelMeta_Size + LevelMeta_Spriteset0) + 1 * 03h
+
+.org readptr(Sector2Levels + 2Eh * LevelMeta_Size + LevelMeta_Spriteset0) + (1 * Spriteset_SpriteSize)
 .area 03h
-    .db     1Bh, 05h, 14h
+    .db     17h, 05h, 24h
 .endarea
 
-.org readptr(Sector2Levels + 2Eh * LevelMeta_Size + LevelMeta_Spriteset1) + 2 * 03h
+.org readptr(Sector2Levels + 2Eh * LevelMeta_Size + LevelMeta_Spriteset1) + (2 * Spriteset_SpriteSize)
 .area 03h
-    .db     1Bh, 05h, 14h
+    .db     17h, 05h, 24h
 .endarea
 
-.org readptr(Sector2Levels + 2Eh * LevelMeta_Size + LevelMeta_Spriteset1) + 6 * 03h
+.org readptr(Sector2Levels + 2Eh * LevelMeta_Size + LevelMeta_Spriteset1) + (6 * Spriteset_SpriteSize)
 .area 03h
     .db     2Ch, 03h, 17h
 .endarea
@@ -671,43 +679,6 @@
     .db     1Eh
 .endarea
 
-; Sector 2 - Data Hub
-; repair door to data hub access
-.defineregion readptr(Sector2Levels + 1Fh * LevelMeta_Size + LevelMeta_Clipdata), 0CEh
-
-.org readptr(Sector2Levels + 1Fh * LevelMeta_Size + LevelMeta_Bg1)
-.area 40Bh
-.incbin "data/rooms/S2-1F-BG1.rlebg"
-.endarea
-
-.autoregion
-@S2_DataHub_Clipdata:
-.incbin "data/rooms/S2-1F-Clip.rlebg"
-.endautoregion
-
-.org Sector2Levels + 1Fh * LevelMeta_Size + LevelMeta_Clipdata
-.area 04h
-    .dw     @S2_DataHub_Clipdata
-.endarea
-
-.org Sector2Doors + 10h * DoorEntry_Size + DoorEntry_SourceRoom
-.area 1
-    .db     1Fh
-.endarea
-
-.org Sector2Doors + 11h * DoorEntry_Size + DoorEntry_SourceRoom
-.area 1
-    .db     1Fh
-.endarea
-
-.org Sector2Doors + 13h * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_LockableHatch
-.endarea
-
-.org Sector2Doors + 45h * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
 ; Sector 2 - Eastern Shaft
 ; add ledge to allow climbing frozen enemies from middle doors to top doors
 ; removed 2 vine tiles to prevent dangerous nettori
@@ -926,15 +897,6 @@
     .db     ScrollExtend_None
     .db     0FFh
 .endarea
-
-; Sector 4 - Reservoir East
-; replace shot-blocks to power bomb tank with never-reform variant
-.if ANTI_SOFTLOCK
-.org readptr(Sector4Levels + 06h * LevelMeta_Size + LevelMeta_Clipdata)
-.area 1D1h
-.incbin "data/rooms/S4-06-Clip.rlebg"
-.endarea
-.endif
 
 ; Sector 4 - Waterway
 ; add flooded room state
@@ -1402,3 +1364,9 @@
 .endarea
 
 .include "src/nonlinear/room-edits/main-deck/room-47.s"
+.include "src/nonlinear/room-edits/main-deck/room-56.s"
+.include "src/nonlinear/room-edits/sector-2/room-07-and-1F.s"
+.include "src/nonlinear/room-edits/sector-2/room-0A.s"
+.include "src/nonlinear/room-edits/sector-2/room-39.s"
+.include "src/nonlinear/room-edits/sector-4/room-06.s"
+

@@ -27,6 +27,38 @@ Area_Debug2 equ 8
 Area_Debug3 equ 9
 Area_Extra1 equ 0Ah             ; Not a real area, but is used by minimaps
 
+; Room specific music
+MusicTrack_Briefing equ 2Ah
+MusicTrack_NavRoom equ 0Bh
+MusicTrack_DataRoom equ 0Fh
+; Region specific music
+MusicTrack_MainDeck equ 2Ch
+MusicTrack_BSLAmbience equ 1Eh
+MusicTrack_ObservationDeck equ 2Eh
+MusicTrack_Sector1 equ 04h
+MusicTrack_Tourian equ 35h
+MusicTrack_Sector2 equ 06h
+MusicTrack_Sector3 equ 07h
+MusicTrack_Sector4 equ 09h
+MusicTrack_Sector5 equ 08h
+MusicTrack_Sector6 equ 0Ah
+MusicTrack_FinalMission equ 5Bh
+; Boss specific music
+MusicTrack_EnvironmentalDisquiet equ 5Fh
+MusicTrack_EnvironmentalShock equ 58h
+MusicTrack_PreBossAmbience equ 18h
+MusicTrack_Arachnus equ 19h
+MusicTrack_BeamCoreX equ 43h
+MusicTrack_Zazabi equ 1Ah
+MusicTrack_SerrisYakuza equ 3Fh
+MusicTrack_Box equ 1Bh
+MusicTrack_VariaCoreX equ 40h
+MusicTrack_Nettori equ 44h
+MusicTrack_Nightmare equ 41h
+MusicTrack_Ridley equ 42h
+MusicTrack_SaxHiding equ 15h
+MusicTrack_SaxFight equ 51h
+
 MusicType_Transient equ 0       ; only lasts one room
 MusicType_Briefing equ 1        ; adam sector (de)briefings?
 MusicType_MainDeck equ 2        ; first visit to Main Deck
@@ -48,6 +80,7 @@ Sfx_SuperMissile_Fired equ 0D1h
 Sfx_IceMissile_Fired equ 0D4h
 Sfx_DiffusionMissile_Fired equ 0D7h
 Sfx_ChargedDiffusionMissile_Fired equ 0DAh
+Sfx_SpriteFrozen equ 146h
 
 Event_GameStart equ 00h
 Event_OperationsElevatorOutage equ 08h
@@ -156,6 +189,11 @@ Message_Auto equ 0FFh
 Tank_Missiles equ 1
 Tank_Energy equ 2
 Tank_PowerBombs equ 3
+
+SamusPose_WallJumping equ 16h
+SamusPose_ScrewAttacking equ 1Eh
+SamusPose_Dying equ 3Eh
+SamusPose_FrozenRequest equ 0FBh
 
 StandingFlag_Ground equ 00h
 StandingFlag_Sprite equ 01h
@@ -345,6 +383,7 @@ MenuSpriteGfx_Lv3Unlocked equ 31h
 MenuSpriteGfx_Lv4Locked equ 32h
 MenuSpriteGfx_Lv4Unlocked equ 33h
 MenuSpriteGfx_ObjectiveButton equ 34h
+MenuSpriteGfx_ObjectiveButtonTurningOn equ 35h
 MenuSpriteGfx_GameTimer equ 36h
 MenuSpriteGfx_ETankCounter equ 37h
 MenuSpriteGfx_MTankCounter equ 38h
@@ -354,6 +393,89 @@ MenuSpriteGfx_MTankComplete equ 3Bh
 MenuSpriteGfx_PBTankComplete equ 3Ch
 MenuSpriteGfx_NavigationConsole equ 3Dh
 MenuSpriteGfx_SamusNavigationConsole equ 3Eh
+MenuSpriteGfx_NavigationPinkDoorLeft equ 3Fh
+MenuSpriteGfx_NavigationPinkDoorRight equ 40h
+MenuSpriteGfx_IceXPopUpOpening equ 41h
+MenuSpriteGfx_IceXPopUpClosing equ 42h
+MenuSpriteGfx_AdamTextOutlineOpening equ 43h
+MenuSpriteGfx_AdamTextOutlineStatic equ 44h
+MenuSpriteGfx_AdamTextOutlineClosing equ 45h
+MenuSpriteGfx_AdamTextBackground equ 46h
+MenuSpriteGfx_AdamTextSystemGraphicOpening equ 47h
+MenuSpriteGfx_AdamTextSystemGraphicClosing equ 48h
+MenuSpriteGfx_ComputerEye_49 equ 49h
+MenuSpriteGfx_ComputerEye_4A equ 4Ah
+MenuSpriteGfx_ComputerEye_4B equ 4Bh
+MenuSpriteGfx_ComputerEyeAnimated equ 4Ch
+MenuSpriteGfx_SamusTextOpening equ 4Dh
+MenuSpriteGfx_SamusTextOutlineStatic equ 4Eh
+MenuSpriteGfx_SamusTextOutlineClosing equ 4Fh
+MenuSpriteGfx_SamusTextBackgroundOpening equ 50h
+MenuSpriteGfx_SamusTextBackgroundStatic equ 51h
+MenuSpriteGfx_SamusTextBackgroundClosing equ 52h
+MenuSpriteGfx_FederationTextOutlineOpening equ 53h
+MenuSpriteGfx_FederationTextOutlineStatic equ 54h
+MenuSpriteGfx_FederationTextOutlineClosing equ 55h
+MenuSpriteGfx_FederationTextBackgroundOpening equ 56h
+MenuSpriteGfx_FederationTextBackgroundStatic equ 57h
+MenuSpriteGfx_FederationTextBackgroundClosing equ 58h
+MenuSpriteGfx_SamusTextOpening_Duplicate equ 59h ; Same as SamusTextOpening?
+MenuSpriteGfx_SamusTextOutlineStatic_Duplicate equ 5Ah ; Same as SamusTextOutlineStatic?
+MenuSpriteGfx_SamusTextOutlineClosing_Duplicate equ 5Bh ; Same as SamusTextOutlineClosing?
+MenuSpriteGfx_SamusTextBackgroundOpening_Duplicate equ 5Ch ; Same as SamusTextBackgroundOpening?
+MenuSpriteGfx_SamusTextBackgroundStatic_Duplicate equ 5Dh ; Same as SamusTextBackgroundStatic?
+MenuSpriteGfx_SamusTextBackgroundClosing_Duplicate equ 5Eh ; Same as SamusTextBackgroundClosing?
+MenuSpriteGfx_SamusPortraitOpening equ 5Fh
+MenuSpriteGfx_SamusPortraitAnimated equ 60h
+MenuSpriteGfx_SamusPortraitStatic equ 61h
+MenuSpriteGfx_SamusPortraitClosing equ 62h
+MenuSpriteGfx_FederationPortraitOpening equ 63h
+MenuSpriteGfx_FederationPortraitStatic equ 64h
+MenuSpriteGfx_FederationPortraitSpeaking equ 65h
+MenuSpriteGfx_FederationPortraitClosing equ 66h
+MenuSpriteGfx_AnimatedScanlinesForPortrait equ 67h
+MenuSpriteGfx_BSLRotationAnimation_68 equ 68h
+MenuSpriteGfx_BSLRotationAnimation_69 equ 69h
+MenuSpriteGfx_BSLRotationAnimation_6A equ 6Ah
+MenuSpriteGfx_BSLRotationAnimation_6B equ 6Bh
+MenuSpriteGfx_BSLRotationAnimation_6C equ 6Ch
+MenuSpriteGfx_BSLRotationAnimation_6D equ 6Dh
+MenuSpriteGfx_BSLRotationAnimation_6E equ 6Eh
+MenuSpriteGfx_BSLRotationAnimation_6F equ 6Fh
+MenuSpriteGfx_BSLRotationAnimation_70 equ 70h
+MenuSpriteGfx_BSLRotationAnimation_71 equ 71h
+MenuSpriteGfx_BSLRotationAnimation_72 equ 72h
+MenuSpriteGfx_BSLRotationAnimation_73 equ 73h
+MenuSpriteGfx_BSLRotationAnimation_74 equ 74h
+MenuSpriteGfx_BSLRotationAnimation_75 equ 75h
+MenuSpriteGfx_BSLRotationAnimation_76 equ 76h
+MenuSpriteGfx_BSLRotationAnimation_77 equ 77h
+MenuSpriteGfx_BSLRotationAnimation_78 equ 78h
+MenuSpriteGfx_BSLRotationAnimation_79 equ 79h
+MenuSpriteGfx_BSLRotationAnimation_7A equ 7Ah
+MenuSpriteGfx_BSLRotationAnimation_7B equ 7Bh
+MenuSpriteGfx_BSLRotationAnimation_7C equ 7Ch
+MenuSpriteGfx_BSLRotationAnimation_7D equ 7Dh
+MenuSpriteGfx_BSLRotationAnimation_7E equ 7Eh
+MenuSpriteGfx_BSLRotationAnimation_7F equ 7Fh
+MenuSpriteGfx_BSLRotationAnimation_80 equ 80h
+MenuSpriteGfx_BSLRotationAnimation_81 equ 81h
+MenuSpriteGfx_BSLRotationAnimation_82 equ 82h
+MenuSpriteGfx_BSLRotationAnimation_83 equ 83h
+MenuSpriteGfx_BSLRotationAnimation_84 equ 84h
+MenuSpriteGfx_BSLRotationAnimation_85 equ 85h
+MenuSpriteGfx_BSLRotationAnimation_86 equ 86h
+MenuSpriteGfx_BSLRotationAnimation_87 equ 87h
+MenuSpriteGfx_BSLRotationAnimation_88 equ 88h
+MenuSpriteGfx_BSLRotationAnimation_89 equ 89h
+MenuSpriteGfx_BSLRotationAnimation_8A equ 8Ah
+MenuSpriteGfx_BSLRotationAnimation_8B equ 8Bh
+MenuSpriteGfx_SelectMapChange equ 8Ch
+MenuSpriteGfx_Lv0Locked equ 8Dh
+MenuSpriteGfx_Lv0Unlocked equ 8Eh
+; If you add more pause screen sprites increase the value below. It should
+; always be n+1 of the last enum in the list.
+MenuSpriteGfx_Size equ 8Fh
 
 DoorType_AreaConnection equ 01h
 DoorType_NoHatch equ 02h
@@ -367,6 +489,49 @@ ScrollExtend_Right equ 01h
 ScrollExtend_Top equ 02h
 ScrollExtend_Bottom equ 03h
 ScrollExtend_None equ 0FFh
+
+ClipdataTile_Air equ 0000h
+ClipdataTile_Solid equ 0010h
+ClipdataTile_DoorTransition equ 0020h
+ClipdataTile_2x2TopLeftNeverReform equ 0050h
+ClipdataTile_2x2TopRightNeverReform equ 0051h
+ClipdataTile_WeakNeverReform equ 0052h
+ClipdataTile_WeakReform equ 0053h
+ClipdataTile_MissileNeverReform equ 0054h
+ClipdataTile_BombNeverReform equ 0055h
+ClipdataTile_BombReform equ 0056h
+ClipdataTile_PBomb equ 0057h
+ClipdataTile_SpeedNoReform equ 0058h
+ClipdataTile_ScrewAttack equ 0059h
+ClipdataTile_Crumble equ 005Ah
+ClipdataTile_WeakNoReform equ 005Bh
+ClipdataTile_MissileNoReform equ 005Eh
+ClipdataTile_2x2TopLeftNoReform equ 005Ch
+ClipdataTile_2x2TopRightNoReform equ 005Dh
+ClipdataTile_2x2BottomLeftNeverReform  equ 0060h
+ClipdataTile_2x2BottomRightNeverReform equ 0061h
+ClipdataTile_MissileTankHidden equ 0064h
+ClipdataTile_EnergyTankHidden equ 0065h
+ClipdataTile_PBombTankHidden equ 0069h
+ClipdataTile_SpeedReform equ 006Bh
+ClipdataTile_2x2BottomLeftNoReform  equ 006Ch
+ClipdataTile_2x2BottomRightNoReform equ 006Dh
+ClipdataTile_VerticalBombChain1 equ 0070h
+ClipdataTile_VerticalBombChain2 equ 0071h
+ClipdataTile_VerticalBombChain3 equ 0072h
+ClipdataTile_VerticalBombChain4 equ 0073h
+ClipdataTile_HorizontalBombChain1 equ 0074h
+ClipdataTile_HorizontalBombChain2 equ 0075h
+ClipdataTile_HorizontalBombChain3 equ 0076h
+ClipdataTile_HorizontalBombChain4 equ 0077h
+
+ClipdataRevealed_Crumble equ 800Bh
+ClipdataRevealed_Weak equ 800Ch
+ClipdataRevealed_Bomb equ 8005h
+ClipdataRevealed_Missile equ 8006h
+ClipdataRevealed_PBomb equ 8007h
+ClipdataRevealed_Speed equ 8008h
+ClipdataRevealed_ScrewAttack equ 800Ah
 
 ; non-vanilla enums
 
