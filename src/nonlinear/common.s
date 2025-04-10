@@ -208,6 +208,10 @@
 
 .func CheckTrueGoMode
     push    { lr }
+    mov     r0, #Event_GoMode
+    bl      CheckEvent
+    cmp     r0, #1
+    bne     @@return_false
     mov     r0, #Event_EscapeSequence
     bl      CheckEvent
     cmp     r0, #01

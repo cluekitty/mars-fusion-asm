@@ -251,7 +251,7 @@
     .align 2
 @MessageBoxClosingHijack:
     push    { lr }
-    ldr     r0, =03004FA4h
+    ldr     r0, =LastTankCollected
     ldrh    r0, [r0]
     cmp     r0, #0
     beq     @@checkGoMode

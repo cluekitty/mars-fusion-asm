@@ -95,7 +95,7 @@
 @@goModeMusic:
 ; Checks if in Observation Deck to play pre-SAX ambience
     cmp     r5, Area_MainDeck
-    bne     @@finalMission
+    bne     @@areaSwitch
     cmp     r6, #0Dh ; operations room
     beq     @@preSaxMusic
     cmp     r6, #52h ; operations room
