@@ -107,7 +107,15 @@
     strb    r1, [r2, HatchData_Animation]
     b       @@loopIncrement
 @@closing:
-    ; By setting the animation flag to 3, the closing animation triggers and the hatch works correct
+    ; By setting the animation flag to 3, and status to 9, the hatch closes immediately
+    ; The hatch type needs to be preserved though
+    ldrb    r0, [r2, HatchData_Status]
+    ; Clear Animation Information
+    lsr     r0, #4
+    lsl     r0, #4 
+    mov     r1, #9h 
+    orr     r1, r0
+    strb    r1, [r2, HatchData_Status]
     mov     r1, #3 
     strb    r1, [r2, HatchData_Animation]
 @@loopIncrement:
