@@ -205,6 +205,36 @@
     pop     { r4-r5, pc }
     .pool
 .endfunc
+
+.func CheckTrueGoMode
+    push    { lr }
+    mov     r0, #Event_GoMode
+    bl      CheckEvent
+    cmp     r0, #1
+    bne     @@return_false
+    mov     r0, #Event_EscapeSequence
+    bl      CheckEvent
+    cmp     r0, #01
+    beq     @@return_false
+    ldr     r1, =SamusUpgrades
+    ldrb    r0, [r1, SamusUpgrades_BeamUpgrades]
+    lsl     r0, #1Fh
+    lsr     r0, #1Fh
+    cmp     r0, #1
+    bne     @@return_false
+    ldrb    r0, [r1, SamusUpgrades_ExplosiveUpgrades]
+    lsl     r0, #1Fh
+    lsr     r0, #1Fh
+    cmp     r0, #1
+    bne     @@return_false
+@@return_true:
+    mov     r0, #1
+    pop     { pc }
+@@return_false:
+    mov     r0, #0
+    pop     { pc }
+    .pool
+.endfunc
 .endautoregion
 
 .org 080798F8h

@@ -18,6 +18,8 @@
 .autoregion
     .align 2
 .func CheckEvent
+    ; WARNING: registers are not preserved. Take caution when relying on values
+    ; prior to calling this function.
     ; Returns one if the passed event should be considered active or complete,
     ; otherwise returns zero.
     cmp     r0, #Event_GameEnd
@@ -373,9 +375,9 @@
     ; room states: S0-0D => S0-55
 .if RANDOMIZER
     ldrb    r0, [r2, PermanentUpgrades_InfantMetroids]
-    ldr     r1, =RequiredMetroidCount
-    ldrb    r1, [r1]
-    cmp     r0, r1
+    ldr     r2, =RequiredMetroidCount
+    ldrb    r2, [r2]
+    cmp     r0, r2
     bge     @@return_true
     b       @@return_false
 .else
