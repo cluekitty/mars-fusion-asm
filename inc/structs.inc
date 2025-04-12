@@ -343,6 +343,8 @@ TankCounter_MaxTotalPowerBombTanks equ 0Ah
 TankCounter_CurrTotalPowerBombTanks equ 0Bh
 .sym on
 
+LastTankCollected equ 03004FA4h
+
 MusicInfo equ 030019D0h
 .sym off
 MusicInfo_Slot1Track equ 1Ch

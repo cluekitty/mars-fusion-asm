@@ -11,6 +11,7 @@
 - Fixed: Tables for room names now allocate sufficient space to store name pointers.
 - Fixed: Event Hatches can no longer be skipped by timing movement.
 - Changed: Credits music loops until the Samus Screen. Additional contributers added to credits.
+- Changed: Go-Mode music now starts immediately after closing the message box if your last required pickup is on Main Deck.
 
 ## 0.3.0 - 2025-03-15
 
