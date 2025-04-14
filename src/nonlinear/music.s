@@ -121,15 +121,7 @@
     b       @@playMusic
 ; Checks if player has charge and missiles to signal true go mode
 @@finalMission:
-    ldr     r1, =SamusUpgrades
-    ldrb    r0, [r1, SamusUpgrades_BeamUpgrades]
-    lsl     r0, #1Fh
-    lsr     r0, #1Fh
-    cmp     r0, #1
-    bne     @@areaSwitch
-    ldrb    r0, [r1, SamusUpgrades_ExplosiveUpgrades]
-    lsl     r0, #1Fh
-    lsr     r0, #1Fh
+    bl      CheckTrueGoMode
     cmp     r0, #1
     bne     @@areaSwitch
     mov     r0, MusicTrack_FinalMission

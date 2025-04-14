@@ -241,15 +241,36 @@
 ; check temporary tank data for tank deletion
 .org 0802ABB0h
 .area 10h, 0
-    ldr     r0, =03004FA4h
-    ldrh    r0, [r0]
-    cmp     r0, #0
-    beq     0802ABC0h
-    bl      0806C498h
+    bl      @MessageBoxClosingHijack
 .endarea
     .skip 12h
     pop     { pc }
     .pool
+
+.autoregion
+    .align 2
+@MessageBoxClosingHijack:
+    push    { lr }
+    ldr     r0, =LastTankCollected
+    ldrh    r0, [r0]
+    cmp     r0, #0
+    beq     @@checkGoMode
+    bl      FinishCollectingTank
+@@checkGoMode:
+    mov     r0, #Event_GoMode
+    bl      CheckEvent
+    cmp     r0, #0
+    beq     @@return
+    bl      CheckTrueGoMode
+    cmp     r0, #1
+    bne     @@return
+    mov     r0, MusicTrack_FinalMission
+    mov     r1, MusicType_MainDeck
+    bl      Music_Play
+@@return:
+    pop     { pc }
+    .pool
+.endautoregion
 
 ; cleanup temporary tank data
 .org 0806C4E2h

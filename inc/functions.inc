@@ -26,6 +26,7 @@ SetClipdata equ 0806C82Ch
 SpawnParticleEffect equ 080730E4h
 SetEvent equ 08074890h
 
+FinishCollectingTank equ 0806C498h
 SetTankAsCollected equ 0806CCF8h
 RemoveCollectedTanks equ 0806CE40h
 MinimapSetCollectedItems equ 08075884h
