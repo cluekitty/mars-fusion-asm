@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+
+## 0.3.0 - 2025-04-21
 - Changed: Hidden Tanks are now revealed when "Reveal Hidden Tiles" is enabled. They will show as a beam-weak block.
 - Changed: Message box duration for major items is back to its vanilla value (the previous music track will resume faster).
 - Fixed: Removed an exploit that allowed toggling Screw Attack to give Single Walljump functionality.
