@@ -208,10 +208,6 @@
 
 .func CheckTrueGoMode
     push    { lr }
-    ldr     r1, =CurrArea
-    ldrb    r1, [r1]
-    cmp     r1, Area_MainDeck
-    bne     @@return_false
     mov     r0, #Event_GoMode
     bl      CheckEvent
     cmp     r0, #1
