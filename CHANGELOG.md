@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-XX-XX
 
+## 0.4.1 - 2025-04-22
+
 ### Randomizer
 - Fixed: Go-Mode Music should no longer start when closing miscellaneous banners, such as save or recharge banners, in sectors other than Main Deck.
 
