@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Randomizer
+- Fixed: Go-Mode Music should no longer start when closing miscellaneous banners, such as save or recharge banners, in sectors other than Main Deck.
+
 ## 0.4.0 - 2025-04-21
 - Changed: Hidden Tanks are now revealed when "Reveal Hidden Tiles" is enabled. They will show as a beam-weak block.
 - Changed: Message box duration for major items is back to its vanilla value (the previous music track will resume faster).

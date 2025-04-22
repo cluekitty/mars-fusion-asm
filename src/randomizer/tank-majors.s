@@ -264,6 +264,10 @@
     bl      CheckTrueGoMode
     cmp     r0, #1
     bne     @@return
+    ldr     r0, =CurrArea
+    ldrb    r0, [r0]
+    cmp     r0, Area_MainDeck
+    bne     @@return
     mov     r0, MusicTrack_FinalMission
     mov     r1, MusicType_MainDeck
     bl      Music_Play
