@@ -66,6 +66,12 @@
     add     r0, #1
     strh    r0, [r4, #02h]
 @@increment_scroll_counter:
+    ldr     r1, =HeldInput
+    ldrh    r0, [r1]
+    mov     r1, #Button_A + 1
+    and     r1, r0
+    cmp     r1, #0
+    bne     @@skipForPause
     ldr     r1, =CreditsScrollSpeed
     ldrb    r1, [r1]
     ldrb    r0, [r4, #08h]
@@ -75,6 +81,7 @@
     ldrh    r0, [r2]
     add     r0, r1
     strh    r0, [r2]
+@@skipForPause:    
     b       080A22D8h
     .pool
 .endarea

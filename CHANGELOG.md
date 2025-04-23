@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+- Added: Credits can now be paused by pressing and holding the A button.
 
 ## 0.4.1 - 2025-04-22
 
