@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Visual
+- Fixed: BOX Debris Spawns Properly
+
 ## 0.4.1 - 2025-04-22
 
 ### Randomizer

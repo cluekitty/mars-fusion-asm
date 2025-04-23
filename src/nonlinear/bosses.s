@@ -296,13 +296,20 @@
 
 .autoregion
     .align 2
-.func @CheckBoxDefeatState
-    ; check if hatches are locked
-    ldr     r0, =03004DECh
-    ldrb    r0, [r0]
-    mvn     r0, r0
-    lsl     r0, #1Fh - 7
-    lsr     r0, #1Fh
+.func @CheckBoxDebrisPose
+    ; Large Debris will always be in slot 0
+    ; Falling pose for large debris is 0x1Ch
+    ; If Large Debris is falling, small debris should fall (return 0)
+    push    { r1 }
+    ldr     r1, =SpriteList
+    mov     r0, Sprite_Pose
+    ldrb    r1, [r1, r0]
+    mov     r0, #1
+    cmp     r1, #1Ch
+    bne     @@return
+    mov     r0, #0
+@@return:
+    pop     { r1 }
     bx      lr
 .endfunc
     .pool
@@ -310,8 +317,8 @@
 
 .org 080382EAh
 .area 04h, 0
-    ; check box defeat state for debris
-    bl      @CheckBoxDefeatState
+    ; check the large debris pose to determine our pose
+    bl      @CheckBoxDebrisPose
 .endarea
 
 .autoregion
