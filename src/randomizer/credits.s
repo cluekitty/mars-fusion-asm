@@ -68,7 +68,7 @@
 @@increment_scroll_counter:
     ldr     r1, =HeldInput
     ldrh    r0, [r1]
-    mov     r1, #Button_A + 1
+    mov     r1, 1 << Button_A
     and     r1, r0
     cmp     r1, #0
     bne     @@skipForPause
