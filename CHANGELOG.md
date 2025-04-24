@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Randomizer
+- Added: Credits can now be paused by pressing and holding the A button.
+
 ### Visual
 - Fixed: BOX Debris Spawns Properly
 
