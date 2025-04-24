@@ -184,29 +184,13 @@
 .endfunc
 .endarea
 
-; Shorten major item fanfare tracks (prevents several audio related bugs
-; without having to prolong the message banner timer)
-; Track 1 (remove 45 ticks)
-.org 0825FA8Ah
-    .db 0B6h
-; Track 2 (remove 45 ticks)
-.org 0825FB57h
-    .db 0B6h
-; Track 3 (remove 35 ticks)
-.org 0825FB82h
-    .db 0B6h
-; Track 4 (remove 59 ticks)
-.org 0825FB9Eh
-    .db 0B6h
-; Track 5 (remove 25 ticks)
-.org 0825FC1Ch
-    .db 0CEh, 0B6h
-; Track 6 (remove 45 ticks)
-.org 0825FC51h
-    .db 0B6h
-; Track 7 (remove 45 ticks)
-.org 0825FC86h
-    .db 0B6h
+.org 0802AAAEh
+.area 04h
+    ; prolong major item fanfare so it can't interrupt audio clips
+    ; last resort solution, but prevents several audio related bugs
+    mov     r0, #410 >> 1
+    lsl     r0, #1
+.endarea
 
 ; Obtain upgrade from tank and set message and fanfare
 .org 0806C3CEh

@@ -4,6 +4,7 @@
 
 ### Randomizer
 - Added: Credits can now be paused by pressing and holding the A button.
+- Fixed: Reverted Major Jingle audio change in an attempt to improve stability.
 
 ### Visual
 - Fixed: BOX Debris Spawns Properly
