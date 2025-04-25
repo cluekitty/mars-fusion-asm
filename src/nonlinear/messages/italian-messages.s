@@ -66,6 +66,7 @@ ItalianMessages:
     .dw     086B9CECh   ; sprite location abnormal
     .dw     @Message_IceTrap
     .dw     @Message_Nothing
+    .skip   4 ; This is the AutoMetroidHandler ID, does not have its own message text
     .fill   4 * CustomMessages_Maximum ; Reserve space for custom messages
 .endautoregion
 
