@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-XX-XX
 
+## 0.4.2 - 2025-04-25
+
 ### Randomizer
 - Added: Credits can now be paused by pressing and holding the A button.
 - Fixed: Reverted Major Jingle audio change in an attempt to improve stability.
