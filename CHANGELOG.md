@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Randomizer
+- Added: Provided a message ID (0x38h) which will display the Infant Metroid message for one Metroid greater than current count.
+
 ## 0.4.2 - 2025-04-25
 
 ### Randomizer
