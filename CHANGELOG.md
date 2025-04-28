@@ -1,15 +1,33 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+
+## 0.4.2 - 2025-04-25
+
+### Randomizer
+- Added: Credits can now be paused by pressing and holding the A button.
+- Fixed: Reverted Major Jingle audio change in an attempt to improve stability.
+
+### Visual
+- Fixed: BOX Debris Spawns Properly
+
+## 0.4.1 - 2025-04-22
+
+### Randomizer
+- Fixed: Go-Mode Music should no longer start when closing miscellaneous banners, such as save or recharge banners, in sectors other than Main Deck.
+
+## 0.4.0 - 2025-04-21
 - Changed: Hidden Tanks are now revealed when "Reveal Hidden Tiles" is enabled. They will show as a beam-weak block.
 - Changed: Message box duration for major items is back to its vanilla value (the previous music track will resume faster).
 - Fixed: Removed an exploit that allowed toggling Screw Attack to give Single Walljump functionality.
+- Fixed: Powamp Shaft Powamps no longer require X to spawn
 
 ### Randomizer
 - Fixed: Rooms with Event doors no longer occasionally display the incorrect lock.
 - Fixed: Warp to Start correctly plays background music on fresh file.
 - Fixed: Tables for room names now allocate sufficient space to store name pointers.
 - Fixed: Event Hatches can no longer be skipped by timing movement.
+- Changed: Credits music loops until the Samus Screen. Additional contributers added to credits.
 - Changed: Go-Mode music now starts immediately after closing the message box if your last required pickup is on Main Deck.
 
 ## 0.3.0 - 2025-03-15
