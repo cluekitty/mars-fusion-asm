@@ -73,6 +73,8 @@ MinorLocationsAddr equ 087FF06Ch
 RoomNamesAddr equ 087FF070h
 RevealHiddenTilesFlag equ 087FF08Ch
 
+;.defineregion 080F9A28h, 020318h, 0FFh
+
 ; Mark end-of-file padding as free space
 @@EOF equ 0879ECC8h
 .defineregion @@EOF, PatcherFreeSpace - @@EOF, 0FFh

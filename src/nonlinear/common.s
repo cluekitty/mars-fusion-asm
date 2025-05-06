@@ -201,7 +201,7 @@
     bne     @@setMessage
     ldr     r1, =PermanentUpgrades
     ldrb    r0, [r1, PermanentUpgrades_InfantMetroids]
-    add     r1, #1 ; Display the message as if you'd acquired one more
+    add     r0, #1 ; Display the message as if you'd acquired one more
     b       @@setMetroidMessage
 @@defaultMessage:
     mov     r0, r5

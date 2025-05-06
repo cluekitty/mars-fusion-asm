@@ -78,6 +78,7 @@
 .org 0806AEC4h
     bl      RevealTank
 
+.org 08060000h
 .autoregion
     .align 2
 .func RevealTank
