@@ -252,6 +252,12 @@
     ldrb    r0, [r0]
     cmp     r0, Area_MainDeck
     bne     @@return
+    ldr     r0, =CurrRoom
+    ldrb    r0, [r0]
+    cmp     r0, 2Ch ; operations deck recharge room
+    beq     @@return
+    cmp     r0, 51h ; operations deck recharge room
+    beq     @@return
     mov     r0, MusicTrack_FinalMission
     mov     r1, MusicType_MainDeck
     bl      Music_Play
