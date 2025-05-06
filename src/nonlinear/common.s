@@ -260,28 +260,35 @@
 
 .org MajorLocations
 .area 2Ah
-    .db     Upgrade_Missiles, Message_Auto
-    .db     Upgrade_MorphBall, Message_Auto
-    .db     Upgrade_ChargeBeam, Message_Auto
-    .db     Upgrade_SecurityLevel1, Message_Auto
-    .db     Upgrade_Bombs, Message_Auto
-    .db     Upgrade_HiJump, Message_Auto
-    .db     Upgrade_Speedbooster, Message_Auto
-    .db     Upgrade_SecurityLevel2, Message_Auto
-    .db     Upgrade_SuperMissiles, Message_Auto
-    .db     Upgrade_VariaSuit, Message_Auto
-    .db     Upgrade_SecurityLevel3, Message_Auto
-    .db     Upgrade_IceMissiles, Message_Auto
-    .db     Upgrade_WideBeam, Message_Auto
-    .db     Upgrade_PowerBombs, Message_Auto
-    .db     Upgrade_SpaceJump, Message_Auto
-    .db     Upgrade_PlasmaBeam, Message_Auto
-    .db     Upgrade_GravitySuit, Message_Auto
-    .db     Upgrade_SecurityLevel4, Message_Auto
-    .db     Upgrade_DiffusionMissiles, Message_Auto
-    .db     Upgrade_WaveBeam, Message_Auto
-    .db     Upgrade_ScrewAttack, Message_Auto
+    .dw     MajorLocationItems
 .endarea
+
+.autoregion
+MajorLocationItems:
+    .area 2Ah
+        .db     Upgrade_Missiles, Message_Auto
+        .db     Upgrade_MorphBall, Message_Auto
+        .db     Upgrade_ChargeBeam, Message_Auto
+        .db     Upgrade_SecurityLevel1, Message_Auto
+        .db     Upgrade_Bombs, Message_Auto
+        .db     Upgrade_HiJump, Message_Auto
+        .db     Upgrade_Speedbooster, Message_Auto
+        .db     Upgrade_SecurityLevel2, Message_Auto
+        .db     Upgrade_SuperMissiles, Message_Auto
+        .db     Upgrade_VariaSuit, Message_Auto
+        .db     Upgrade_SecurityLevel3, Message_Auto
+        .db     Upgrade_IceMissiles, Message_Auto
+        .db     Upgrade_WideBeam, Message_Auto
+        .db     Upgrade_PowerBombs, Message_Auto
+        .db     Upgrade_SpaceJump, Message_Auto
+        .db     Upgrade_PlasmaBeam, Message_Auto
+        .db     Upgrade_GravitySuit, Message_Auto
+        .db     Upgrade_SecurityLevel4, Message_Auto
+        .db     Upgrade_DiffusionMissiles, Message_Auto
+        .db     Upgrade_WaveBeam, Message_Auto
+        .db     Upgrade_ScrewAttack, Message_Auto
+    .endarea
+.endautoregion
 
 .org TankIncrements
 .area 06h
