@@ -252,8 +252,22 @@
     ldrb    r0, [r0]
     cmp     r0, Area_MainDeck
     bne     @@return
+    ldr     r0, =CurrRoom
+    ldrb    r0, [r0]
+    cmp     r0, 27h ; operations deck data room
+    beq     @@play_sax_ambience
+    cmp     r0, 2Ch ; operations deck save room
+    beq     @@return
+    cmp     r0, 51h ; operations deck recharge room
+    beq     @@return
+@@play_final_mission:
     mov     r0, MusicTrack_FinalMission
     mov     r1, MusicType_MainDeck
+    b       @@play_music
+@@play_sax_ambience:
+    mov     r0, MusicTrack_SaxHiding
+    mov     r1, MusicType_BossAmbience
+@@play_music:
     bl      Music_Play
 @@return:
     pop     { pc }
