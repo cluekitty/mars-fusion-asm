@@ -3,7 +3,7 @@
 ## Unreleased - 2025-XX-XX
 
 ### Randomizer
-- Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room can still trigger go-mode music, even if it is not a go-mode item.
+- Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room will play SA-X Ambience instead of Go-Mode music if go-mode conditions are satisifed.
 
 ## 0.4.2 - 2025-04-25
 
