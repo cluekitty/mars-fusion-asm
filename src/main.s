@@ -78,7 +78,7 @@ RevealHiddenTilesFlag equ 087FF08Ch
 .defineregion @@EOF, PatcherFreeSpace - @@EOF, 0FFh
 
 ; Free up unused audio sample
-.defineregion 080F9A28h, 020318h
+;.defineregion 080F9A28h, 020318h
 
 ; Debug mode patch
 .if DEBUG
