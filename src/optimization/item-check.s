@@ -678,9 +678,9 @@ MinorLocations:
     .db     Message_Auto
 @Items_MainDeck_Room47:
     .db     Area_MainDeck, 47h, 0
-    .db     0Dh, 09h ; REPLACE WHEN IMPLEMENTED
+    .db     06h, 09h ; REPLACE WHEN IMPLEMENTED
     .db     Upgrade_WaveBeam
-    .db     UpgradeSprite_MissileTank
+    .db     UpgradeSprite_WaveBeam
     .db     Message_Auto    
 @Items_MainDeck_Room48:
     .db     Area_MainDeck, 48h, 0

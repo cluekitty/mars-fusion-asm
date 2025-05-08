@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Gameplay Modifications
+- Added: The events for cooling the Boiler, freeing the Animals, and turning on Auxiliary Power now give items.
+
 ### Randomizer
 - Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room can still trigger go-mode music, even if it is not a go-mode item.
 
