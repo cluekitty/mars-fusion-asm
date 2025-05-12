@@ -613,31 +613,31 @@ MinorLocations:
 @Items_MainDeck_Room07:
     .db     Area_MainDeck, 07h, 0
     .db     0Dh, 0Eh
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
 @Items_MainDeck_Room11:
     .db     Area_MainDeck, 11h, 0
     .db     09h, 14h
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_PowerBombTank
     .db     UpgradeSprite_PowerBombTank
     .db     Message_Auto
 @Items_MainDeck_Room23:
     .db     Area_MainDeck, 23h, 0
     .db     0Eh, 41h
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
 @Items_MainDeck_Room26:
     .db     Area_MainDeck, 26h, 0
     .db     35h, 0Ah
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_EnergyTank
     .db     UpgradeSprite_EnergyTank
     .db     Message_Auto
 @Items_MainDeck_Room2D:
     .db     Area_MainDeck, 2Dh, 0
     .db     04h, 06h
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
 @Items_MainDeck_Room2E:
@@ -645,35 +645,35 @@ MinorLocations:
     .db     0Ah, 02h ; REPLACE WHEN IMPLEMENTED
     .db     Upgrade_PowerBombTank
     .db     UpgradeSprite_PowerBombTank
-    .db     Message_Auto    
+    .db     Message_Auto
 @Items_MainDeck_Room2F:
     .db     Area_MainDeck, 2Fh, 0
     .db     04h, 03h
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_PowerBombTank
     .db     UpgradeSprite_PowerBombTank
     .db     Message_Auto
 @Items_MainDeck_Room32:
     .db     Area_MainDeck, 32h, 0
     .db     36h, 08h
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_EnergyTank
     .db     UpgradeSprite_EnergyTank
     .db     Message_Auto
 @Items_MainDeck_Room33:
     .db     Area_MainDeck, 33h, 0
     .db     05h, 1Dh
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
 @Items_MainDeck_Room39:
     .db     Area_MainDeck, 39h, 0
     .db     0Ch, 0Ah
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_PowerBombTank
     .db     UpgradeSprite_PowerBombTank
     .db     Message_Auto
 @Items_MainDeck_Room45:
     .db     Area_MainDeck, 45h, 0
     .db     1Dh, 1Dh
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
 @Items_MainDeck_Room47:
@@ -685,19 +685,19 @@ MinorLocations:
 @Items_MainDeck_Room48:
     .db     Area_MainDeck, 48h, 0
     .db     0Dh, 09h
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
 @Items_MainDeck_Room49:
     .db     Area_MainDeck, 49h, 0
     .db     06h, 0Ah
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
 @Items_MainDeck_Room54:
     .db     Area_MainDeck, 54h, 0
     .db     0Eh, 0Ah
-    .db     Upgrade_WaveBeam
+    .db     Upgrade_EnergyTank
     .db     UpgradeSprite_EnergyTank
     .db     Message_Auto
 @Items_Sector1_Room05:
@@ -727,7 +727,7 @@ MinorLocations:
     .db     0Fh, 08h ; REPLACE WHEN IMPLEMENTED
     .db     Upgrade_EnergyTank
     .db     UpgradeSprite_EnergyTank
-    .db     Message_Auto    
+    .db     Message_Auto
 @Items_Sector1_Room1E:
     .db     Area_SRX, 1Eh, 0
     .db     0Fh, 08h
