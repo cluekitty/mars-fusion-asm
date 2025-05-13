@@ -286,6 +286,7 @@ MajorLocationItems:
         .db     Upgrade_SecurityLevel4, Message_Auto
         .db     Upgrade_DiffusionMissiles, Message_Auto
         .db     Upgrade_WaveBeam, Message_Auto
+        .db     Upgrade_ScrewAttack, Message_Auto
         .db     Upgrade_InfantMetroid, Message_Auto
         .db     Upgrade_InfantMetroid, Message_Auto
         .db     Upgrade_InfantMetroid, Message_Auto
