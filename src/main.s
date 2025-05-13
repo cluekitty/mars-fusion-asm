@@ -59,7 +59,7 @@ CreditsMusicSpace equ 087F0000h ; takes up 0x14E0h
 FutureReservedSpace equ 087F14E0h
 FutureReservedSpace_Len equ 0DB20h
 MinorLocationTable equ 087FF000h
-MajorLocations equ 087FF01Ch
+MajorLocationsPointerAddr equ 087FF01Ch
 TankIncrements equ 087FF046h
 TotalMetroidCount equ 087FF04Ch
 RequiredMetroidCount equ 087FF04Dh

@@ -9,7 +9,7 @@
     ldr     r1, [r3, MiscProgress_MajorLocations]
     orr     r1, r2
     str     r1, [r3, MiscProgress_MajorLocations]
-    ldr     r1, =MajorLocations
+    ldr     r1, =MajorLocationsPointerAddr
     ldr     r1, [r1]
     lsl     r0, log2(MajorLocation_Size)
     add     r1, r0
@@ -259,7 +259,7 @@
     .db     4
 .endarea
 
-.org MajorLocations
+.org MajorLocationsPointerAddr
 .area 2Ah
     .dw     MajorLocationItems
 .endarea
