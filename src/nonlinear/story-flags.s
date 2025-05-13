@@ -290,6 +290,7 @@
     mov     r0, #MajorLocation_BoilerCooling
     bl      ObtainMajorLocation
     ; Message ID returned in r0
+    b       @@spawn_message_box
 @@auxiliary_power:
     ldrh    r0, [r2, MiscProgress_StoryFlags]
     mov     r1, #1 << StoryFlag_AuxiliaryPower
@@ -299,6 +300,7 @@
     mov     r0, #MajorLocation_AuxiliaryPower
     bl      ObtainMajorLocation
     ; Message ID returned in r0
+    b       @@spawn_message_box
 @@animals_freed:
     ldrh    r0, [r2, MiscProgress_StoryFlags]
     mov     r1, #1 << StoryFlag_AnimalsFreed
@@ -310,10 +312,6 @@
     ; Message ID returned in r0
 @@spawn_message_box:
     bl      ConsoleMessageBoxIdAdjustment
-    ldr     r2, =TimeStopTimer
-    mov     r0, #1000 >> 2
-    lsl     r0, #2
-    strh    r0, [r2]
     ldr     r2, =030006A0h
     ldrh    r0, [r2]
     str     r0, [sp]
@@ -343,7 +341,12 @@
 @@adjust_offset:
     sub     r1, #Message_AtmosphericStabilizer1 - 1
 @@return:
+    ldr     r2, =TimeStopTimer ; Need to save room in above area
+    mov     r0, #1000 >> 2
+    lsl     r0, #2
+    strh    r0, [r2]
     bx      lr
+.pool
 .endfunc
 .endautoregion
 
