@@ -260,9 +260,7 @@
 .endarea
 
 .org MajorLocationsPointerAddr
-.area 2Ah
     .dw     MajorLocationItems
-.endarea
 
 .autoregion
 MajorLocationItems:
