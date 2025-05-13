@@ -642,9 +642,9 @@ MinorLocations:
     .db     Message_Auto
 @Items_MainDeck_Room2E:
     .db     Area_MainDeck, 2Eh, 0
-    .db     0Ah, 02h ; REPLACE WHEN IMPLEMENTED
-    .db     Upgrade_PowerBombTank
-    .db     UpgradeSprite_PowerBombTank
+    .db     09h, 08h
+    .db     Upgrade_InfantMetroid
+    .db     UpgradeSprite_InfantMetroid
     .db     Message_Auto
 @Items_MainDeck_Room2F:
     .db     Area_MainDeck, 2Fh, 0
@@ -678,9 +678,9 @@ MinorLocations:
     .db     Message_Auto
 @Items_MainDeck_Room47:
     .db     Area_MainDeck, 47h, 0
-    .db     06h, 09h ; REPLACE WHEN IMPLEMENTED
-    .db     Upgrade_WaveBeam
-    .db     UpgradeSprite_WaveBeam
+    .db     06h, 09h
+    .db     Upgrade_InfantMetroid
+    .db     UpgradeSprite_InfantMetroid
     .db     Message_Auto    
 @Items_MainDeck_Room48:
     .db     Area_MainDeck, 48h, 0
@@ -736,9 +736,9 @@ MinorLocations:
     .db     Message_Auto
 @Items_Sector1_Room20:
     .db     Area_SRX, 20h, 0
-    .db     04h, 06h ; REPLACE WHEN IMPLEMENTED
-    .db     Upgrade_PowerBombTank
-    .db     UpgradeSprite_PowerBombTank
+    .db     1Dh, 09h
+    .db     Upgrade_InfantMetroid
+    .db     UpgradeSprite_InfantMetroid
     .db     Message_Auto
 @Items_Sector1_Room27:
     .db     Area_SRX, 27h, 0

@@ -8,6 +8,45 @@
 .defineregion 083C2C10h, 3Ch
 .defineregion 083F1548h, 0C56h
 
+; Main Deck scroll table fixes - Remove Subzero scrolls. 33 entries in table
+.org MainDeckScrolls
+.area 84h
+    .dw     readptr(MainDeckScrolls + 00h * 4)
+    .dw     readptr(MainDeckScrolls + 01h * 4)
+    .dw     readptr(MainDeckScrolls + 02h * 4)
+    .dw     readptr(MainDeckScrolls + 03h * 4)
+    .dw     readptr(MainDeckScrolls + 04h * 4)
+    .dw     readptr(MainDeckScrolls + 05h * 4)
+    .dw     readptr(MainDeckScrolls + 06h * 4)
+    .dw     readptr(MainDeckScrolls + 07h * 4)
+    .dw     readptr(MainDeckScrolls + 08h * 4)
+    .dw     readptr(MainDeckScrolls + 09h * 4)
+    .dw     readptr(MainDeckScrolls + 0Ah * 4)
+    .dw     readptr(MainDeckScrolls + 0Bh * 4)
+    .dw     readptr(MainDeckScrolls + 0Ch * 4)
+    .dw     readptr(MainDeckScrolls + 0Dh * 4)
+    .dw     readptr(MainDeckScrolls + 0Eh * 4)
+    .dw     readptr(MainDeckScrolls + 0Fh * 4)
+    .dw     readptr(MainDeckScrolls + 10h * 4)
+    .dw     readptr(MainDeckScrolls + 11h * 4)
+    ;.dw     readptr(MainDeckScrolls + 12h * 4) ;- Subzero Scrolls
+    .dw     readptr(MainDeckScrolls + 13h * 4)
+    .dw     readptr(MainDeckScrolls + 14h * 4)
+    .dw     readptr(MainDeckScrolls + 15h * 4)
+    .dw     readptr(MainDeckScrolls + 16h * 4)
+    .dw     readptr(MainDeckScrolls + 17h * 4)
+    .dw     readptr(MainDeckScrolls + 18h * 4)
+    .dw     readptr(MainDeckScrolls + 19h * 4)
+    .dw     readptr(MainDeckScrolls + 1Ah * 4)
+    .dw     readptr(MainDeckScrolls + 1Bh * 4)
+    .dw     readptr(MainDeckScrolls + 1Ch * 4)
+    .dw     readptr(MainDeckScrolls + 1Dh * 4)
+    .dw     readptr(MainDeckScrolls + 1Eh * 4)
+    .dw     readptr(MainDeckScrolls + 1Fh * 4)
+    .dw     readptr(MainDeckScrolls + 20h * 4)
+.endarea
+
+
 ; Main Deck - Docking Bay Shaft
 ; remove event-based transitions to wrecked Silo Access
 .if RANDOMIZER
@@ -1363,6 +1402,8 @@
     .dw     readptr(Sector6Scrolls + 13h * 4)
 .endarea
 
+
+.include "src/nonlinear/room-edits/main-deck/room-14-and-2E.s"
 .include "src/nonlinear/room-edits/main-deck/room-47.s"
 .include "src/nonlinear/room-edits/main-deck/room-56.s"
 .include "src/nonlinear/room-edits/sector-2/room-07-and-1F.s"

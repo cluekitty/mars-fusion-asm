@@ -633,6 +633,7 @@ StoryFlag_AnimalsFreed equ 5
 StoryFlag_AuxiliaryPower equ 6
 StoryFlag_RestrictedSectorDetached equ 7
 StoryFlag_SaxDefeated equ 8
+StoryFlag_RidleyCrumbled equ 9
 
 CreditsLineType_Blue equ 00h
 CreditsLineType_Red equ 01h
