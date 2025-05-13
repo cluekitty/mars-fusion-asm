@@ -5,6 +5,10 @@
 ### Gameplay Modifications
 - Added: The events for cooling the Boiler, freeing the Animals, and turning on Auxiliary Power now give items.
 
+### Room modifications
+#### Main Deck
+- Changed: Subzero Containment has been changed. The wall is removed between the right entrance and Ridley. Ridley will crumble when Samus approaches from the right. Exit to Genesis Speedway will not appear. Environmental damage has been changed to Cold with Knockback. Door to Subzero Containment now is Level 3.
+
 ### Randomizer
 - Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room can still trigger go-mode music, even if it is not a go-mode item.
 

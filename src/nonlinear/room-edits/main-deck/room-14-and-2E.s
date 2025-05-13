@@ -1,5 +1,5 @@
 ; Sub-zero containment changes
-; Make Ridley crumble when Samus approaches from left
+; Make Ridley crumble when Samus approaches from right
 ; Do not spawn Ridley Core-X
 ; Change environmental type to cold with knockback
 ; Remove crumble exit from room
