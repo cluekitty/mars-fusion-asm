@@ -223,9 +223,9 @@
 
 .org 0802AB82h
 .area 04h, 0
-    ; set pose for saving the animals
-    cmp     r4, #Message_AnimalsFreed - (Message_AtmosphericStabilizer1 - 1)
-    bne     0802AB96h
+    ; The check on Message ID does not need to be made, there is a pose check immediately after this
+    nop
+    nop
 .endarea
 
 .org 0802AB6Ch

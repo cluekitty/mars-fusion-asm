@@ -276,7 +276,7 @@
 @@lower_water_level:
     mov     r0, #EventEffect_WaterLowering
     bl      0806368Ch
-    mov     r0, #Message_WaterLowered - (Message_AtmosphericStabilizer1 - 1)
+    mov     r0, #Message_WaterLowered
     b       @@spawn_message_box
 @@boiler_cooling:
     ldrh    r0, [r2, MiscProgress_StoryFlags]
@@ -286,27 +286,32 @@
     ldr     r1, =DoorUnlockTimer
     mov     r0, #60
     strb    r0, [r1]
-    mov     r0, #Message_BoilerCooling - (Message_AtmosphericStabilizer1 - 1)
+    ; Load proper location into r0
+    mov     r0, #MajorLocation_BoilerCooling
+    bl      ObtainMajorLocation
+    ; Message ID returned in r0
     b       @@spawn_message_box
 @@auxiliary_power:
     ldrh    r0, [r2, MiscProgress_StoryFlags]
     mov     r1, #1 << StoryFlag_AuxiliaryPower
     orr     r0, r1
     strh    r0, [r2, MiscProgress_StoryFlags]
-    mov     r0, #Message_AuxiliaryPower - (Message_AtmosphericStabilizer1 - 1)
+    ; Load proper location into r0
+    mov     r0, #MajorLocation_AuxiliaryPower
+    bl      ObtainMajorLocation
+    ; Message ID returned in r0
     b       @@spawn_message_box
 @@animals_freed:
     ldrh    r0, [r2, MiscProgress_StoryFlags]
     mov     r1, #1 << StoryFlag_AnimalsFreed
     orr     r0, r1
     strh    r0, [r2, MiscProgress_StoryFlags]
-    mov     r0, #Message_AnimalsFreed - (Message_AtmosphericStabilizer1 - 1)
+    ; Load proper location into r0
+    mov     r0, #MajorLocation_AnimalsFreed
+    bl      ObtainMajorLocation
+    ; Message ID returned in r0
 @@spawn_message_box:
-    mov     r1, r0
-    ldr     r2, =TimeStopTimer
-    mov     r0, #1000 >> 2
-    lsl     r0, #2
-    strh    r0, [r1]
+    bl      ConsoleMessageBoxIdAdjustment
     ldr     r2, =030006A0h
     ldrh    r0, [r2]
     str     r0, [sp]
@@ -323,6 +328,28 @@
     pop     { pc }
     .pool
 .endarea
+
+.autoregion
+.align 2
+.func ConsoleMessageBoxIdAdjustment
+    mov     r1, r0
+    cmp     r1, #Message_LastInfantMetroid
+    bgt     @@adjust_offset
+    ; when r1 is 0, Message box will use the Major messages
+    mov     r1, #0
+    b       @@return
+@@adjust_offset:
+    sub     r1, #Message_AtmosphericStabilizer1 - 1
+@@return:
+    ldr     r2, =TimeStopTimer ; Need to save room in above area
+    mov     r0, #1000 >> 2
+    lsl     r0, #2
+    strh    r0, [r2]
+    bx      lr
+.pool
+.endfunc
+.endautoregion
+
 
 .org 08060BFCh
 .area 18h

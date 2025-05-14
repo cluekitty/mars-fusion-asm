@@ -9,7 +9,8 @@
     ldr     r1, [r3, MiscProgress_MajorLocations]
     orr     r1, r2
     str     r1, [r3, MiscProgress_MajorLocations]
-    ldr     r1, =MajorLocations
+    ldr     r1, =MajorLocationsPointerAddr
+    ldr     r1, [r1]
     lsl     r0, log2(MajorLocation_Size)
     add     r1, r0
     ldrb    r0, [r1, MajorLocation_Upgrade]
@@ -258,30 +259,36 @@
     .db     4
 .endarea
 
-.org MajorLocations
-.area 2Ah
-    .db     Upgrade_Missiles, Message_Auto
-    .db     Upgrade_MorphBall, Message_Auto
-    .db     Upgrade_ChargeBeam, Message_Auto
-    .db     Upgrade_SecurityLevel1, Message_Auto
-    .db     Upgrade_Bombs, Message_Auto
-    .db     Upgrade_HiJump, Message_Auto
-    .db     Upgrade_Speedbooster, Message_Auto
-    .db     Upgrade_SecurityLevel2, Message_Auto
-    .db     Upgrade_SuperMissiles, Message_Auto
-    .db     Upgrade_VariaSuit, Message_Auto
-    .db     Upgrade_SecurityLevel3, Message_Auto
-    .db     Upgrade_IceMissiles, Message_Auto
-    .db     Upgrade_WideBeam, Message_Auto
-    .db     Upgrade_PowerBombs, Message_Auto
-    .db     Upgrade_SpaceJump, Message_Auto
-    .db     Upgrade_PlasmaBeam, Message_Auto
-    .db     Upgrade_GravitySuit, Message_Auto
-    .db     Upgrade_SecurityLevel4, Message_Auto
-    .db     Upgrade_DiffusionMissiles, Message_Auto
-    .db     Upgrade_WaveBeam, Message_Auto
-    .db     Upgrade_ScrewAttack, Message_Auto
-.endarea
+.org MajorLocationsPointerAddr
+    .dw     MajorLocationItems
+
+.autoregion
+MajorLocationItems:
+        .db     Upgrade_Missiles, Message_Auto
+        .db     Upgrade_MorphBall, Message_Auto
+        .db     Upgrade_ChargeBeam, Message_Auto
+        .db     Upgrade_SecurityLevel1, Message_Auto
+        .db     Upgrade_Bombs, Message_Auto
+        .db     Upgrade_HiJump, Message_Auto
+        .db     Upgrade_Speedbooster, Message_Auto
+        .db     Upgrade_SecurityLevel2, Message_Auto
+        .db     Upgrade_SuperMissiles, Message_Auto
+        .db     Upgrade_VariaSuit, Message_Auto
+        .db     Upgrade_SecurityLevel3, Message_Auto
+        .db     Upgrade_IceMissiles, Message_Auto
+        .db     Upgrade_WideBeam, Message_Auto
+        .db     Upgrade_PowerBombs, Message_Auto
+        .db     Upgrade_SpaceJump, Message_Auto
+        .db     Upgrade_PlasmaBeam, Message_Auto
+        .db     Upgrade_GravitySuit, Message_Auto
+        .db     Upgrade_SecurityLevel4, Message_Auto
+        .db     Upgrade_DiffusionMissiles, Message_Auto
+        .db     Upgrade_WaveBeam, Message_Auto
+        .db     Upgrade_ScrewAttack, Message_Auto
+        .db     Upgrade_InfantMetroid, Message_Auto
+        .db     Upgrade_InfantMetroid, Message_Auto
+        .db     Upgrade_InfantMetroid, Message_Auto
+.endautoregion
 
 .org TankIncrements
 .area 06h
