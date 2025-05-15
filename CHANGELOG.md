@@ -10,7 +10,7 @@
 - Changed: Subzero Containment has been changed. The wall is removed between the right entrance and Ridley. Ridley will crumble when Samus approaches from the right. Exit to Genesis Speedway will not appear. Environmental damage has been changed to Cold with Knockback. Door to Subzero Containment now is Level 3.
 
 ### Randomizer
-- Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room will play SA-X Ambience instead of Go-Mode music if go-mode conditions are satisifed.
+- Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room will play SA-X Ambience instead of Go-Mode music if go-mode conditions are satisifed. Main Deck Data room will not change the music if the SA-X has been defeated.
 
 ## 0.4.2 - 2025-04-25
 

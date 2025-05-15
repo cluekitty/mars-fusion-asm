@@ -265,6 +265,10 @@
     mov     r1, MusicType_MainDeck
     b       @@play_music
 @@play_sax_ambience:
+    mov     r0, #Event_SaxDefeated
+    bl      CheckEvent
+    cmp     r0, #1
+    beq     @@return
     mov     r0, MusicTrack_SaxHiding
     mov     r1, MusicType_BossAmbience
 @@play_music:
