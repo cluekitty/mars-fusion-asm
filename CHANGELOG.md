@@ -6,7 +6,7 @@
 - Added: The events for cooling the Boiler, freeing the Animals, and turning on Auxiliary Power now give items.
 
 ### Randomizer
-- Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room will play SA-X Ambience instead of Go-Mode music if go-mode conditions are satisifed.
+- Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room will play SA-X Ambience instead of Go-Mode music if go-mode conditions are satisifed. Main Deck Data room will not change the music if the SA-X has been defeated.
 
 ## 0.4.2 - 2025-04-25
 
