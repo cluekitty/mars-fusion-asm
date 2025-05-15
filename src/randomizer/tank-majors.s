@@ -483,6 +483,13 @@
     .dh     AltTankPal0, AltTankPal1, AltTankPal2, AltTankPal3, AltTankPal4, AltTankPal5, AltTankPal6, AltTankPal7
     .dh     AltTankPal8, AltTankPal9, AltTankPalA, AltTankPalB, AltTankPalC, AltTankPalD, AltTankPalE, AltTankPalF
 
+; tileset 46
+.org 084657F6h + 53h * 8
+    .dh     0E050h, 0E051h, 0E052h, 0E053h, 0E054h, 0E055h, 0E056h, 0E057h, 0E058h, 0E059h, 0E05Ah, 0E05Bh
+.org 0846E134h + 0Ch * 32
+    .dh     AltTankPal0, AltTankPal1, AltTankPal2, AltTankPal3, AltTankPal4, AltTankPal5, AltTankPal6, AltTankPal7
+    .dh     AltTankPal8, AltTankPal9, AltTankPalA, AltTankPalB, AltTankPalC, AltTankPalD, AltTankPalE, AltTankPalF
+
 ; tileset 48
 .org 084094A2h + 53h * 8
     .dh     0F050h, 0F051h, 0F052h, 0F053h, 0F054h, 0F055h, 0F056h, 0F057h, 0F058h, 0F059h, 0F05Ah, 0F05Bh

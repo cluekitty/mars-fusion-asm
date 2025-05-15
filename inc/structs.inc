@@ -554,6 +554,7 @@ LevelMeta_Spriteset2 equ 30h
 LevelMeta_Spriteset2Id equ 34h
 LevelMeta_MapX equ 35h
 LevelMeta_MapY equ 36h
+LevelMeta_Effect equ 37h
 LevelMeta_Music equ 3Ah
 LevelMeta_Size equ 3Ch
 .sym on
@@ -651,14 +652,14 @@ MajorUpgradeInfo_Message equ 02h
 .sym on
 
 .sym off
-MajorLocations_Len equ 21
+MajorLocations_Len equ 23
 MajorLocation_Upgrade equ 00h
 MajorLocation_Message equ 01h
 MajorLocation_Size equ 02h
 .sym on
 
 .sym off
-MinorLocations_Len equ 100
+MinorLocations_Len equ 103
 MinorLocation_Area equ 00h
 MinorLocation_Room equ 01h
 MinorLocation_RoomIndex equ 02h
