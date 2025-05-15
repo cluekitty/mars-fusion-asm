@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-XX-XX
 
+## 0.5.0 - 2025-05-15
+
 ### Gameplay Modifications
 - Added: The events for cooling the Boiler, freeing the Animals, and turning on Auxiliary Power now give items.
 
