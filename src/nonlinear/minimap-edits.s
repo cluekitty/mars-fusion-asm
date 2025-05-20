@@ -28,3 +28,7 @@
 @MainDeckAlternateMinimap:
 .incbin "data/maps/09-maindeck.lz77"
 .endautoregion
+
+; Location of minimap tiles gfx
+.org 08561FA8h
+.incbin "data/maps/minimap-tiles.gfx"
