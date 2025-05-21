@@ -3,13 +3,14 @@
 ; removed 2 vine tiles to prevent dangerous nettori
 .defineregion readptr(Sector2Levels + 20h * LevelMeta_Size + LevelMeta_Clipdata), 21Fh
 .defineregion readptr(Sector2Levels + 23h * LevelMeta_Size + LevelMeta_Bg1), 46Ah
+.defineregion readptr(Sector2Levels + 23h * LevelMeta_Size + LevelMeta_Clipdata), 1C3h
 
 .org readptr(Sector2Levels + 20h * LevelMeta_Size + LevelMeta_Bg1)
 .area 46Ah
 .incbin "data/rooms/S2-20-BG1.rlebg"
 .endarea
 
-.autoregion
+.autoregion EOF, PatcherFreeSpace-1
 @S2_EasternShaftVines_Clipdata:
 .incbin "data/rooms/S2-20-Clip.rlebg"
 .endautoregion
@@ -20,7 +21,7 @@
 .endarea
 
 
-.autoregion
+.autoregion EOF, PatcherFreeSpace-1
 @S2_EasternShaft_Bg1:
 .incbin "data/rooms/S2-23-BG1.rlebg"
 .endautoregion
@@ -30,7 +31,7 @@
     .dw     @S2_EasternShaft_Bg1
 .endarea
 
-.autoregion
+.autoregion EOF, PatcherFreeSpace-1
 @S2_EasternShaft_Clipdata:
 .incbin "data/rooms/S2-23-Clip.rlebg"
 .endautoregion

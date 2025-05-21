@@ -74,8 +74,8 @@ RoomNamesAddr equ 087FF070h
 RevealHiddenTilesFlag equ 087FF08Ch
 
 ; Mark end-of-file padding as free space
-@@EOF equ 0879ECC8h
-.defineregion @@EOF, PatcherFreeSpace - @@EOF, 0FFh
+EOF equ 0879ECC8h
+.defineregion EOF, PatcherFreeSpace - EOF, 0FFh
 
 ; Debug mode patch
 .if DEBUG
@@ -154,7 +154,6 @@ RevealHiddenTilesFlag equ 087FF08Ch
 .include "src/physics/single-walljump.s"
 .include "src/nonlinear/split-suits.s"
 .include "src/nonlinear/story-flags.s"
-;.include "src/nonlinear/tileset-edits.s"
 
 
 .if !DEBUG

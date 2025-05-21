@@ -718,6 +718,11 @@
     .db     1Eh
 .endarea
 
+; Normally this would be included at the end of the file, but region definitions
+; in this included file are used and relied upon later in this file. Including
+; the file later causes validation errors and branch target range errors.
+.include "src/nonlinear/room-edits/sector-2/room-20-and-23.s"
+
 ; Sector 2 - Ripper Roost
 ; move bottom crumble block up one to prevent softlocks without bombs
 .if ANTI_SOFTLOCK
@@ -1357,8 +1362,9 @@
 .include "src/nonlinear/room-edits/main-deck/room-56.s"
 .include "src/nonlinear/room-edits/sector-2/room-07-and-1F.s"
 .include "src/nonlinear/room-edits/sector-2/room-0A.s"
+; This was defined earlier in the file due to branch target range errors and validation errors.
 ;.include "src/nonlinear/room-edits/sector-2/room-20-and-23.s"
 .include "src/nonlinear/room-edits/sector-2/room-39.s"
 .include "src/nonlinear/room-edits/sector-4/room-06.s"
 .include "src/nonlinear/room-edits/sector-4/room-23.s"
-;.include "src/nonlinear/room-edits/sector-6/room-1B.s"
+.include "src/nonlinear/room-edits/sector-6/room-1B.s"
