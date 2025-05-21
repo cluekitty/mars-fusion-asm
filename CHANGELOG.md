@@ -7,7 +7,7 @@
 - Changed: Sector 6 Big Shell 1 is now in the "Post-SAX" destroyed state, allowing traversal of the room without power bombs. It is now always included regardless of Anti-softlock settings.
 
 ### Visual
-- Added: Minimap tiles have been added to allow for new events and fixes to vanilla map. Map will be updated in the patcher.
+- Added: Minimap tiles have been added to allow for new events and fixes to vanilla map. Map will be updated in the patcher. (Credit to Raddley Vance)
 - Changed: Minor tweaks to the data room and recharge room tile maps for visual inconsistencies. (Credit to Raddley Vance)
 
 ## 0.5.0 - 2025-05-15
