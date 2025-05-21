@@ -719,7 +719,7 @@
 .endarea
 
 ; Normally this would be included at the end of the file, but region definitions
-; in this included file are used and relied upon later in this file. Including
+; in this included file are used and relied upon later in this room-edits. Including
 ; the file later causes validation errors and branch target range errors.
 .include "src/nonlinear/room-edits/sector-2/room-20-and-23.s"
 

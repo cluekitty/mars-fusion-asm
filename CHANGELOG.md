@@ -4,7 +4,7 @@
 
 ### Room Adjustments
 - Changed: Sector 2 Eastern Shaft now has reforming speed booster blocks on the newly added ledge. The room also has had minor tiling tweaks.
-- Changed: Sector 6 Big Shell 1 is now in the "Post-SAX" destroyed state, allowing traversal of the room without power bombs.
+- Changed: Sector 6 Big Shell 1 is now in the "Post-SAX" destroyed state, allowing traversal of the room without power bombs. It is now always included regardless of Anti-softlock settings.
 - Changed: Minor tweaks to the data room and recharge room tile maps for visual inconsistencies.
 
 ## 0.5.0 - 2025-05-15
