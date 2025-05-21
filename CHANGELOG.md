@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Visual
+- Added: Minimap tiles have been added to allow for new events and fixes to vanilla map. Map will be updated in the patcher.
+
 ## 0.5.0 - 2025-05-15
 
 ### Gameplay Modifications
