@@ -154,6 +154,7 @@ RevealHiddenTilesFlag equ 087FF08Ch
 .include "src/physics/single-walljump.s"
 .include "src/nonlinear/split-suits.s"
 .include "src/nonlinear/story-flags.s"
+;.include "src/nonlinear/tileset-edits.s"
 
 
 .if !DEBUG

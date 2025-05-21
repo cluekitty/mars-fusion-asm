@@ -718,42 +718,6 @@
     .db     1Eh
 .endarea
 
-; Sector 2 - Eastern Shaft
-; add ledge to allow climbing frozen enemies from middle doors to top doors
-; removed 2 vine tiles to prevent dangerous nettori
-.defineregion readptr(Sector2Levels + 20h * LevelMeta_Size + LevelMeta_Clipdata), 21Fh
-.defineregion readptr(Sector2Levels + 23h * LevelMeta_Size + LevelMeta_Bg1), 46Ah
-
-.org readptr(Sector2Levels + 20h * LevelMeta_Size + LevelMeta_Bg1)
-.area 46Ah
-.incbin "data/rooms/S2-20-BG1.rlebg"
-.endarea
-
-.autoregion
-@S2_EasternShaftVines_Clipdata:
-.incbin "data/rooms/S2-20-Clip.rlebg"
-.endautoregion
-
-.org Sector2Levels + 20h * LevelMeta_Size + LevelMeta_Clipdata
-.area 4
-    .dw     @S2_EasternShaftVines_Clipdata
-.endarea
-
-.autoregion
-@S2_EasternShaft_Bg1:
-.incbin "data/rooms/S2-23-BG1.rlebg"
-.endautoregion
-
-.org readptr(Sector2Levels + 23h * LevelMeta_Size + LevelMeta_Clipdata)
-.area 1C3h
-.incbin "data/rooms/S2-23-Clip.rlebg"
-.endarea
-
-.org Sector2Levels + 23h * LevelMeta_Size + LevelMeta_Bg1
-.area 4
-    .dw     @S2_EasternShaft_Bg1
-.endarea
-
 ; Sector 2 - Ripper Roost
 ; move bottom crumble block up one to prevent softlocks without bombs
 .if ANTI_SOFTLOCK
@@ -1360,21 +1324,6 @@
 ; Sector 6 - Missile Storage
 ; TODO: fix screen scrolls when custom start is behind bomb blocks
 
-; Sector 6 - Big Shell 1
-; Remove the crumble block into the long morph tunnel to prevent softlocks
-; without power bombs
-.if ANTI_SOFTLOCK
-.org readptr(Sector6Levels + 1Bh * LevelMeta_Size + LevelMeta_Bg1)
-.area 1EFh
-.incbin "data/rooms/S6-1B-BG1.rlebg"
-.endarea
-
-.org readptr(Sector6Levels + 1Bh * LevelMeta_Size + LevelMeta_Clipdata)
-.area 0B5h
-.incbin "data/rooms/S6-1B-Clip.rlebg"
-.endarea
-.endif
-
 ; Sector 6 - Big Shell 2
 ; fix screen scrolls when entering room from Blue X Blockade
 .defineregion readptr(Sector6Scrolls + 0Fh * 4), ScrollList_HeaderSize + Scroll_Size * 1
@@ -1408,6 +1357,8 @@
 .include "src/nonlinear/room-edits/main-deck/room-56.s"
 .include "src/nonlinear/room-edits/sector-2/room-07-and-1F.s"
 .include "src/nonlinear/room-edits/sector-2/room-0A.s"
+;.include "src/nonlinear/room-edits/sector-2/room-20-and-23.s"
 .include "src/nonlinear/room-edits/sector-2/room-39.s"
 .include "src/nonlinear/room-edits/sector-4/room-06.s"
 .include "src/nonlinear/room-edits/sector-4/room-23.s"
+;.include "src/nonlinear/room-edits/sector-6/room-1B.s"

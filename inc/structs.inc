@@ -373,6 +373,17 @@ RoomTanks_LocationIndex equ 02h
 RoomTanks_Sprite equ 03h
 .sym on
 
+TilesetEntry equ 083BF888h
+.sym off
+TilesetEntry_RlebgGfxPointer equ 00h
+TilesetEntry_BackgroundPalettePointer equ 04h
+TilesetEntry_LZ77BackgroundPointer equ 08h
+TilesetEntry_TilemapPointer equ 0Ch
+TilesetEntry_AnimatedTileset equ 10h
+TilesetEntry_AnimatedPalette equ 11h
+TilesetEntry_Size equ 14h
+.sym on
+
 MainDeckDoors equ 083C0030h
 Sector1Doors equ 083C09D8h
 Sector2Doors equ 083C0F48h
