@@ -76,6 +76,11 @@ RevealHiddenTilesFlag equ 087FF08Ch
 ; Mark end-of-file padding as free space
 EOF equ 0879ECC8h
 .defineregion EOF, PatcherFreeSpace - EOF, 0FFh
+; Free up large unused audio sample
+DataFreeSpace equ 080F9A28h
+DataFreeSpaceLen equ 20318h
+DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
+.defineregion DataFreeSpace, DataFreeSpaceEnd
 
 ; Debug mode patch
 .if DEBUG
