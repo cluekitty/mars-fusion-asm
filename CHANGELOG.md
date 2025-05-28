@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Randomizer
+- Fixed: Room-based sound effects no longer continue playing after warping to start.
+
 ## 0.5.1 - 2025-05-22
 
 ### Room Adjustments

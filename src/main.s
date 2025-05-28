@@ -80,7 +80,7 @@ EOF equ 0879ECC8h
 DataFreeSpace equ 080F9A28h
 DataFreeSpaceLen equ 20318h
 DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
-.defineregion DataFreeSpace, DataFreeSpaceEnd
+.defineregion DataFreeSpace, DataFreeSpaceLen, 0FFh
 
 ; Debug mode patch
 .if DEBUG
