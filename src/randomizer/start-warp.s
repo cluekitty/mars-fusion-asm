@@ -76,6 +76,11 @@
     ldr     r1, =NonGameplayFlag
     mov     r0, #0
     strb    r0, [r1]
+    ; When paused, Sfx do not play
+    ; When Sfx are not playing.. you can't stop them
+    mov     r0, #0
+    bl      Sfx_ResumeAll
+    bl      StopAllMusicAndSounds
     b       @@reset_volume
 @@intro:
     mov     r0, #GameMode_FileSelect

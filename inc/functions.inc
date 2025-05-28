@@ -1,8 +1,11 @@
 DeflateVram equ 080009ECh
 InitializeAudio equ 08002298h
 Sfx_Play equ 0800270Ch
+Sfx_Stop equ 08002738h
+StopAllMusicAndSounds equ 08002774h
 Sfx_PlayIfNotPlaying equ 08002854h
 BitFill equ 08002FECh
+Sfx_ResumeAll equ 08003338h ; r0 = bool?
 Music_CheckSet equ 08003498h
 Music_CheckPlay equ 080034F4h
 Music_Play equ 08003538h
@@ -67,6 +70,6 @@ Divide equ 080A3468h
 memcpy equ 080A4EF0h
 memset equ 080A4F50h
 
-.definelabel Sram_CheckLoadSaveFileWithBlank, 08080968h
-.definelabel Sram_RestoreBackupSaveFileAfterReload, 0807FB48h ; We completely replace this unused vanilla function
-.definelabel DmaTransfer, 08002F1Ch ; r0=channel, r1=src, r2=dst, r3=len, [sp]=bitsize
+Sram_CheckLoadSaveFileWithBlank equ 08080968h
+Sram_RestoreBackupSaveFileAfterReload equ 0807FB48h ; We completely replace this unused vanilla function
+DmaTransfer equ 08002F1Ch ; r0=channel, r1=src, r2=dst, r3=len, [sp]=bitsize
