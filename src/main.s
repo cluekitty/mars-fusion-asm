@@ -81,6 +81,9 @@ DataFreeSpace equ 080F9A28h
 DataFreeSpaceLen equ 20318h
 DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .defineregion DataFreeSpace, DataFreeSpaceLen, 0FFh
+.autoregion DataFreeSpace, DataFreeSpaceEnd
+    .skip 0FFh ; Reserve space for stereo_default IPS patch from patcher
+.endautoregion
 
 ; Debug mode patch
 .if DEBUG
