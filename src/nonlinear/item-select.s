@@ -76,15 +76,9 @@
     .db     0 + 0 * 2, Upgrade_None
     .db     Upgrade_ChargeBeam, Upgrade_WideBeam, Upgrade_PlasmaBeam
     .db     Upgrade_WaveBeam, Upgrade_IceBeam, 0FFh
-.if MISSILES_WITHOUT_MAINS
-    .db     0 + 8 * 2, Upgrade_None
-    .db     Upgrade_SuperMissiles, Upgrade_IceMissiles
-    .db     Upgrade_DiffusionMissiles, 0FFh
-.else
     .db     0 + 8 * 2, Upgrade_Missiles
     .db     Upgrade_Missiles, Upgrade_SuperMissiles, Upgrade_IceMissiles
     .db     Upgrade_DiffusionMissiles, 0FFh
-.endif
     .db     1 + 0 * 2, Upgrade_None
     .db     Upgrade_Bombs, Upgrade_PowerBombs, 0FFh
     .db     1 + 4 * 2, Upgrade_None
@@ -112,14 +106,10 @@
 @@init_missiles:
     ldr     r0, =PermanentUpgrades
     ldrb    r2, [r0, PermanentUpgrades_ExplosiveUpgrades]
-.if MISSILES_WITHOUT_MAINS
     mov     r0, #(1 << ExplosiveUpgrade_Missiles) \
-        | (1 << ExplosiveUpgrade_SuperMissiles) \
-        | (1 << ExplosiveUpgrade_IceMissiles) \
-        | (1 << ExplosiveUpgrade_DiffusionMissiles)
-.else
-    mov     r0, #1 << ExplosiveUpgrade_Missiles
-.endif
+            | (1 << ExplosiveUpgrade_SuperMissiles) \
+            | (1 << ExplosiveUpgrade_IceMissiles) \
+            | (1 << ExplosiveUpgrade_DiffusionMissiles)
     and     r0, r2
     beq     @@init_bombs
     ldr     r0, =#0B234h
@@ -458,14 +448,10 @@
     mov     r3, #0
     bl      0807E754h
     ldrb    r1, [r4, PermanentUpgrades_ExplosiveUpgrades]
-.if MISSILES_WITHOUT_MAINS
     mov     r0, #(1 << ExplosiveUpgrade_Missiles) \
-        | (1 << ExplosiveUpgrade_SuperMissiles) \
-        | (1 << ExplosiveUpgrade_IceMissiles) \
-        | (1 << ExplosiveUpgrade_DiffusionMissiles)
-.else
-    mov     r0, #1 << ExplosiveUpgrade_Missiles
-.endif
+            | (1 << ExplosiveUpgrade_SuperMissiles) \
+            | (1 << ExplosiveUpgrade_IceMissiles) \
+            | (1 << ExplosiveUpgrade_DiffusionMissiles)
     and     r0, r1
     bne     @@write_missile_counts
     mov     r0, #1
