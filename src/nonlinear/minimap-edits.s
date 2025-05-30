@@ -2,4 +2,4 @@
 
 ; Location of minimap tiles gfx
 .org 08561FA8h
-.incbin "data/maps/minimap-tiles.gfx"
+.incbin "data/minimap-tiles.gfx"
