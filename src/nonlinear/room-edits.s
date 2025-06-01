@@ -8,310 +8,25 @@
 .defineregion 083C2C10h, 3Ch
 .defineregion 083F1548h, 0C56h
 
-; Main Deck scroll table fixes - Remove Subzero scrolls. 33 entries in table
-.org MainDeckScrolls
-.area 84h
-    .dw     readptr(MainDeckScrolls + 00h * 4)
-    .dw     readptr(MainDeckScrolls + 01h * 4)
-    .dw     readptr(MainDeckScrolls + 02h * 4)
-    .dw     readptr(MainDeckScrolls + 03h * 4)
-    .dw     readptr(MainDeckScrolls + 04h * 4)
-    .dw     readptr(MainDeckScrolls + 05h * 4)
-    .dw     readptr(MainDeckScrolls + 06h * 4)
-    .dw     readptr(MainDeckScrolls + 07h * 4)
-    .dw     readptr(MainDeckScrolls + 08h * 4)
-    .dw     readptr(MainDeckScrolls + 09h * 4)
-    .dw     readptr(MainDeckScrolls + 0Ah * 4)
-    .dw     readptr(MainDeckScrolls + 0Bh * 4)
-    .dw     readptr(MainDeckScrolls + 0Ch * 4)
-    .dw     readptr(MainDeckScrolls + 0Dh * 4)
-    .dw     readptr(MainDeckScrolls + 0Eh * 4)
-    .dw     readptr(MainDeckScrolls + 0Fh * 4)
-    .dw     readptr(MainDeckScrolls + 10h * 4)
-    .dw     readptr(MainDeckScrolls + 11h * 4)
-    ;.dw     readptr(MainDeckScrolls + 12h * 4) ;- Subzero Scrolls
-    .dw     readptr(MainDeckScrolls + 13h * 4)
-    .dw     readptr(MainDeckScrolls + 14h * 4)
-    .dw     readptr(MainDeckScrolls + 15h * 4)
-    .dw     readptr(MainDeckScrolls + 16h * 4)
-    .dw     readptr(MainDeckScrolls + 17h * 4)
-    .dw     readptr(MainDeckScrolls + 18h * 4)
-    .dw     readptr(MainDeckScrolls + 19h * 4)
-    .dw     readptr(MainDeckScrolls + 1Ah * 4)
-    .dw     readptr(MainDeckScrolls + 1Bh * 4)
-    .dw     readptr(MainDeckScrolls + 1Ch * 4)
-    .dw     readptr(MainDeckScrolls + 1Dh * 4)
-    .dw     readptr(MainDeckScrolls + 1Eh * 4)
-    .dw     readptr(MainDeckScrolls + 1Fh * 4)
-    .dw     readptr(MainDeckScrolls + 20h * 4)
-.endarea
+; Main Deck Changes
+.include "src/nonlinear/room-edits/main-deck/scrolls.s"
+.include "src/nonlinear/room-edits/main-deck/room-06.s"
+.include "src/nonlinear/room-edits/main-deck/room-0A.s"
+.include "src/nonlinear/room-edits/main-deck/room-0D-4A-55.s"
+.include "src/nonlinear/room-edits/main-deck/room-12.s"
+.include "src/nonlinear/room-edits/main-deck/room-14-and-2E.s"
+.include "src/nonlinear/room-edits/main-deck/room-15.s"
+.include "src/nonlinear/room-edits/main-deck/room-18.s"
+.include "src/nonlinear/room-edits/main-deck/room-22.s"
+.include "src/nonlinear/room-edits/main-deck/room-23-24.s"
+.include "src/nonlinear/room-edits/main-deck/room-26.s"
+.include "src/nonlinear/room-edits/main-deck/room-29-2A.s"
+.include "src/nonlinear/room-edits/main-deck/room-30.s"
+.include "src/nonlinear/room-edits/main-deck/room-31-3B.s"
+.include "src/nonlinear/room-edits/main-deck/room-47.s"
+.include "src/nonlinear/room-edits/main-deck/room-52.s"
+.include "src/nonlinear/room-edits/main-deck/room-56.s"
 
-
-; Main Deck - Docking Bay Shaft
-; remove event-based transitions to wrecked Silo Access
-.if RANDOMIZER
-.org MainDeckDoors + 0Dh * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_NoHatch
-.endarea
-
-.org MainDeckDoors + 0Fh * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_LockableHatch
-.endarea
-.endif
-
-; Main Deck - Crew Quarters West
-; remove power bomb geron
-.defineregion readptr(MainDeckLevels + 0Ch * LevelMeta_Size + LevelMeta_Spriteset1), 0Fh
-
-.org MainDeckLevels + 0Ch * LevelMeta_Size + LevelMeta_Spriteset1Event
-.area LevelMeta_MapX - LevelMeta_Spriteset1Event
-    .db     Event_GoMode
-    .skip 2
-    .dw     readptr(MainDeckLevels + 0Ch * LevelMeta_Size + LevelMeta_Spriteset2)
-    .db     33h
-    .db     0
-    .skip 2
-    .dw     NullSpriteset
-    .db     0
-.endarea
-
-; Main Deck - Operations Deck
-; change operations room lv4 security door to lv0 security
-; allow missile hatch to be destroyed from both sides
-.org readptr(MainDeckLevels + 0Dh * LevelMeta_Size + LevelMeta_Bg1)
-.area 2DBh
-.incbin "data/rooms/S0-0D-BG1.rlebg"
-.endarea
-
-.org readptr(MainDeckLevels + 0Dh * LevelMeta_Size + LevelMeta_Clipdata)
-.area 0C3h
-.incbin "data/rooms/S0-0D-Clip.rlebg"
-.endarea
-
-.org 0804193Eh
-.area 02h
-    mov     r0, #60h
-.endarea
-
-; Main Deck - Central Hub
-; keep power bomb geron always loaded
-.defineregion readptr(MainDeckLevels + 12h * LevelMeta_Size + LevelMeta_Spriteset0), 03h
-
-.org MainDeckLevels + 12h * LevelMeta_Size + LevelMeta_Spriteset0
-.area LevelMeta_Spriteset2Event - LevelMeta_Spriteset0
-    .dw     readptr(MainDeckLevels + 12h * LevelMeta_Size + LevelMeta_Spriteset1)
-    .db     33h
-    .db     0
-    .skip 2
-    .dw     NullSpriteset
-    .db     0
-.endarea
-
-; Main Deck - Eastern Hub
-; remove geron in front of recharge station
-.defineregion readptr(MainDeckLevels + 15h * LevelMeta_Size + LevelMeta_Spriteset0), 12h
-
-.org MainDeckLevels + 15h * LevelMeta_Size + LevelMeta_Spriteset0
-.area LevelMeta_MapX - LevelMeta_Spriteset0
-    .dw     readptr(MainDeckLevels + 15h * LevelMeta_Size + LevelMeta_Spriteset1)
-    .db     19h
-    .db     63h
-    .skip 2
-    .dw     readptr(MainDeckLevels + 15h * LevelMeta_Size + LevelMeta_Spriteset2)
-    .db     19h
-    .db     0
-    .skip 2
-    .dw     NullSpriteset
-    .db     0
-.endarea
-
-; Main Deck - Sector Hub
-; keep main elevator always active
-.defineregion readptr(MainDeckLevels + 18h * LevelMeta_Size + LevelMeta_Spriteset0), 27h
-
-.org MainDeckLevels + 18h * LevelMeta_Size + LevelMeta_Spriteset0
-.area LevelMeta_Spriteset2Event - LevelMeta_Spriteset0
-    .dw     readptr(MainDeckLevels + 18h * LevelMeta_Size + LevelMeta_Spriteset1)
-    .db     02h
-    .db     0
-    .skip 2
-    .dw     NullSpriteset
-    .db     0
-.endarea
-
-; Main Deck - Main Elevator Shaft
-; remove event-based transition
-.org MainDeckDoors + 32h * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_NoHatch
-.endarea
-
-; Main Deck - Maintenance Shaft
-; repair maintenance crossing and add a geron
-.org readptr(MainDeckLevels + 23h * LevelMeta_Size + LevelMeta_Bg1)
-.area 492h
-.incbin "data/rooms/S0-23-BG1.rlebg"
-.endarea
-
-.org readptr(MainDeckLevels + 23h * LevelMeta_Size + LevelMeta_Bg2)
-.area 4F0h
-.incbin "data/rooms/S0-23-BG2.rlebg"
-.endarea
-
-.defineregion readptr(MainDeckLevels + 52h * LevelMeta_Size + LevelMeta_Spriteset0), 12h
-
-.autoregion
-@MaintenanceShaft_Spriteset0:
-    .db     05h, 0Eh, 25h
-    .db     15h, 0Bh, 03h
-    .db     19h, 0Ch, 12h
-    .db     20h, 07h, 38h
-    .db     46h, 0Bh, 22h
-    .db     39h, 0Ch, 24h
-    .db     0FFh, 0FFh, 0FFh
-.endautoregion
-
-.org MainDeckLevels + 23h * LevelMeta_Size + LevelMeta_Spriteset0
-.area LevelMeta_Spriteset1Event - LevelMeta_Spriteset0
-    .dw     @MaintenanceShaft_Spriteset0
-    .db     19h
-.endarea
-
-; Main Deck - Maintenance Crossing
-; repair so the crossing is traversable and add a geron
-.org readptr(MainDeckLevels + 24h * LevelMeta_Size + LevelMeta_Bg1)
-.area 100h
-.incbin "data/rooms/S0-24-BG1.rlebg"
-.endarea
-
-.org readptr(MainDeckLevels + 24h * LevelMeta_Size + LevelMeta_Bg2)
-.area 0D2h
-.incbin "data/rooms/S0-24-BG2.rlebg"
-.endarea
-
-.org readptr(MainDeckLevels + 24h * LevelMeta_Size + LevelMeta_Clipdata)
-.area 61h
-.incbin "data/rooms/S0-24-Clip.rlebg"
-.endarea
-
-.defineregion readptr(MainDeckLevels + 24h * LevelMeta_Size + LevelMeta_Spriteset0), 03h
-
-.autoregion
-@MaintenanceCrossing_Spriteset0:
-    .db     07h, 0Ch, 24h
-    .db     0FFh, 0FFh, 0FFh
-.endautoregion
-
-.org MainDeckLevels + 24h * LevelMeta_Size + LevelMeta_Spriteset0
-.area LevelMeta_Spriteset1Event - LevelMeta_Spriteset0
-    .dw     @MaintenanceCrossing_Spriteset0
-    .db     19h
-.endarea
-
-; Main Deck - Arachnus Arena
-; remove sprite layer that removes Arachnus during the escape
-.org MainDeckLevels + 26h * LevelMeta_Size + LevelMeta_Spriteset1Event
-.area LevelMeta_Spriteset2Event - LevelMeta_Spriteset1Event
-    .db     0
-    .skip 2
-    .dw     NullSpriteset
-    .db     0
-.endarea
-
-; Main Deck - Main Elevator Access
-; remove event-based transition
-.org MainDeckDoors + 4Ah * DoorEntry_Size + DoorEntry_Type
-.area DoorEntry_Destination - DoorEntry_Type + 1
-    .db     DoorType_LockableHatch
-    .skip DoorEntry_Destination - DoorEntry_Type - 1
-    .db     61h
-.endarea
-
-.org MainDeckDoors + 5Ch * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
-.org MainDeckDoors + 5Dh * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
-; Main Deck - Silo Access
-; move zoro cocoon
-.org readptr(MainDeckLevels + 30h * LevelMeta_Size + LevelMeta_Spriteset0)
-.area 03h
-    .db     15h, 05h, 14h
-.endarea
-
-.org readptr(MainDeckLevels + 30h * LevelMeta_Size + LevelMeta_Spriteset1)
-.area 03h
-    .db     15h, 05h, 14h
-.endarea
-
-; Main Deck - Central Reactor Core
-; add platform between door to Silo Access and door to Silo Scaffolding A
-.org readptr(MainDeckLevels + 31h * LevelMeta_Size + LevelMeta_Bg1)
-.area 4C3h
-.incbin "data/rooms/S0-31-BG1.rlebg"
-.endarea
-
-.autoregion
-@S0_WreckedCentralReactorCore_Clipdata:
-.incbin "data/rooms/S0-31-Clip.rlebg"
-.endautoregion
-
-.autoregion
-@S0_CentralReactorCore_BG1:
-.incbin "data/rooms/S0-3B-BG1.rlebg"
-.endautoregion
-
-.autoregion
-@S0_CentralReactorCore_Clipdata:
-.incbin "data/rooms/S0-3B-Clip.rlebg"
-.endautoregion
-
-.org MainDeckLevels + 31h * LevelMeta_Size + LevelMeta_Clipdata
-.area 04h
-    .dw     @S0_WreckedCentralReactorCore_Clipdata
-.endarea
-
-.org MainDeckLevels + 3Bh * LevelMeta_Size + LevelMeta_Bg1
-.area 0Ch
-    .dw     @S0_CentralReactorCore_BG1
-    .skip 4
-    .dw     @S0_CentralReactorCore_Clipdata
-.endarea
-
-.defineregion readptr(MainDeckLevels + 31h * LevelMeta_Size + LevelMeta_Clipdata), 1E2h
-.defineregion readptr(MainDeckLevels + 3Bh * LevelMeta_Size + LevelMeta_Bg1), 457h
-.defineregion readptr(MainDeckLevels + 3Bh * LevelMeta_Size + LevelMeta_Clipdata), 16Ah
-
-; remove event-based transitions to wrecked Silo Access
-.if RANDOMIZER
-.org MainDeckDoors + 86h * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_OpenHatch | DoorType_ShowsLocationName
-.endarea
-.endif
-
-; Main Deck - Operations Room
-; change lv4 security door to lv0 security
-; remove event-based transition leading to wrecked Operations Deck
-.org readptr(MainDeckLevels + 52h * LevelMeta_Size + LevelMeta_Bg1)
-.area 0F8h
-.incbin "data/rooms/S0-52-BG1.rlebg"
-.endarea
-
-.org readptr(MainDeckLevels + 52h * LevelMeta_Size + LevelMeta_Clipdata)
-.area 3Ch
-.incbin "data/rooms/S0-52-Clip.rlebg"
-.endarea
-
-.if RANDOMIZER
-.org MainDeckDoors + 0C2h * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_LockableHatch
-.endarea
-.endif
 
 ; Sector 1 - Atmospheric Stabilizer Northwest
 ; show metroid molt in go mode instead of after ridley
@@ -1357,9 +1072,7 @@
 .endarea
 
 
-.include "src/nonlinear/room-edits/main-deck/room-14-and-2E.s"
-.include "src/nonlinear/room-edits/main-deck/room-47.s"
-.include "src/nonlinear/room-edits/main-deck/room-56.s"
+; Sector 2 Changes
 .include "src/nonlinear/room-edits/sector-2/room-07-and-1F.s"
 .include "src/nonlinear/room-edits/sector-2/room-0A.s"
 ; This was defined earlier in the file due to branch target range errors and validation errors.
