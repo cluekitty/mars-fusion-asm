@@ -28,66 +28,15 @@
 .include "src/nonlinear/room-edits/main-deck/room-56.s"
 
 
-; Sector 1 - Atmospheric Stabilizer Northwest
-; show metroid molt in go mode instead of after ridley
-.org Sector1Levels + 04h * LevelMeta_Size + LevelMeta_Spriteset1Event
-.area 1
-    .db     Event_GoMode
-.endarea
-
-; Sector 1 - Charge Core Exit
-; fix screen scroll when entering room from Charge Core Arena
-.defineregion readptr(Sector1Scrolls + 01h * 4), ScrollList_HeaderSize + Scroll_Size * 1
-
-; Sector 1 - Moto Manor
-; show metroid molt in go mode instead of after ridley
-.org Sector1Levels + 0Ch * LevelMeta_Size + LevelMeta_Spriteset1Event
-.area 1
-    .db     Event_GoMode
-.endarea
-
-; Sector 1 - Atmospheric Stabilizer Southeast
-; show metroid molt in go mode instead of after ridley
-.org Sector1Levels + 0Fh * LevelMeta_Size + LevelMeta_Spriteset1Event
-.area 1
-    .db     Event_GoMode
-.endarea
-
-; Sector 1 - Lava Lake Annex
-; show metroid molt in go mode instead of after ridley
-.org Sector1Levels + 14h * LevelMeta_Size + LevelMeta_Spriteset1Event
-.area 1
-    .db     Event_GoMode
-.endarea
-
-; Sector 1 - Hornoad Housing
-; have hornoads spawn by x forming them
-.org readptr(Sector1Levels + 2Eh * LevelMeta_Size + LevelMeta_Spriteset0)
-.area 15
-    .skip 6
-    .db 07h, 08h, 16h
-    .skip 3
-    .db 07h, 0Ah, 16h
-.endarea
-
-; Sector 1 - Sciser Playground
-; fix screen scroll when entering room from Charge Core Access
-.defineregion readptr(Sector1Scrolls + 07h * 4), ScrollList_HeaderSize + Scroll_Size * 1
-
-; Sector 1 scroll table fixes
-.org Sector1Scrolls
-.area 30h
-    .dw     readptr(Sector1Scrolls + 00h * 4)
-    .dw     readptr(Sector1Scrolls + 02h * 4)
-    .dw     readptr(Sector1Scrolls + 03h * 4)
-    .dw     readptr(Sector1Scrolls + 04h * 4)
-    .dw     readptr(Sector1Scrolls + 05h * 4)
-    .dw     readptr(Sector1Scrolls + 06h * 4)
-    .dw     readptr(Sector1Scrolls + 08h * 4)
-    .dw     readptr(Sector1Scrolls + 09h * 4)
-    .dw     readptr(Sector1Scrolls + 0Ah * 4)
-    .dw     readptr(Sector1Scrolls + 0Bh * 4)
-.endarea
+; Sector 1 (SRX) Changes
+.include "src/nonlinear/room-edits/sector-1/scrolls.s"
+.include "src/nonlinear/room-edits/sector-1/room-04.s"
+.include "src/nonlinear/room-edits/sector-1/room-0A.s"
+.include "src/nonlinear/room-edits/sector-1/room-0C.s"
+.include "src/nonlinear/room-edits/sector-1/room-0F.s"
+.include "src/nonlinear/room-edits/sector-1/room-14.s"
+.include "src/nonlinear/room-edits/sector-1/room-26.s"
+.include "src/nonlinear/room-edits/sector-1/room-2E.s"
 
 ; Sector 2 - Data Hub Access
 ; move cocoon and kihunter spritesets to intact room state
