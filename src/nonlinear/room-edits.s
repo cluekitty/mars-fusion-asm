@@ -64,108 +64,18 @@
 .include "src/nonlinear/room-edits/sector-3/room-12-17.s"
 
 
-; Sector 4 - Serris Escape
-; TODO: fix screen scrolls when custom start is behind the bomb blocks
-; scroll 0 (11, 02) -> (2E, 17), scroll 1 (02, 16) -> (2E, 1F)
+; Sector 4 (AQA) Changes
+.include "src/nonlinear/room-edits/sector-4/room-06.s"
+.include "src/nonlinear/room-edits/sector-4/room-0D.s"
+.include "src/nonlinear/room-edits/sector-4/room-15.s"
+.include "src/nonlinear/room-edits/sector-4/room-16.s"
+.include "src/nonlinear/room-edits/sector-4/room-18.s"
+.include "src/nonlinear/room-edits/sector-4/room-1C.s"
+.include "src/nonlinear/room-edits/sector-4/room-22.s"
+.include "src/nonlinear/room-edits/sector-4/room-23.s"
+.include "src/nonlinear/room-edits/sector-4/room-24.s"
+.include "src/nonlinear/room-edits/sector-4/room-26.s"
 
-; Sector 4 - Pump Control Access
-; fix screen scrolls when entering from Pump Control Save Room
-.org readptr(Sector4Scrolls + 03h * 4) + ScrollList_HeaderSize
-.area Scroll_Size
-    .db     02h, 10h
-    .db     02h, 29h
-    .db     0FFh, 0FFh
-    .db     ScrollExtend_None
-    .db     0FFh
-.endarea
-
-; Sector 4 - Pump Control Save Room
-; fix entering the room for the first time from morph tunnel
-; this should only be an issue for entrance rando
-.org Sector4Doors + 045h * DoorEntry_Size + DoorEntry_ExitDistanceX
-.area 1
-    .db 0E0h
-.endarea
-
-; Sector 4 - Cheddar Bay
-; fix screen scrolls when entering from Security Bypass
-.org readptr(Sector4Scrolls + 05h * 4) + ScrollList_HeaderSize + Scroll_Size * 1
-.area Scroll_Size
-    .db     02h, 20h
-    .db     02h, 0Ch
-    .db     0FFh, 0FFh
-    .db     ScrollExtend_None
-    .db     0FFh
-.endarea
-
-; Sector 4 - Waterway
-; add flooded room state
-.autoregion
-@S4_Waterway_Spriteset0:
-    .db     03h, 09h, 17h
-    .db     03h, 0Bh, 17h
-    .db     03h, 10h, 17h
-    .db     03h, 13h, 17h
-    .db     03h, 17h, 17h
-    .db     04h, 08h, 12h
-    .db     04h, 18h, 12h
-    .db     07h, 10h, 11h
-    .db     0FFh, 0FFh, 0FFh
-.endautoregion
-
-.org Sector4Levels + 1Ch * LevelMeta_Size + LevelMeta_Spriteset0
-.area LevelMeta_Spriteset2Event - LevelMeta_Spriteset0
-    .dw     @S4_Waterway_Spriteset0
-    .db     0Eh
-    .db     Event_WaterLevelLowered
-    .skip 2
-    .dw     readptr(Sector4Levels + 1Ch * LevelMeta_Size + LevelMeta_Spriteset0)
-    .db     1Dh
-.endarea
-
-; Sector 4 - Security Bypass
-; prevent several softlocks without bombs
-.if ANTI_SOFTLOCK
-.org readptr(Sector4Levels + 22h * LevelMeta_Size + LevelMeta_Bg1)
-.area 57Ah
-.incbin "data/rooms/S4-22-BG1.rlebg"
-.endarea
-
-.org readptr(Sector4Levels + 22h * LevelMeta_Size + LevelMeta_Clipdata)
-.area 1B1h
-.incbin "data/rooms/S4-22-Clip.rlebg"
-.endarea
-.endif
-
-; Sector 4 - Drain Pipe
-; keep puffer always active
-.defineregion readptr(Sector4Levels + 24h * LevelMeta_Size + LevelMeta_Spriteset1), 2Ah
-
-.org Sector4Levels + 24h * LevelMeta_Size + LevelMeta_Spriteset1Event
-.area LevelMeta_MapX - LevelMeta_Spriteset1Event
-    .db     Event_WaterLevelLowered
-    .skip 2
-    .dw     readptr(Sector4Levels + 24h * LevelMeta_Size + LevelMeta_Spriteset2)
-    .db     23h
-    .db     0
-    .skip 2
-    .dw     NullSpriteset
-    .db     0
-.endarea
-
-; Sector 4 - Aquarium Storage
-; make kago always block missile tank
-.defineregion readptr(Sector4Levels + 26h * LevelMeta_Size + LevelMeta_Spriteset0), 24h
-
-.org Sector4Levels + 26h * LevelMeta_Size + LevelMeta_Spriteset0
-.area LevelMeta_Spriteset2Event - LevelMeta_Spriteset0
-    .dw     readptr(Sector4Levels + 26h * LevelMeta_Size + LevelMeta_Spriteset1)
-    .skip 1
-    .db     0
-    .skip 2
-    .dw     NullSpriteset
-    .db     0
-.endarea
 
 ; Sector 5 - Nightmare Training Grounds
 ; restructure the room to have a speedbooster runway across the top
@@ -550,6 +460,4 @@
 
 
 
-.include "src/nonlinear/room-edits/sector-4/room-06.s"
-.include "src/nonlinear/room-edits/sector-4/room-23.s"
 .include "src/nonlinear/room-edits/sector-6/room-1B.s"
