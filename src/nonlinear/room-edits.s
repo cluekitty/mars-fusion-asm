@@ -57,117 +57,12 @@
 ; TODO: fix screen scroll when custom start is behind bomb blocks
 
 
-; Sector 3 - Security Access
-; remove sidehoppers on speedbooster runway to prevent near softlock with neither charge nor missiles
-; move sidehoppers below runway to prevent them from clipping into the wall
-.org readptr(Sector3Levels + 03h * LevelMeta_Size + LevelMeta_Spriteset1)
-.area 27h
-    .db     04h, 24h, 0A4h
-    .db     05h, 1Fh, 0A4h
-    .db     05h, 29h, 0A4h
-    .db     06h, 1Dh, 02h
-    .db     14h, 29h, 23h
-    .db     14h, 2Ch, 23h
-    .db     0FFh, 0FFh, 0FFh
-.endarea
+; Sector 3 (PYR) Changes
+.include "src/nonlinear/room-edits/sector-3/room-03.s"
+.include "src/nonlinear/room-edits/sector-3/room-06-18.s"
+.include "src/nonlinear/room-edits/sector-3/room-07-16.s"
+.include "src/nonlinear/room-edits/sector-3/room-12-17.s"
 
-; Sector 3 - Bob's Room
-; remove event-based transitions leading to wrecked room state
-.org Sector3Doors + 0Ch * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_LockableHatch
-.endarea
-
-.org Sector3Doors + 14h * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_LockableHatch
-.endarea
-
-.org Sector3Doors + 2Fh * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
-.org Sector3Doors + 30h * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
-.org Sector3Doors + 3Fh * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
-; Sector 3 - BOX Access
-; repair door to bob's room
-.defineregion readptr(Sector3Levels + 16h * LevelMeta_Size + LevelMeta_Clipdata), 0A5h
-
-.org readptr(Sector3Levels + 16h * LevelMeta_Size + LevelMeta_Bg1)
-.area 300h
-.incbin "data/rooms/S3-16-BG1.rlebg"
-.endarea
-
-.autoregion
-@S3_BoxAccess_Clipdata:
-.incbin "data/rooms/S3-16-Clip.rlebg"
-.endautoregion
-
-.org Sector3Levels + 16h * LevelMeta_Size + LevelMeta_Clipdata
-.area 04h
-    .dw     @S3_BoxAccess_Clipdata
-.endarea
-
-.org Sector3Doors + 10h * DoorEntry_Size + DoorEntry_SourceRoom
-.area 1
-    .db     16h
-.endarea
-
-.org Sector3Doors + 23h * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
-; Sector 3 - BOX Arena
-; repair door to data room
-.defineregion readptr(Sector3Levels + 17h * LevelMeta_Size + LevelMeta_Clipdata), 08Fh
-
-.org readptr(Sector3Levels + 17h * LevelMeta_Size + LevelMeta_Bg1)
-.area 256h
-.incbin "data/rooms/S3-17-BG1.rlebg"
-.endarea
-
-.autoregion
-@S3_BoxArena_Clipdata:
-.incbin "data/rooms/S3-17-Clip.rlebg"
-.endautoregion
-
-.org Sector3Levels + 17h * LevelMeta_Size + LevelMeta_Clipdata
-.area 04h
-    .dw     @S3_BoxArena_Clipdata
-.endarea
-
-.org Sector3Doors + 1Dh * DoorEntry_Size + DoorEntry_Type
-.area 1
-    .db     DoorType_LockableHatch
-.endarea
-
-.org Sector3Doors + 2Bh * DoorEntry_Size + DoorEntry_SourceRoom
-.area 1
-    .db     17h
-.endarea
-
-.org Sector3Doors + 2Dh * DoorEntry_Size + DoorEntry_Type
-.area DoorEntry_Destination - DoorEntry_Type + 1
-    .db     DoorType_LockableHatch
-    .skip DoorEntry_Destination - DoorEntry_Type - 1
-    .db     2Eh
-.endarea
-
-.org Sector3Doors + 24h * DoorEntry_Size
-.fill DoorEntry_Size, 0FFh
-
-; Extends upper scroll down by one tile for slightly better visibility after
-; defeating BOX without showing the exit during the fight
-.org readptr(Sector3Scrolls + 09h * 4) + ScrollList_HeaderSize
-.area Scroll_Size
-    .db     10h, 1Fh
-    .db     02h, 0Dh
-    .db     0FFh, 0FFh
-    .db     ScrollExtend_None
-    .db     0FFh
-.endarea
 
 ; Sector 4 - Serris Escape
 ; TODO: fix screen scrolls when custom start is behind the bomb blocks
