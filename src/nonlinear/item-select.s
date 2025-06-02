@@ -447,29 +447,12 @@
     mov     r2, #3
     mov     r3, #0
     bl      0807E754h
-    ldrb    r1, [r4, PermanentUpgrades_ExplosiveUpgrades]
-    mov     r0, #(1 << ExplosiveUpgrade_Missiles) \
-            | (1 << ExplosiveUpgrade_SuperMissiles) \
-            | (1 << ExplosiveUpgrade_IceMissiles) \
-            | (1 << ExplosiveUpgrade_DiffusionMissiles)
-    and     r0, r1
-    bne     @@write_missile_counts
-    mov     r0, #1
-    bl      0807EC8Ch
-    b       @@check_pbs
 @@write_missile_counts:
     mov     r0, #6
     ldrh    r1, [r5, SamusUpgrades_MaxMissiles]
     mov     r2, #3
     mov     r3, #0
     bl      0807E754h
-@@check_pbs:
-    ldrb    r0, [r4, PermanentUpgrades_ExplosiveUpgrades]
-    lsr     r0, #ExplosiveUpgrade_PowerBombs + 1
-    bcs     @@write_pb_counts
-    mov     r0, #2
-    bl      0807EC8Ch
-    b       @@write_metroid_counts
 @@write_pb_counts:
     mov     r0, #7
     ldrb    r1, [r5, SamusUpgrades_MaxPowerBombs]

@@ -7,7 +7,7 @@
 - Changed: Minimaps will now show connecting sectors via patcher changes.
 
 ### Visual
-- Changed: The item select screen will show obtained missile upgrades before main missile data is obtained.
+- Changed: The item select screen will show obtained missile upgrades before main missile data is obtained. Ammo counts for Missiles and PBs will always show.
 
 ## 0.5.1 - 2025-05-22
 
