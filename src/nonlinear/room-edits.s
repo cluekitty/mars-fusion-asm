@@ -91,58 +91,11 @@
 .include "src/nonlinear/room-edits/sector-5/room-2B.s"
 
 
-; Sector 6 - Zozoro Wine Cellar
-; change the reforming bomb block to a never reforming bomb block to prevent
-; softlocking from running out of power bombs
-.if ANTI_SOFTLOCK
-.org readptr(Sector6Levels + 0Fh * LevelMeta_Size + LevelMeta_Clipdata)
-.area 033h
-.incbin "data/rooms/S6-0F-Clip.rlebg"
-.endarea
-.endif
-
-; Sector 6 - X-BOX Arena
-; change the top crumble block into a shot block to mitigate accidentally
-; entering a point of no return
-.org readptr(Sector6Levels + 10h * LevelMeta_Size + LevelMeta_Clipdata)
-.area 0B3h
-.incbin "data/rooms/S6-10-Clip.rlebg"
-.endarea
-
-; Sector 6 - Forbidden Entrance
-; fix screen scrolls when entering room from XBOX Access
-.defineregion readptr(Sector6Scrolls + 02h * 4), ScrollList_HeaderSize + Scroll_Size * 1
-
-; Sector 6 - Missile Storage
-; TODO: fix screen scrolls when custom start is behind bomb blocks
-
-; Sector 6 - Big Shell 2
-; fix screen scrolls when entering room from Blue X Blockade
-.defineregion readptr(Sector6Scrolls + 0Fh * 4), ScrollList_HeaderSize + Scroll_Size * 1
-
-; Sector 6 scroll table fixes
-.org Sector6Scrolls
-.area 50h
-    .dw     readptr(Sector6Scrolls + 00h * 4)
-    .dw     readptr(Sector6Scrolls + 01h * 4)
-    .dw     readptr(Sector6Scrolls + 03h * 4)
-    .dw     readptr(Sector6Scrolls + 04h * 4)
-    .dw     readptr(Sector6Scrolls + 05h * 4)
-    .dw     readptr(Sector6Scrolls + 06h * 4)
-    .dw     readptr(Sector6Scrolls + 07h * 4)
-    .dw     readptr(Sector6Scrolls + 08h * 4)
-    .dw     readptr(Sector6Scrolls + 09h * 4)
-    .dw     readptr(Sector6Scrolls + 0Ah * 4)
-    .dw     readptr(Sector6Scrolls + 0Bh * 4)
-    .dw     readptr(Sector6Scrolls + 0Ch * 4)
-    .dw     readptr(Sector6Scrolls + 0Dh * 4)
-    .dw     readptr(Sector6Scrolls + 0Eh * 4)
-    .dw     readptr(Sector6Scrolls + 10h * 4)
-    .dw     readptr(Sector6Scrolls + 11h * 4)
-    .dw     readptr(Sector6Scrolls + 12h * 4)
-    .dw     readptr(Sector6Scrolls + 13h * 4)
-.endarea
-
-
-
+; Sector 6 (NOC) Changes
+.include "src/nonlinear/room-edits/sector-6/scrolls.s"
+.include "src/nonlinear/room-edits/sector-6/room-07.s"
+.include "src/nonlinear/room-edits/sector-6/room-0F.s"
+.include "src/nonlinear/room-edits/sector-6/room-10.s"
+.include "src/nonlinear/room-edits/sector-6/room-18.s"
 .include "src/nonlinear/room-edits/sector-6/room-1B.s"
+.include "src/nonlinear/room-edits/sector-6/room-1C.s"
