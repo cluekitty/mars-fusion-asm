@@ -47,6 +47,8 @@
 .include "src/nonlinear/room-edits/sector-2/room-0D-2E.s"
 .include "src/nonlinear/room-edits/sector-2/room-0E.s"
 .include "src/nonlinear/room-edits/sector-2/room-11.s"
+.include "src/nonlinear/room-edits/sector-2/room-12.s"
+.include "src/nonlinear/room-edits/sector-2/room-14-22.s"
 .include "src/nonlinear/room-edits/sector-2/room-1B.s"
 .include "src/nonlinear/room-edits/sector-2/room-20-and-23.s"
 .include "src/nonlinear/room-edits/sector-2/room-32.s"
