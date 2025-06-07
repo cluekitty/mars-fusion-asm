@@ -5,6 +5,7 @@
 ### Randomizer
 - Fixed: Room-based sound effects no longer continue playing after warping to start.
 - Changed: Minimaps will now show connecting sectors via patcher changes.
+- Changed: Extendable pillars will now show location and extension direction when revealed tiles are enabled.
 
 ## 0.5.1 - 2025-05-22
 

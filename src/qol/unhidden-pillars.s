@@ -1,18 +1,9 @@
-; 0837AB8Ch ; horizontal gfx
-; 0837A984h ; vertical gfx
+; Edits the extendable pillar functionality to allow showing additional graphics
+; when the `RevealHiddenTilesFlag` is set to enabled
 
-
-
-.org 0837A984h
-.area 8
-@VerticalVanillaPillarOamPointer:
-    .skip 8
-.endarea
-.org 0837AB8Ch
-.area 8
-@HorizontalVanillaPillarOamPointer:
-    .skip 8
-.endarea
+; `equ` cannot be used in files conditionally loaded.
+.definelabel @VerticalVanillaPillarOamPointer, 0837A984h
+.definelabel @HorizontalVanillaPillarOamPointer, 0837AB8Ch
 
 .autoregion
     .aligna 4
@@ -26,12 +17,6 @@
     .dd     0
 .endautoregion
 
-; OAM Data Pointer Format
-; .dw Pointer, Timer (in frames, specify 0FFh for no animation)
-; repeat above for each frame
-; .dd 0 ; mark end with null DWORD
-
-
 .autoregion
   .aligna 4
 @VerticalRevealedPillarOamData:
@@ -39,27 +24,20 @@
     .dh     (OBJ0_YCoordinate & 0F0h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
     .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_16x16
     .dh     (OBJ2_Character   & 21Ah) | OBJ2_Priority_Highest | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
-    ;.incbin "metroid4.gba", (readptr(0837A984h) + 2) & 7FFFFFh, 06h
 
 @HorizontalRevealedPillarOamData:
     .dh     001h
     .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
     .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_16x16
     .dh     (OBJ2_Character   & 21Ch) | OBJ2_Priority_Highest | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
-    ;.incbin "metroid4.gba", (readptr(0837AB8Ch) + 2) & 7FFFFFh, 06h
 .endautoregion
 
 
 .org 08379AF8h
 .incbin "data/pillar.gfx"
 
-.org 0804AD8Ah
-.area 4
-    bl      PillarInit
-.endarea
-
-
-; Rewrites the vanilla function and stores additional information for
+; Rewrites the vanilla PillarInit function. Allows dynamic loading of OAM data
+; when RevealHiddenTilesFlag is true.
 .org 0804AA48h
 .area 118h, 0
     .align  2
@@ -84,27 +62,25 @@
     beq     @@horizontal_flipped
     b       @@no_match
 
-@@vertical: ; slot/prop = 11h
-    strh    r5, [r6, #Sprite_BboxBottom] ; Sprite_BboxBottom = 0
+@@vertical:
+    strh    r5, [r6, #Sprite_BboxBottom]
     mov     r1, #40h
     mov     r2, #Sprite_DrawDistanceTop
     add     r2, r2, r6
-    strb    r1, [r2] ; Sprite_DrawDistanceTop = 040h
-    strb    r5, [r2, #Sprite_DrawDistanceBottom - Sprite_DrawDistanceTop] ; Sprite_DrawDistanceBottom = 0
+    strb    r1, [r2]
+    strb    r5, [r2, #Sprite_DrawDistanceBottom - Sprite_DrawDistanceTop]
     mov     r1, #8
-    strb    r1, [r2, #Sprite_DrawDistanceHorizontal - Sprite_DrawDistanceTop] ; Sprite_DrawDistanceHorizontal = 008h
-    strb    r5, [r2, #Sprite_Work0 - Sprite_DrawDistanceTop] ; Sprite_Work0 = 0
+    strb    r1, [r2, #Sprite_DrawDistanceHorizontal - Sprite_DrawDistanceTop]
+    strb    r5, [r2, #Sprite_Work0 - Sprite_DrawDistanceTop]
     sub     r1, #1
     lsl     r1, #2
-    strh    r1, [r6, #Sprite_BboxRight] ; Sprite_BboxRight = 01Ch
+    strh    r1, [r6, #Sprite_BboxRight]
     neg     r1, r1
     lsl     r1, #10h
     lsr     r1, #10h
-    strh    r1, [r6, #Sprite_BboxLeft] ; Sprite_BboxLeft = -01Ch
+    strh    r1, [r6, #Sprite_BboxLeft]
     sub     r1, #20h
-    strh    r1, [r6, #Sprite_BboxTop] ; Sprite_BboxTop = -03Ch
-
-; Sprite_OamPointer = VerticalVanilla or VerticalRevealed
+    strh    r1, [r6, #Sprite_BboxTop]
     cmp     r4, #1
     bne     @@load_vanilla_vertical_pillar_oam
 @@load_revealed_vertical_pillar_oam:
@@ -122,55 +98,53 @@
 @@cont_vertical:
     ldr     r0, [r6]
     orr     r1, r0
-    strh    r1, [r6, #Sprite_Status] ; Sprite_Status = Sprite_Status | (r1)
+    strh    r1, [r6, #Sprite_Status]
     b       @@all_common
 
 
-@@horizontal_flipped: ; slot/prop = 13h
-    strh    r5, [r6, #Sprite_BboxLeft] ; Sprite_BboxLeft = 0
+@@horizontal_flipped:
+    strh    r5, [r6, #Sprite_BboxLeft]
     mov     r1, #40h
-    strh    r1, [r6, #Sprite_BboxRight] ; Sprite_BboxRight = 040Ch
+    strh    r1, [r6, #Sprite_BboxRight]
     ldrh    r0, [r6, #Sprite_XPosition]
     sub     r0, #20h
-    strh    r0, [r6, #Sprite_XPosition] ; Sprite_xPosition = Sprite_xPosition - 020h
+    strh    r0, [r6, #Sprite_XPosition]
     b       @@horizontal_common
 
-@@horizontal: ; slot/prop = 12h
+@@horizontal:
     mov     r1, #40h
     neg     r1, r1
     lsl     r1, #10h
     lsr     r1, #10h
-    strh    r1, [r6, #Sprite_BboxLeft] ; Sprite_BboxLeft = -040h
-    strh    r5, [r6, #Sprite_BboxRight] ; Sprite_BboxRight = 0
+    strh    r1, [r6, #Sprite_BboxLeft]
+    strh    r5, [r6, #Sprite_BboxRight]
     ldrh    r0, [r6, #Sprite_XPosition]
     add     r0, #20h
-    strh    r0, [r6, #Sprite_XPosition] ; Sprite_XPosition = Sprite_XPosition + 020h
+    strh    r0, [r6, #Sprite_XPosition]
     mov     r1, #SpriteStatus_XFlip
     ldrh    r0, [r6, #Sprite_Status]
     orr     r1, r0
-    strh    r1, [r6, #Sprite_Status] ; Sprite_Status = Sprite_Status | XFlip
+    strh    r1, [r6, #Sprite_Status]
 
 @@horizontal_common:
     mov     r1, #8
     mov     r2, #Sprite_DrawDistanceTop
     add     r2, r2, r6
-    strb    r1, [r2, #Sprite_DrawDistanceTop - Sprite_DrawDistanceTop] ; Sprite_DrawDistanceTop = 008h
-    strb    r1, [r2, #Sprite_DrawDistanceBottom - Sprite_DrawDistanceTop] ; Sprite_DrawDistanceBottom = 008h
+    strb    r1, [r2, #Sprite_DrawDistanceTop - Sprite_DrawDistanceTop]
+    strb    r1, [r2, #Sprite_DrawDistanceBottom - Sprite_DrawDistanceTop]
     sub     r1, #7
-    strb    r1, [r2, #Sprite_Work0 - Sprite_DrawDistanceTop] ; Sprite_Work0 = 1
+    strb    r1, [r2, #Sprite_Work0 - Sprite_DrawDistanceTop]
     mov     r1, #40h
-    strb    r1, [r2, #Sprite_DrawDistanceHorizontal - Sprite_DrawDistanceTop] ; Sprite_DrawDistanceHorizontal = 040h
+    strb    r1, [r2, #Sprite_DrawDistanceHorizontal - Sprite_DrawDistanceTop]
     mov     r1, #1Ch
-    strh    r1, [r6, #Sprite_BboxBottom] ; Sprite_BboxBottom = 01Ch
+    strh    r1, [r6, #Sprite_BboxBottom]
     neg     r1, r1
     lsl     r1, 10h
     lsr     r1, 10h
-    strh    r1, [r6, #Sprite_BboxTop] ; Sprite_BboxTop = -01Ch
+    strh    r1, [r6, #Sprite_BboxTop]
     ldrh    r0, [r6, #Sprite_YPosition]
     sub     r0, #20h
-    strh    r0, [r6, #Sprite_YPosition] ; Sprite_YPosition = Sprite_YPosition - 020h
-
-; Sprite_OamPointer = HorizontalVanilla or HorizontalRevealed
+    strh    r0, [r6, #Sprite_YPosition]
     cmp     r4, #1
     bne     @@load_vanilla_horizontal_pillar_oam
 @@load_revealed_horizontal_pillar_oam:
@@ -189,24 +163,25 @@
 @@cont_horizontal:
     ldr     r0, [r6]
     orr     r1, r0
-    strh    r1, [r6, #Sprite_Status] ; Sprite_Status = Sprite_Status | (r1)
+    strh    r1, [r6, #Sprite_Status]
     b       @@all_common
 
 @@all_common:
     str     r3, [r6, #Sprite_OamPointer]
     mov     r3, #Sprite_Health
     add     r2, r6, r3
-    strh    r5, [r2]    ; Sprite_Health = 0
-    strb    r5, [r2, #Sprite_AnimationFrame - Sprite_Health] ; Sprite_AnimationFrame = 0
-    strb    r5, [r2, #Sprite_AnimationCounter - Sprite_Health] ; Sprite_AnimationCounter = 0
-    strb    r5, [r2, #Sprite_SamusCollision - Sprite_Health] ; Sprite_SamusCollision = None (0)
+    strh    r5, [r2]
+    strb    r5, [r2, #Sprite_AnimationFrame - Sprite_Health]
+    strb    r5, [r2, #Sprite_AnimationCounter - Sprite_Health]
+    strb    r5, [r2, #Sprite_SamusCollision - Sprite_Health]
     add     r5, #1
-    strb    r5, [r2, #Sprite_Pose - Sprite_Health] ; Sprite_Pose = 1
+    strb    r5, [r2, #Sprite_Pose - Sprite_Health]
     b       @@return
 
 @@no_match:
     mov     r0, #0
-    strh    r5, [r6] ; Sprite_Status = 0
+    strh    r5, [r6]
+
 @@return:
     pop     { r4-r6 }
     pop     { r0 }
@@ -214,3 +189,77 @@
     .pool
 .endfunc
 .endarea
+
+
+; Hijacks code in Pillar Extending code
+.org 0804ABF4h
+.area 6h, 0
+    bl      @VerticalExtendingPillar
+.endarea
+
+.org 0804ABECh
+.area 6h, 0
+    bl      @HorizontalFlippedExtendingPillar
+.endarea
+
+.org 0804ABE0h
+.area 6h, 0
+    bl      @HorizontalExtendingPillar
+.endarea
+
+.autoregion
+    .align 2
+@VerticalExtendingPillar:
+    ldr     r0, =RevealHiddenTilesFlag
+    ldrb    r0, [r0]
+    cmp     r0, #1
+    bne     @@vertical_extending
+    ldr     r1, =@VerticalVanillaPillarOamPointer
+    str     r1, [r2, #Sprite_OamPointer]
+    mov     r1, #Sprite_BgPriority
+    add     r1, r2, r1
+    mov     r0, #2
+    strb    r0, [r1]
+@@vertical_extending:
+    ldrh    r0, [r2, #Sprite_YPosition]
+    sub     r0, #4
+    strh    r0, [r2, #Sprite_YPosition]
+    bx      lr
+    .pool
+
+@HorizontalFlippedExtendingPillar:
+    ldr     r0, =RevealHiddenTilesFlag
+    ldrb    r0, [r0]
+    cmp     r0, #1
+    bne     @@horizontal_flipped_extending
+    ldr     r1, =@HorizontalVanillaPillarOamPointer
+    str     r1, [r2, #Sprite_OamPointer]
+    mov     r1, #Sprite_BgPriority
+    add     r1, r2, r1
+    mov     r0, #2
+    strb    r0, [r1]
+@@horizontal_flipped_extending:
+    ldrh    r0, [r2, #Sprite_XPosition]
+    add     r0, #4
+    strh    r0, [r2, #Sprite_XPosition]
+    bx      lr
+    .pool
+
+@HorizontalExtendingPillar:
+    ldr     r0, =RevealHiddenTilesFlag
+    ldrb    r0, [r0]
+    cmp     r0, #1
+    bne     @@horizontal_flipped_extending
+    ldr     r1, =@HorizontalVanillaPillarOamPointer
+    str     r1, [r2, #Sprite_OamPointer]
+    mov     r1, #Sprite_BgPriority
+    add     r1, r2, r1
+    mov     r0, #2
+    strb    r0, [r1]
+@@horizontal_flipped_extending:
+    ldrh    r0, [r2, #Sprite_XPosition]
+    sub     r0, #4
+    strh    r0, [r2, #Sprite_XPosition]
+    bx      lr
+    .pool
+.endautoregion
