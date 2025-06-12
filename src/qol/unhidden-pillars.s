@@ -8,33 +8,144 @@
 .autoregion
     .aligna 4
 @VerticalRevealedPillarOamPointer:
-    .dw     @VerticalRevealedPillarOamData
-    .dw     0FFh
+    .dw     @VerticalRevealedPillarFrame1OamData
+    .dW     0Eh
+    .dw     @VerticalRevealedPillarFrame2OamData
+    .dw     14h
+    .dw     @VerticalRevealedPillarFrame1OamData
+    .dw     0Eh
+    .dw     @VerticalRevealedPillarFrame2OamData
+    .dw     0Eh
+    .dw     @VerticalRevealedPillarFrame3OamData
+    .dw     4Bh
+    .dw     @VerticalRevealedPillarFrame2OamData
+    .dw     0Eh
     .dd     0
 @HorizontalRevealedPillarOamPointer:
-    .dw     @HorizontalRevealedPillarOamData
-    .dw     0FFh
+    .dw     @HorizontalRevealedPillarFrame1OamData
+    .dW     0Eh
+    .dw     @HorizontalRevealedPillarFrame2OamData
+    .dw     14h
+    .dw     @HorizontalRevealedPillarFrame1OamData
+    .dW     0Eh
+    .dw     @HorizontalRevealedPillarFrame2OamData
+    .dw     0Eh
+    .dw     @HorizontalRevealedPillarFrame3OamData
+    .dw     4Bh
+    .dw     @HorizontalRevealedPillarFrame2OamData
+    .dw     0Eh
     .dd     0
 .endautoregion
 
+; Note: OBJ Priority for sprites is forced through the sprite rendering function
+; and has no effect on the OAM pieces defined. Thus it is not necessary to include
+; them here.
 .autoregion
   .aligna 4
-@VerticalRevealedPillarOamData:
-    .dh     001h
+@VerticalRevealedPillarFrame1OamData:
+    .dh     004h
+    ;--- top side
     .dh     (OBJ0_YCoordinate & 0F0h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
-    .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_16x16
-    .dh     (OBJ2_Character   & 21Ah) | OBJ2_Priority_Highest | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 218h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F0h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_8x8 | OBJ1_XFlip
+    .dh     (OBJ2_Character   & 218h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    ;--- bottom side
+    .dh     (OBJ0_YCoordinate & 0F7h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 21Bh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F7h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_8x8 | OBJ1_XFlip
+    .dh     (OBJ2_Character   & 21Bh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@VerticalRevealedPillarFrame2OamData:
+    .dh     004h
+    ;--- top side
+    .dh     (OBJ0_YCoordinate & 0F0h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 219h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F0h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_8x8 | OBJ1_XFlip
+    .dh     (OBJ2_Character   & 219h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    ;--- bottom side
+    .dh     (OBJ0_YCoordinate & 0F7h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 21Ch) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F7h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_8x8 | OBJ1_XFlip
+    .dh     (OBJ2_Character   & 21Ch) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@VerticalRevealedPillarFrame3OamData:
+    .dh     004h
+    ;--- top side
+    .dh     (OBJ0_YCoordinate & 0F0h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 21Ah) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F0h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_8x8 | OBJ1_XFlip
+    .dh     (OBJ2_Character   & 21Ah) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    ;--- bottom side
+    .dh     (OBJ0_YCoordinate & 0F7h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 1F8h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 21Dh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F7h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_8x8 | OBJ1_XFlip
+    .dh     (OBJ2_Character   & 21Dh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
 
-@HorizontalRevealedPillarOamData:
-    .dh     001h
+@HorizontalRevealedPillarFrame1OamData:
+    .dh     004h
+    ;--- top side
+    .dh     (OBJ0_YCoordinate & 000h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 008h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 238h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
     .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
-    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_16x16
-    .dh     (OBJ2_Character   & 21Ch) | OBJ2_Priority_Highest | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ1_XCoordinate & 008h) | OBJ1_Size_8x8 | OBJ1_YFlip
+    .dh     (OBJ2_Character   & 238h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    ;--- bottom side
+    .dh     (OBJ0_YCoordinate & 000h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 001h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 23Bh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 001h) | OBJ1_Size_8x8 | OBJ1_YFlip
+    .dh     (OBJ2_Character   & 23Bh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalRevealedPillarFrame2OamData:
+    .dh     004h
+    ;--- top side
+    .dh     (OBJ0_YCoordinate & 000h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 008h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 239h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 008h) | OBJ1_Size_8x8 | OBJ1_YFlip
+    .dh     (OBJ2_Character   & 239h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    ;--- bottom side
+    .dh     (OBJ0_YCoordinate & 000h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 001h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 23Ch) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 001h) | OBJ1_Size_8x8 | OBJ1_YFlip
+    .dh     (OBJ2_Character   & 23Ch) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalRevealedPillarFrame3OamData:
+    .dh     004h
+    ;--- top side
+    .dh     (OBJ0_YCoordinate & 000h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 008h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 23Ah) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 008h) | OBJ1_Size_8x8 | OBJ1_YFlip
+    .dh     (OBJ2_Character   & 23Ah) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    ;--- bottom side
+    .dh     (OBJ0_YCoordinate & 000h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 001h) | OBJ1_Size_8x8
+    .dh     (OBJ2_Character   & 23Dh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 001h) | OBJ1_Size_8x8 | OBJ1_YFlip
+    .dh     (OBJ2_Character   & 23Dh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
 .endautoregion
 
 
 .org 08379AF8h
+.area 800h
 .incbin "data/pillar.gfx"
+.endarea
 
 ; Rewrites the vanilla PillarInit function. Allows dynamic loading of OAM data
 ; when RevealHiddenTilesFlag is true.
@@ -100,7 +211,6 @@
     orr     r1, r0
     strh    r1, [r6, #Sprite_Status]
     b       @@all_common
-
 
 @@horizontal_flipped:
     strh    r5, [r6, #Sprite_BboxLeft]
