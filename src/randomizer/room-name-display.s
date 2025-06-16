@@ -41,8 +41,8 @@
 .endarea
 
 .autoregion
+.align 4
 RoomNames:
-    .align 4
     .dw     Names_MainDeck
     .dw     Names_Sector1
     .dw     Names_Sector2
