@@ -13,7 +13,7 @@
 
 .func @LoadRoomName
     push    { r0 }
-    ldr     r2, =RoomNamesAddr
+    ldr     r2, =RoomNames
     ldr     r0, =CurrArea
     ldrb    r0, [r0]
     lsl     r0, #2
@@ -35,21 +35,26 @@
 .pool
 .endautoregion
 
-.org RoomNamesAddr
-.area 1Ch
-    .align 4
-    .dw     @@Names_MainDeck
-    .dw     @@Names_Sector1
-    .dw     @@Names_Sector2
-    .dw     @@Names_Sector3
-    .dw     @@Names_Sector4
-    .dw     @@Names_Sector5
-    .dw     @@Names_Sector6
+.org RoomNamesPointer
+.area 04h
+    .dw     RoomNames
 .endarea
 
 .autoregion
+RoomNames:
     .align 4
-@@Names_MainDeck:
+    .dw     Names_MainDeck
+    .dw     Names_Sector1
+    .dw     Names_Sector2
+    .dw     Names_Sector3
+    .dw     Names_Sector4
+    .dw     Names_Sector5
+    .dw     Names_Sector6
+.endautoregion
+
+.autoregion
+    .align 4
+Names_MainDeck:
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
@@ -76,7 +81,7 @@
 
 .autoregion
     .align 4
-@@Names_Sector1:
+Names_Sector1:
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
@@ -95,7 +100,7 @@
 
 .autoregion
     .align 4
-@@Names_Sector2:
+Names_Sector2:
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
@@ -116,7 +121,7 @@
 
 .autoregion
     .align 4
-@@Names_Sector3:
+Names_Sector3:
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
@@ -131,7 +136,7 @@
 
 .autoregion
     .align 4
-@@Names_Sector4:
+Names_Sector4:
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
@@ -148,7 +153,7 @@
 
 .autoregion
     .align 4
-@@Names_Sector5:
+Names_Sector5:
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
@@ -166,7 +171,7 @@
 
 .autoregion
     .align 4
-@@Names_Sector6:
+Names_Sector6:
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom
     .dw     @UnknownRoom, @UnknownRoom, @UnknownRoom, @UnknownRoom

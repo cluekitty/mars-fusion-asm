@@ -171,14 +171,19 @@
     ; force recalculate bg position when loading save
 .endarea
 
-.org StartingLocation
-.area StartingLocation_Size
+.autoregion
+StartingLocation:
     .db     Area_MainDeck
     .db     00h
     .db     00h
     .skip 1
     .dh     640h
     .dh     1DFh
+.endautoregion
+
+.org StartingLocationPointer
+.area 04h
+    .dw     StartingLocation
 .endarea
 
 ; Set the starting location area into Non-Gameplay RAM when drawing file select screen

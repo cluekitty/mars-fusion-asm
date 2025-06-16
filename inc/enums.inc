@@ -189,6 +189,8 @@ Message_Auto equ 0FFh
 Tank_Missiles equ 1
 Tank_Energy equ 2
 Tank_PowerBombs equ 3
+Tank_MissileDataIncrement equ 4
+Tank_PowerBombDataIncrement equ 5
 
 SamusPose_WallJumping equ 16h
 SamusPose_ScrewAttacking equ 1Eh
