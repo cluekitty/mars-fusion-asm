@@ -458,8 +458,8 @@
 .endarea
 
 .autoregion
-MinorLocationTable:
     .align 4
+MinorLocationTable:
     .dw     @@Items_MainDeck
     .dw     @@Items_Sector1
     .dw     @@Items_Sector2
@@ -684,7 +684,7 @@ MinorLocations:
     .db     06h, 09h
     .db     Upgrade_InfantMetroid
     .db     UpgradeSprite_InfantMetroid
-    .db     Message_Auto    
+    .db     Message_Auto
 @Items_MainDeck_Room48:
     .db     Area_MainDeck, 48h, 0
     .db     0Dh, 09h

@@ -6,6 +6,7 @@
 - Fixed: Room-based sound effects no longer continue playing after warping to start.
 - Changed: Minimaps will now show connecting sectors via patcher changes.
 - Changed: Extendable pillars will now show location and extension direction when revealed tiles are enabled. (Credit for Graphics to Raddley Vance)
+- Fixed: Missile and Power Bomb Data will now increment with each obtained major upgrade.
 
 ### Visual
 - Changed: The item select screen will show obtained missile upgrades before main missile data is obtained. Ammo counts for Missiles and PBs will always show.
