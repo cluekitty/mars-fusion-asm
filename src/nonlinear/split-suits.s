@@ -132,14 +132,19 @@
     .pool
 .endarea
 
-.org EnvironmentalHazardDps
-.area 05h
+.org EnvironmentalHazardDpsPointer
+.area 04h
+    .dw     EnvironmentalHazardDps
+.endarea
+
+.autoregion
+EnvironmentalHazardDps:
     .db     20  ; lava
     .db     60  ; acid
     .db     6   ; heat
     .db     15  ; subzero
     .db     6   ; cold
-.endarea
+.endautoregion
 
 ; Repoint VFX check to actually look at the VFX RAM value
 .org 0800BDB6h

@@ -94,9 +94,14 @@
     .pool
 .endarea
 
-.org MissileLimit
-.area 01h
+.autoregion
+MissileLimit:
     .db     3
+.endautoregion
+
+.org MissileLimitPointer
+.area 04h
+    .dw     MissileLimit
 .endarea
 
 ; modified LoadMissileGfx function

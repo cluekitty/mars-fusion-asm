@@ -51,27 +51,27 @@ HintTargets equ 085766ECh
 Credits equ 0874B0B0h
 MessageTableLookupAddr equ 0879CDF4h ; This is not the location of the table itself. The pointers, offset by language, at this location will be the table location
 
-; Reserved space addresses. Used by the patcher to know where it should write
+; Reserved space addresses/pointers. Used by the patcher to know where it should write
 ; data to. The first address here should be used below when defining the free
 ; space region for the asm to use
 PatcherFreeSpace equ 087D0000h
 CreditsMusicSpace equ 087F0000h ; takes up 0x14E0h
 FutureReservedSpace equ 087F14E0h
 FutureReservedSpace_Len equ 0DB20h
-MinorLocationTable equ 087FF000h
-MajorLocationsPointerAddr equ 087FF01Ch
-TankIncrements equ 087FF046h
-TotalMetroidCount equ 087FF04Ch
-RequiredMetroidCount equ 087FF04Dh
-StartingLocation equ 087FF04Eh
-CreditsEndDelay equ 087FF056h
-CreditsScrollSpeed equ 087FF058h
-HintSecurityLevels equ 087FF059h
-EnvironmentalHazardDps equ 087FF065h
-MissileLimit equ 087FF06Ah
-MinorLocationsAddr equ 087FF06Ch
-RoomNamesAddr equ 087FF070h
-RevealHiddenTilesFlag equ 087FF08Ch
+
+;Pointers
+MinorLocationTablePointer       equ 087FF000h
+MinorLocationsPointer           equ 087FF004h
+MajorLocationsPointer           equ 087FF008h
+TankIncrementsPointer           equ 087FF00Ch
+MetroidCountPointer             equ 087FF010h
+StartingLocationPointer         equ 087FF014h
+CreditsParametersPointer        equ 087FF018h
+HintSecurityLevelsPointer       equ 087FF01Ch
+EnvironmentalHazardDpsPointer   equ 087FF020h
+MissileLimitPointer             equ 087FF024h
+RoomNamesPointer                equ 087FF028h
+RevealHiddenTilesFlagPointer    equ 087FF02Ch
 
 ; Mark end-of-file padding as free space
 EOF equ 0879ECC8h

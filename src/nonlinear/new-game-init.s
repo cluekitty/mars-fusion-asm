@@ -133,9 +133,12 @@
     strh    r0, [r2, SaveMeta_CurrEnergy]
     ldrh    r0, [r1, SamusUpgrades_MaxEnergy]
     strh    r0, [r2, SaveMeta_MaxEnergy]
+    ; Set both current and max missiles to what's in CurrMissiles in the Starting Items Struct
+    ; This value has been repurposed to be "Starting Ammo", with MaxMissiles repurposed as
+    ; the increment when Missile Data is obtained.
     ldrh    r0, [r1, SamusUpgrades_CurrMissiles]
     strh    r0, [r2, SaveMeta_CurrMissiles]
-    ldrh    r0, [r1, SamusUpgrades_MaxMissiles]
+    ldrh    r0, [r1, SamusUpgrades_CurrMissiles]
     strh    r0, [r2, SaveMeta_MaxMissiles]
     ldrb    r0, [r1, SamusUpgrades_SuitUpgrades]
     strb    r0, [r2, SaveMeta_SuitUpgrades]

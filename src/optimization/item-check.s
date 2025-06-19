@@ -452,9 +452,14 @@
     bl  InitializeSavedata
     b   0807F222h
 
-.org MinorLocationTable
-.area 1Ch
+.org MinorLocationTablePointer
+.area 04h
+    .dw     MinorLocationTable
+.endarea
+
+.autoregion
     .align 4
+MinorLocationTable:
     .dw     @@Items_MainDeck
     .dw     @@Items_Sector1
     .dw     @@Items_Sector2
@@ -462,14 +467,12 @@
     .dw     @@Items_Sector4
     .dw     @@Items_Sector5
     .dw     @@Items_Sector6
-.endarea
 
 ; Sector items structure:
 ; - Sorted array of rooms containing items
 ; - Array of indices indicating the first item in each room, plus one extra
 ;   indicating the final item of the last room
 
-.autoregion
 @@Items_MainDeck:
     .db     07h, 11h, 23h, 26h, 2Dh, 2Eh, 2Fh, 32h
     .db     33h, 39h, 45h, 47h, 48h, 49h, 54h
@@ -681,7 +684,7 @@ MinorLocations:
     .db     06h, 09h
     .db     Upgrade_InfantMetroid
     .db     UpgradeSprite_InfantMetroid
-    .db     Message_Auto    
+    .db     Message_Auto
 @Items_MainDeck_Room48:
     .db     Area_MainDeck, 48h, 0
     .db     0Dh, 09h
@@ -1221,7 +1224,7 @@ MinorLocations:
     .db     Message_Auto
 .endautoregion
 
-.org MinorLocationsAddr
+.org MinorLocationsPointer
 .area 04h
     .dw     MinorLocations
 .endarea
