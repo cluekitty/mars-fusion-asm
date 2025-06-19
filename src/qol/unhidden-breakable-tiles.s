@@ -329,5 +329,3 @@ if (r0 >= ClipdataTile_VerticalBombChain1 and
     .pool
 .endfunc
 .endautoregion
-
-.include "src/qol/unhidden-pillars.s"

@@ -118,14 +118,13 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/qol/skip-ending.s"
 .include "src/qol/skip-intro.s"
 .include "src/qol/unhidden-breakable-tiles.s"
-
 .if UNHIDDEN_MAP
 .include "src/qol/unhidden-map.s"
 .endif
 .if UNHIDDEN_MAP_DOORS
 .include "src/qol/unhidden-map-doors.s"
 .endif
-
+.include "src/qol/unhidden-pillars.s"
 .endif
 
 ; Physics patches
