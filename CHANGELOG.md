@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-XX-XX
 
+## 0.6.0 - 2025-06-20
+
 ### Randomizer
 - Fixed: Room-based sound effects no longer continue playing after warping to start.
 - Changed: Minimaps will now show connecting sectors via patcher changes.
