@@ -129,8 +129,8 @@ CurrentSprite equ 030006BCh
 SpriteList equ 03000140h
 .sym off
 Sprite_Status equ 00h
-Sprite_PositionX equ 02h
-Sprite_PositionY equ 04h
+Sprite_YPosition equ 02h
+Sprite_XPosition equ 04h
 Sprite_XParasiteTimer equ 06h
 Sprite_Unk08 equ 08h
 Sprite_BboxTop equ 0Ah
@@ -373,6 +373,17 @@ RoomTanks_LocationIndex equ 02h
 RoomTanks_Sprite equ 03h
 .sym on
 
+TilesetEntry equ 083BF888h
+.sym off
+TilesetEntry_RlebgGfxPointer equ 00h
+TilesetEntry_BackgroundPalettePointer equ 04h
+TilesetEntry_LZ77BackgroundPointer equ 08h
+TilesetEntry_TilemapPointer equ 0Ch
+TilesetEntry_AnimatedTileset equ 10h
+TilesetEntry_AnimatedPalette equ 11h
+TilesetEntry_Size equ 14h
+.sym on
+
 MainDeckDoors equ 083C0030h
 Sector1Doors equ 083C09D8h
 Sector2Doors equ 083C0F48h
@@ -554,6 +565,7 @@ LevelMeta_Spriteset2 equ 30h
 LevelMeta_Spriteset2Id equ 34h
 LevelMeta_MapX equ 35h
 LevelMeta_MapY equ 36h
+LevelMeta_Effect equ 37h
 LevelMeta_Music equ 3Ah
 LevelMeta_Size equ 3Ch
 .sym on
@@ -651,14 +663,14 @@ MajorUpgradeInfo_Message equ 02h
 .sym on
 
 .sym off
-MajorLocations_Len equ 21
+MajorLocations_Len equ 23
 MajorLocation_Upgrade equ 00h
 MajorLocation_Message equ 01h
 MajorLocation_Size equ 02h
 .sym on
 
 .sym off
-MinorLocations_Len equ 100
+MinorLocations_Len equ 103
 MinorLocation_Area equ 00h
 MinorLocation_Room equ 01h
 MinorLocation_RoomIndex equ 02h

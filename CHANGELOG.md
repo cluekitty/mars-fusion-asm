@@ -1,6 +1,40 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+- Fixed: Horizontal Extendable pillars in Pillar Highway will no longer have glitchy graphics after extending and overlapping with certain arrows when revealed tiles are enabled.
+
+## 0.6.0 - 2025-06-20
+
+### Randomizer
+- Fixed: Room-based sound effects no longer continue playing after warping to start.
+- Changed: Minimaps will now show connecting sectors via patcher changes.
+- Changed: Extendable pillars will now show location and extension direction when revealed tiles are enabled. (Credit for Graphics to Raddley Vance)
+- Fixed: Missile and Power Bomb Data will now increment with each obtained major upgrade.
+
+### Visual
+- Changed: The item select screen will show obtained missile upgrades before main missile data is obtained. Ammo counts for Missiles and PBs will always show.
+
+## 0.5.1 - 2025-05-22
+
+### Room Adjustments
+- Changed: Sector 2 Eastern Shaft now has reforming speed booster blocks on the newly added ledge. The room also has had minor tiling tweaks.
+- Changed: Sector 6 Big Shell 1 is now in the "Post-SAX" destroyed state, allowing traversal of the room without power bombs. It is now always included regardless of Anti-softlock settings.
+
+### Visual
+- Added: Minimap tiles have been added to allow for new events and fixes to vanilla map. Map will be updated in the patcher. (Credit to Raddley Vance)
+- Changed: Minor tweaks to the data room and recharge room tile maps for visual inconsistencies. (Credit to Raddley Vance)
+
+## 0.5.0 - 2025-05-15
+
+### Gameplay Modifications
+- Added: The events for cooling the Boiler, freeing the Animals, and turning on Auxiliary Power now give items.
+
+### Room modifications
+#### Main Deck
+- Changed: Subzero Containment has been changed. The wall is removed between the right entrance and Ridley. Ridley will crumble when Samus approaches from the right. Exit to Genesis Speedway will not appear. Environmental damage has been changed to Cold with Knockback. Door to Subzero Containment now is Level 3.
+
+### Randomizer
+- Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room will play SA-X Ambience instead of Go-Mode music if go-mode conditions are satisifed. Main Deck Data room will not change the music if the SA-X has been defeated.
 
 ### Randomizer
 - Added: Provided a message ID (0x38h) which will display the Infant Metroid message for one Metroid greater than current count.

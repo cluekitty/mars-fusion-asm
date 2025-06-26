@@ -253,8 +253,26 @@
     ldrb    r0, [r0]
     cmp     r0, Area_MainDeck
     bne     @@return
+    ldr     r0, =CurrRoom
+    ldrb    r0, [r0]
+    cmp     r0, 27h ; operations deck data room
+    beq     @@play_sax_ambience
+    cmp     r0, 2Ch ; operations deck save room
+    beq     @@return
+    cmp     r0, 51h ; operations deck recharge room
+    beq     @@return
+@@play_final_mission:
     mov     r0, MusicTrack_FinalMission
     mov     r1, MusicType_MainDeck
+    b       @@play_music
+@@play_sax_ambience:
+    mov     r0, #Event_SaxDefeated
+    bl      CheckEvent
+    cmp     r0, #1
+    beq     @@return
+    mov     r0, MusicTrack_SaxHiding
+    mov     r1, MusicType_BossAmbience
+@@play_music:
     bl      Music_Play
 @@return:
     pop     { pc }
@@ -467,6 +485,13 @@
 .org 0840CDB2h + 53h * 8
     .dh     0E050h, 0E051h, 0E052h, 0E053h, 0E054h, 0E055h, 0E056h, 0E057h, 0E058h, 0E059h, 0E05Ah, 0E05Bh
 .org 0840719Ch + 0Ch * 32
+    .dh     AltTankPal0, AltTankPal1, AltTankPal2, AltTankPal3, AltTankPal4, AltTankPal5, AltTankPal6, AltTankPal7
+    .dh     AltTankPal8, AltTankPal9, AltTankPalA, AltTankPalB, AltTankPalC, AltTankPalD, AltTankPalE, AltTankPalF
+
+; tileset 46
+.org 084657F6h + 53h * 8
+    .dh     0E050h, 0E051h, 0E052h, 0E053h, 0E054h, 0E055h, 0E056h, 0E057h, 0E058h, 0E059h, 0E05Ah, 0E05Bh
+.org 0846E134h + 0Ch * 32
     .dh     AltTankPal0, AltTankPal1, AltTankPal2, AltTankPal3, AltTankPal4, AltTankPal5, AltTankPal6, AltTankPal7
     .dh     AltTankPal8, AltTankPal9, AltTankPalA, AltTankPalB, AltTankPalC, AltTankPalD, AltTankPalE, AltTankPalF
 

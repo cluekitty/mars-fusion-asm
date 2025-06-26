@@ -190,6 +190,8 @@ Message_Auto equ 0FFh
 Tank_Missiles equ 1
 Tank_Energy equ 2
 Tank_PowerBombs equ 3
+Tank_MissileDataIncrement equ 4
+Tank_PowerBombDataIncrement equ 5
 
 SamusPose_WallJumping equ 16h
 SamusPose_ScrewAttacking equ 1Eh
@@ -237,8 +239,18 @@ EnvironmentalHazard_Heat equ 4
 EnvironmentalHazard_Subzero equ 5
 EnvironmentalHazard_Cold equ 6
 
-SpriteStatus_Exists equ 0
-SpriteStatus_FacingRight equ 9
+SpriteStatus_Exists equ 1 << 0
+SpriteStatus_OnScreen equ 1 << 1
+SpriteStatus_NotDrawn equ 1 << 2
+SpriteStatus_EnableMosaic equ 1 << 5
+SpriteStatus_XFlip equ 1 << 6
+SpriteStatus_RotationScaling equ 1 << 7
+SpriteStatus_YFlip equ 1 << 8
+SpriteStatus_FacingRight equ 1 << 9
+SpriteStatus_SamusDetected equ 1 << 10
+SpriteStatus_SamusColliding equ 1 << 11
+SpriteStatus_OnTop equ 1 << 12
+SpriteStatus_IgnoreProjectiles equ 1 << 15
 
 SpriteId_MessageBox equ 21h
 SpriteId_Arachnus_CoreXNucleus equ 3Fh
@@ -620,6 +632,9 @@ MajorLocation_AQASecurity equ 11h
 MajorLocation_AQAData equ 12h
 MajorLocation_XBox equ 13h
 MajorLocation_Ridley equ 14h
+MajorLocation_BoilerCooling equ 15h
+MajorLocation_AnimalsFreed equ 16h
+MajorLocation_AuxiliaryPower equ 17h
 MajorLocation_Invalid equ 0FFh
 
 StoryFlag_MissileHatch equ 0
@@ -631,6 +646,7 @@ StoryFlag_AnimalsFreed equ 5
 StoryFlag_AuxiliaryPower equ 6
 StoryFlag_RestrictedSectorDetached equ 7
 StoryFlag_SaxDefeated equ 8
+StoryFlag_RidleyCrumbled equ 9
 
 CreditsLineType_Blue equ 00h
 CreditsLineType_Red equ 01h

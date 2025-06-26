@@ -9,7 +9,7 @@
     ldr     r1, [r3, MiscProgress_MajorLocations]
     orr     r1, r2
     str     r1, [r3, MiscProgress_MajorLocations]
-    ldr     r1, =MajorLocations
+    ldr     r1, =MajorLocationItems
     lsl     r0, log2(MajorLocation_Size)
     add     r1, r0
     ldrb    r0, [r1, MajorLocation_Upgrade]
@@ -25,6 +25,60 @@
     ldrb    r0, [r1, MinorLocation_Upgrade]
     ldrb    r1, [r1, MinorLocation_Message]
     b       ObtainUpgrade
+    .pool
+.endfunc
+
+.func IncrementMissileCount
+; r0 contains the increment value.
+    push    { r0 - r4 }
+    ldr     r4, =SamusUpgrades
+    ldrh    r3, [r4, SamusUpgrades_CurrMissiles]
+    add     r3, r0
+    asr     r2, r3, #1Fh
+    bic     r3, r2
+    ldr     r1, =#0FFFFh
+    sub     r1, r3
+    asr     r1, #1Fh
+    orr     r3, r1
+    strh    r3, [r4, SamusUpgrades_CurrMissiles]
+    ldrh    r3, [r4, SamusUpgrades_MaxMissiles]
+    add     r3, r0
+    asr     r2, r3, #1Fh
+    bic     r3, r2
+    ldr     r1, =#0FFFFh
+    sub     r1, r3
+    asr     r1, #1Fh
+    orr     r3, r1
+    strh    r3, [r4, SamusUpgrades_MaxMissiles]
+    pop     { r0 - r4 }
+    bx      lr
+    .pool
+.endfunc
+
+.func IncrementPBCount
+; r0 contains the increment value.
+    push    { r0 - r4 }
+    ldr     r4, =SamusUpgrades
+    ldrb    r3, [r4, SamusUpgrades_CurrPowerBombs]
+    add     r3, r0
+    asr     r2, r3, #1Fh
+    bic     r3, r2
+    mov     r1, #0FFh
+    sub     r1, r3
+    asr     r1, #1Fh
+    orr     r3, r1
+    strb    r3, [r4, SamusUpgrades_CurrPowerBombs]
+    ldrb    r3, [r4, SamusUpgrades_MaxPowerBombs]
+    add     r3, r0
+    asr     r2, r3, #1Fh
+    bic     r3, r2
+    mov     r1, #255
+    sub     r1, r3
+    asr     r1, #1Fh
+    orr     r3, r1
+    strb    r3, [r4, SamusUpgrades_MaxPowerBombs]
+    pop     { r0 - r4 }
+    bx      lr
     .pool
 .endfunc
 
@@ -98,16 +152,35 @@
 @@checkMajor:
     cmp     r0, #Upgrade_IceBeam
     bhi     @@checkMinors
+    cmp     r0, #Upgrade_Missiles
+    beq     @@incrementMissileCountFromData
+    cmp     r0, #Upgrade_PowerBombs
+    beq     @@incrementPowerBombCountFromData
+    b       @@obtainMajor
+@@incrementMissileCountFromData:
+    ldr     r4, =TankIncrements
+    mov     r0, #(Tank_MissileDataIncrement - 1) << 1
+    ldrsh   r0, [r4, r0]
+    bl      IncrementMissileCount
+    mov     r0, #Upgrade_Missiles
+    b       @@obtainMajor
+@@incrementPowerBombCountFromData:
+    ldr     r4, =TankIncrements
+    mov     r0, #(Tank_PowerBombDataIncrement - 1) << 1
+    ldrsh   r0, [r4, r0]
+    bl      IncrementPBCount
+    mov     r0, #Upgrade_PowerBombs
+@@obtainMajor:
     ldr     r4, =MajorUpgradeInfo
     lsl     r0, #2
     add     r4, r0
-@@obtainMajor:
     ldr     r3, =SamusUpgrades
     ldrb    r2, [r4, MajorUpgradeInfo_Offset]
     ldrb    r0, [r4, MajorUpgradeInfo_Bitmask]
     ldrb    r1, [r3, r2]
     orr     r0, r1
     strb    r0, [r3, r2]
+@@checkSetUpgradeBackup:
     cmp     r2, #SamusUpgrades_SecurityLevel
     bne     @@setUpgradeBackup
     ldr     r1, =SecurityLevelFlash
@@ -130,25 +203,8 @@
     cmp     r0, #Upgrade_MissileTank
     bne     @@checkETank
     mov     r0, #(Tank_Missiles - 1) << 1
-    ldrsh   r3, [r3, r0]
-    ldrh    r0, [r4, SamusUpgrades_CurrMissiles]
-    add     r0, r3
-    asr     r2, r0, #1Fh
-    bic     r0, r2
-    ldr     r1, =#0FFFFh
-    sub     r1, r0
-    asr     r1, #1Fh
-    orr     r0, r1
-    strh    r0, [r4, SamusUpgrades_CurrMissiles]
-    ldrh    r0, [r4, SamusUpgrades_MaxMissiles]
-    add     r0, r3
-    asr     r2, r0, #1Fh
-    bic     r0, r2
-    ldr     r1, =#0FFFFh
-    sub     r1, r0
-    asr     r1, #1Fh
-    orr     r0, r1
-    strh    r0, [r4, SamusUpgrades_MaxMissiles]
+    ldrsh   r0, [r3, r0]
+    bl      IncrementMissileCount
     mov     r0, #Message_MissileTankUpgrade
     b       @@checkAutoMessage
 @@checkETank:
@@ -174,25 +230,8 @@
     cmp     r0, #Upgrade_PowerBombTank
     bne     @@return
     mov     r0, #(Tank_PowerBombs - 1) << 1
-    ldrsh   r3, [r3, r0]
-    ldrb    r0, [r4, SamusUpgrades_CurrPowerBombs]
-    add     r0, r3
-    asr     r2, r0, #1Fh
-    bic     r0, r2
-    mov     r1, #0FFh
-    sub     r1, r0
-    asr     r1, #1Fh
-    orr     r0, r1
-    strb    r0, [r4, SamusUpgrades_CurrPowerBombs]
-    ldrb    r0, [r4, SamusUpgrades_MaxPowerBombs]
-    add     r0, r3
-    asr     r2, r0, #1Fh
-    bic     r0, r2
-    mov     r1, #255
-    sub     r1, r0
-    asr     r1, #1Fh
-    orr     r0, r1
-    strb    r0, [r4, SamusUpgrades_MaxPowerBombs]
+    ldrsh   r0, [r3, r0]
+    bl      IncrementPBCount
     mov     r0, #Message_PowerBombTankUpgrade
 @@checkAutoMessage:
     cmp     r5, #Message_Auto
@@ -242,6 +281,28 @@
     pop     { pc }
     .pool
 .endfunc
+
+.func CheckCurrentAreaAndRoom
+    ; r0 should contain area id
+    ; r1 should contain room id
+    ; returns r0 as false (0) or true (1)
+    push    { r3, lr }
+    ldr     r3, =CurrArea
+    ldrb    r3, [r3]
+    cmp     r3, r0
+    bne     @@return_false
+    ldr     r3, =CurrRoom
+    ldrb    r3, [r3]
+    cmp     r3, r1
+    bne     @@return_false
+@@return_true:
+    mov     r0, #1
+    pop     { r3, pc }
+@@return_false:
+    mov     r0, #0
+    pop     { r3, pc }
+    .pool
+.endfunc
 .endautoregion
 
 .org 080798F8h
@@ -255,57 +316,74 @@
     .pool
 .endarea
 
-.org TotalMetroidCount
-.area 01h
+.autoregion
+TotalMetroidCount:
     .db     5
-.endarea
-
-.org RequiredMetroidCount
-.area 01h
+RequiredMetroidCount:
     .db     4
+.endautoregion
+
+; Points to two subsequent bytes, Total then Required
+.org MetroidCountPointer
+.area 04h
+    .dw     TotalMetroidCount
 .endarea
 
-.org MajorLocations
-.area 2Ah
-    .db     Upgrade_Missiles, Message_Auto
-    .db     Upgrade_MorphBall, Message_Auto
-    .db     Upgrade_ChargeBeam, Message_Auto
-    .db     Upgrade_SecurityLevel1, Message_Auto
-    .db     Upgrade_Bombs, Message_Auto
-    .db     Upgrade_HiJump, Message_Auto
-    .db     Upgrade_Speedbooster, Message_Auto
-    .db     Upgrade_SecurityLevel2, Message_Auto
-    .db     Upgrade_SuperMissiles, Message_Auto
-    .db     Upgrade_VariaSuit, Message_Auto
-    .db     Upgrade_SecurityLevel3, Message_Auto
-    .db     Upgrade_IceMissiles, Message_Auto
-    .db     Upgrade_WideBeam, Message_Auto
-    .db     Upgrade_PowerBombs, Message_Auto
-    .db     Upgrade_SpaceJump, Message_Auto
-    .db     Upgrade_PlasmaBeam, Message_Auto
-    .db     Upgrade_GravitySuit, Message_Auto
-    .db     Upgrade_SecurityLevel4, Message_Auto
-    .db     Upgrade_DiffusionMissiles, Message_Auto
-    .db     Upgrade_WaveBeam, Message_Auto
-    .db     Upgrade_ScrewAttack, Message_Auto
+.org MajorLocationsPointer
+.area 04h
+    .dw     MajorLocationItems
 .endarea
 
-.org TankIncrements
-.area 06h
+.autoregion
+MajorLocationItems:
+        .db     Upgrade_Missiles, Message_Auto
+        .db     Upgrade_MorphBall, Message_Auto
+        .db     Upgrade_ChargeBeam, Message_Auto
+        .db     Upgrade_SecurityLevel1, Message_Auto
+        .db     Upgrade_Bombs, Message_Auto
+        .db     Upgrade_HiJump, Message_Auto
+        .db     Upgrade_Speedbooster, Message_Auto
+        .db     Upgrade_SecurityLevel2, Message_Auto
+        .db     Upgrade_SuperMissiles, Message_Auto
+        .db     Upgrade_VariaSuit, Message_Auto
+        .db     Upgrade_SecurityLevel3, Message_Auto
+        .db     Upgrade_IceMissiles, Message_Auto
+        .db     Upgrade_WideBeam, Message_Auto
+        .db     Upgrade_PowerBombs, Message_Auto
+        .db     Upgrade_SpaceJump, Message_Auto
+        .db     Upgrade_PlasmaBeam, Message_Auto
+        .db     Upgrade_GravitySuit, Message_Auto
+        .db     Upgrade_SecurityLevel4, Message_Auto
+        .db     Upgrade_DiffusionMissiles, Message_Auto
+        .db     Upgrade_WaveBeam, Message_Auto
+        .db     Upgrade_ScrewAttack, Message_Auto
+        .db     Upgrade_InfantMetroid, Message_Auto
+        .db     Upgrade_InfantMetroid, Message_Auto
+        .db     Upgrade_InfantMetroid, Message_Auto
+.endautoregion
+
+.org TankIncrementsPointer
+    .dw     TankIncrements
+
+.autoregion
+.align 4
+TankIncrements:
     .dh     5   ; missile tank
     .dh     100 ; energy tank
     .dh     2   ; power bomb tank
-.endarea
+    .dh     10  ; missile data
+    .dh     10  ; power bomb data
+.endautoregion
 
 .org StartingItems
 .area 0Fh
     ; same format as SamusUpgrades struct
     .dh     99       ; current energy
     .dh     99       ; max energy
-    .dh     10       ; current missiles
-    .dh     10       ; max missiles
-    .db     10       ; current power bombs
-    .db     10       ; max power bombs
+    .dh     0       ; current missiles
+    .dh     0       ; max missiles
+    .db     0       ; current power bombs
+    .db     0       ; max power bombs
     .db     0        ; beam upgrades
     .db     0        ; explosive upgrades
     .db     0        ; suit upgrades

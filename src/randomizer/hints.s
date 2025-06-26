@@ -38,10 +38,15 @@
 .endfunc
 .endautoregion
 
-.org HintSecurityLevels
-.area 12
-    .fill 12, 0
+.org HintSecurityLevelsPointer
+.area 04h
+    .dw     HintSecurityLevels
 .endarea
+
+.autoregion
+HintSecurityLevels:
+    .fill 12, 0
+.endautoregion
 
 ; Placeholder hint
 .org 086CECB2h

@@ -452,9 +452,14 @@
     bl  InitializeSavedata
     b   0807F222h
 
-.org MinorLocationTable
-.area 1Ch
+.org MinorLocationTablePointer
+.area 04h
+    .dw     MinorLocationTable
+.endarea
+
+.autoregion
     .align 4
+MinorLocationTable:
     .dw     @@Items_MainDeck
     .dw     @@Items_Sector1
     .dw     @@Items_Sector2
@@ -462,28 +467,28 @@
     .dw     @@Items_Sector4
     .dw     @@Items_Sector5
     .dw     @@Items_Sector6
-.endarea
 
 ; Sector items structure:
 ; - Sorted array of rooms containing items
 ; - Array of indices indicating the first item in each room, plus one extra
 ;   indicating the final item of the last room
 
-.autoregion
 @@Items_MainDeck:
-    .db     07h, 11h, 23h, 26h, 2Dh, 2Fh, 32h, 33h
-    .db     39h, 45h, 48h, 49h, 54h
+    .db     07h, 11h, 23h, 26h, 2Dh, 2Eh, 2Fh, 32h
+    .db     33h, 39h, 45h, 47h, 48h, 49h, 54h
     .fill   16 - (. - @@Items_MainDeck), 0FFh
     .db     (@Items_MainDeck_Room07 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room11 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room23 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room26 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room2D - MinorLocations) >> log2(MinorLocation_Size)
+    .db     (@Items_MainDeck_Room2E - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room2F - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room32 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room33 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room39 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room45 - MinorLocations) >> log2(MinorLocation_Size)
+    .db     (@Items_MainDeck_Room47 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room48 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room49 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_MainDeck_Room54 - MinorLocations) >> log2(MinorLocation_Size)
@@ -491,12 +496,14 @@
 
 .autoregion
 @@Items_Sector1:
-    .db     05h, 11h, 1Eh, 27h, 28h, 2Bh, 2Ch, 2Fh
-    .db     32h, 34h
+    .db     05h, 11h, 19h, 1Eh, 20h, 27h, 28h, 2Bh
+    .db     2Ch, 2Fh, 32h, 34h
     .fill   16 - (. - @@Items_Sector1), 0FFh
     .db     (@Items_Sector1_Room05 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_Sector1_Room11 - MinorLocations) >> log2(MinorLocation_Size)
+    .db     (@Items_Sector1_Room19 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_Sector1_Room1E - MinorLocations) >> log2(MinorLocation_Size)
+    .db     (@Items_Sector1_Room20 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_Sector1_Room27 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_Sector1_Room28 - MinorLocations) >> log2(MinorLocation_Size)
     .db     (@Items_Sector1_Room2B - MinorLocations) >> log2(MinorLocation_Size)
@@ -636,6 +643,12 @@ MinorLocations:
     .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
+@Items_MainDeck_Room2E:
+    .db     Area_MainDeck, 2Eh, 0
+    .db     09h, 08h
+    .db     Upgrade_InfantMetroid
+    .db     UpgradeSprite_InfantMetroid
+    .db     Message_Auto
 @Items_MainDeck_Room2F:
     .db     Area_MainDeck, 2Fh, 0
     .db     04h, 03h
@@ -665,6 +678,12 @@ MinorLocations:
     .db     1Dh, 1Dh
     .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
+    .db     Message_Auto
+@Items_MainDeck_Room47:
+    .db     Area_MainDeck, 47h, 0
+    .db     06h, 09h
+    .db     Upgrade_InfantMetroid
+    .db     UpgradeSprite_InfantMetroid
     .db     Message_Auto
 @Items_MainDeck_Room48:
     .db     Area_MainDeck, 48h, 0
@@ -706,11 +725,23 @@ MinorLocations:
     .db     Upgrade_MissileTank
     .db     UpgradeSprite_MissileTank
     .db     Message_Auto
+@Items_Sector1_Room19:
+    .db     Area_SRX, 19h, 0
+    .db     0Fh, 08h ; REPLACE WHEN IMPLEMENTED
+    .db     Upgrade_EnergyTank
+    .db     UpgradeSprite_EnergyTank
+    .db     Message_Auto
 @Items_Sector1_Room1E:
     .db     Area_SRX, 1Eh, 0
     .db     0Fh, 08h
     .db     Upgrade_EnergyTank
     .db     UpgradeSprite_EnergyTank
+    .db     Message_Auto
+@Items_Sector1_Room20:
+    .db     Area_SRX, 20h, 0
+    .db     1Dh, 09h
+    .db     Upgrade_InfantMetroid
+    .db     UpgradeSprite_InfantMetroid
     .db     Message_Auto
 @Items_Sector1_Room27:
     .db     Area_SRX, 27h, 0
@@ -1193,7 +1224,7 @@ MinorLocations:
     .db     Message_Auto
 .endautoregion
 
-.org MinorLocationsAddr
+.org MinorLocationsPointer
 .area 04h
     .dw     MinorLocations
 .endarea

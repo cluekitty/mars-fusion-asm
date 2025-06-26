@@ -105,15 +105,18 @@
     .pool
 .endarea
 
-.org CreditsScrollSpeed
-.area 01h
-    .db     9
+
+.org CreditsParametersPointer
+.area 04h
+    .dw     CreditsEndDelay
 .endarea
 
-.org CreditsEndDelay
-.area 02h
+.autoregion
+CreditsEndDelay:
     .dh     512
-.endarea
+CreditsScrollSpeed:
+    .db     9
+.endautoregion
 
 .org 080A22E0h
 .area 26Ch

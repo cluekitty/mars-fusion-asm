@@ -18,9 +18,14 @@
 .endfunc
 .endautoregion
 
-.org RevealHiddenTilesFlag
-.area 1
+.autoregion
+RevealHiddenTilesFlag:
     .db     00h
+.endautoregion
+
+.org RevealHiddenTilesFlagPointer
+.area 04h
+    .dw     RevealHiddenTilesFlag
 .endarea
 
 .org 0806B962h ; Editing UpdateBlockAnimation, case 07h
