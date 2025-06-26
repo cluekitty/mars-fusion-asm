@@ -18,7 +18,7 @@
 .endfunc
 .endautoregion
 
-.autoregion 
+.autoregion
 RevealHiddenTilesFlag:
     .db     00h
 .endautoregion

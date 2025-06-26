@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+- Fixed: Horizontal Extendable pillars in Pillar Highway will no longer have glitchy graphics after extending and overlapping with certain arrows when revealed tiles are enabled.
 
 ## 0.6.0 - 2025-06-20
 

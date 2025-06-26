@@ -4,12 +4,14 @@
 ; `equ` cannot be used in files conditionally loaded.
 .definelabel @VerticalVanillaPillarOamPointer, 0837A984h
 .definelabel @HorizontalVanillaPillarOamPointer, 0837AB8Ch
+.definelabel @HorizontalVanillaPillarExtendedOamPointer, 0837AB54h
+.definelabel @HorizontalVanillaPillarExtendingOamPointer, 0837A9BCh
 
 .autoregion
     .aligna 4
 @VerticalRevealedPillarOamPointer:
     .dw     @VerticalRevealedPillarFrame1OamData
-    .dW     0Eh
+    .dw     0Eh
     .dw     @VerticalRevealedPillarFrame2OamData
     .dw     14h
     .dw     @VerticalRevealedPillarFrame1OamData
@@ -23,16 +25,100 @@
     .dd     0
 @HorizontalRevealedPillarOamPointer:
     .dw     @HorizontalRevealedPillarFrame1OamData
-    .dW     0Eh
+    .dw     0Eh
     .dw     @HorizontalRevealedPillarFrame2OamData
     .dw     14h
     .dw     @HorizontalRevealedPillarFrame1OamData
-    .dW     0Eh
+    .dw     0Eh
     .dw     @HorizontalRevealedPillarFrame2OamData
     .dw     0Eh
     .dw     @HorizontalRevealedPillarFrame3OamData
     .dw     4Bh
     .dw     @HorizontalRevealedPillarFrame2OamData
+    .dw     0Eh
+    .dd     0
+@HorizontalPillarHiddenGfxOamPointer:
+    ; This mimics the "vanilla" pillar animation cycle with blank gfx.
+    ; Doing this fixes a bug where the the animation reads into other OAM data
+    ; if the counters are not 0.
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     0Eh
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     14h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     0Eh
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     0Eh
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     32h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     0Eh
+    .dd     0
+@HorizontalRevealedPillarExtendingOamPointer:
+    ; All these are necessary so that the sprite hitbox extends to its correct length
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrameZeroOamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame1OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame2OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame3OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame4OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame5OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame6OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame7OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame8OamData
+    .dw     02h
+    .dw     @HorizontalExtendingPillarFrame9OamData
+    .dw     02h
+    .dd     0
+@HorizontalRevealedPillarExtendedOamPointer:
+    .dw     @HorizontalExtendedPillarFrame1OamData
+    .dw     0Eh
+    .dw     @HorizontalExtendedPillarFrame2OamData
+    .dw     14h
+    .dw     @HorizontalExtendedPillarFrame1OamData
+    .dw     0Eh
+    .dw     @HorizontalExtendedPillarFrame3OamData
+    .dw     0Eh
+    .dw     @HorizontalExtendedPillarFrame4OamData
+    .dw     32h
+    .dw     @HorizontalExtendedPillarFrame3OamData
     .dw     0Eh
     .dd     0
 .endautoregion
@@ -139,6 +225,80 @@
     .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
     .dh     (OBJ1_XCoordinate & 001h) | OBJ1_Size_8x8 | OBJ1_YFlip
     .dh     (OBJ2_Character   & 23Dh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+
+@HorizontalExtendingPillarFrameZeroOamData:
+    .dh     001h
+    ;---    Transparent graphic
+    .dh     (OBJ0_YCoordinate & 000h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 000h) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 21Eh) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame1OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Vertical
+    .dh     (OBJ1_XCoordinate & 02Ah) | OBJ1_Size_8x16
+    .dh     (OBJ2_Character   & 211h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame2OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Vertical
+    .dh     (OBJ1_XCoordinate & 02Ch) | OBJ1_Size_8x16
+    .dh     (OBJ2_Character   & 213h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame3OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Vertical
+    .dh     (OBJ1_XCoordinate & 02Ch) | OBJ1_Size_8x16
+    .dh     (OBJ2_Character   & 213h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame4OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Vertical
+    .dh     (OBJ1_XCoordinate & 02Eh) | OBJ1_Size_8x16
+    .dh     (OBJ2_Character   & 213h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame5OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Vertical
+    .dh     (OBJ1_XCoordinate & 030h) | OBJ1_Size_8x16
+    .dh     (OBJ2_Character   & 213h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame6OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 02Ah) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 214h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame7OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 02Ch) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 214h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame8OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 02Eh) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 212h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendingPillarFrame9OamData:
+    .dh     001h
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 030h) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 210h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+
+@HorizontalExtendedPillarFrame1OamData:
+    .dh     001
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 030h) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 212h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendedPillarFrame2OamData:
+    .dh     001
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 030h) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 214h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendedPillarFrame3OamData:
+    .dh     001
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 030h) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 210h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+@HorizontalExtendedPillarFrame4OamData:
+    .dh     001
+    .dh     (OBJ0_YCoordinate & 0F8h) | OBJ0_Mode_Normal | OBJ0_Shape_Square
+    .dh     (OBJ1_XCoordinate & 030h) | OBJ1_Size_16x16
+    .dh     (OBJ2_Character   & 216h) | ((OBJ2_PaletteMask & 08h) << OBJ2_Palette)
+
 .endautoregion
 
 
@@ -300,26 +460,58 @@
 .endfunc
 .endarea
 
+; Hijacks code in PillarIdle
+.org 0804AB88h
+.area 4
+    bl      @PillarExtendedIdle
+.endarea
 
 ; Hijacks code in Pillar Extending code
 .org 0804ABF4h
 .area 6h, 0
-    bl      @VerticalExtendingPillar
+    bl      @VerticalExtendingPillarPosition
 .endarea
 
 .org 0804ABECh
 .area 6h, 0
-    bl      @HorizontalFlippedExtendingPillar
+    bl      @HorizontalFlippedExtendingPillarPosition
 .endarea
 
 .org 0804ABE0h
 .area 6h, 0
-    bl      @HorizontalExtendingPillar
+    bl      @HorizontalExtendingPillarPosition
+.endarea
+
+.org 0804AC1Ch
+.area 0Ch, 0
+    bl      @HorizontalExtendingPillarGfx
+    b       0804AD5Ah
+.endarea
+
+.org 0804ACA4h
+.area 4
+    bl      @HorizontalExtendedPillarGfx
 .endarea
 
 .autoregion
     .align 2
-@VerticalExtendingPillar:
+@HorizontalExtendedPillarGfx:
+    push    { r1, lr }
+    mov     r0, #Area_NOC
+    mov     r1, #26h
+    bl      CheckCurrentAreaAndRoom
+    cmp     r0, #1
+    bne     @@vanilla
+    ldr     r0, =@HorizontalRevealedPillarExtendedOamPointer
+    b       @@cont
+@@vanilla:
+    ldr     r0, =@HorizontalVanillaPillarOamPointer
+@@cont:
+    str     r0, [r3, #Sprite_OamPointer]
+    pop     { r1, pc }
+
+@VerticalExtendingPillarPosition:
+    push    { lr }
     ldr     r0, =RevealHiddenTilesFlag
     ldrb    r0, [r0]
     cmp     r0, #1
@@ -334,15 +526,25 @@
     ldrh    r0, [r2, #Sprite_YPosition]
     sub     r0, #4
     strh    r0, [r2, #Sprite_YPosition]
-    bx      lr
+    pop     { pc }
     .pool
 
-@HorizontalFlippedExtendingPillar:
+@HorizontalFlippedExtendingPillarPosition:
+    push    { lr }
     ldr     r0, =RevealHiddenTilesFlag
     ldrb    r0, [r0]
     cmp     r0, #1
     bne     @@horizontal_flipped_extending
-    ldr     r1, =@HorizontalVanillaPillarOamPointer
+    mov     r0, #Area_NOC
+    mov     r1, #26h
+    bl      CheckCurrentAreaAndRoom
+    cmp     r0, 1
+    bne     @@vanilla
+    ldr     r1, =@HorizontalPillarHiddenGfxOamPointer
+    b       @@cont
+@@vanilla:
+   ldr     r1, =@HorizontalVanillaPillarOamPointer
+@@cont:
     str     r1, [r2, #Sprite_OamPointer]
     mov     r1, #Sprite_BgPriority
     add     r1, r2, r1
@@ -352,24 +554,77 @@
     ldrh    r0, [r2, #Sprite_XPosition]
     add     r0, #4
     strh    r0, [r2, #Sprite_XPosition]
-    bx      lr
+    pop     { pc }
     .pool
 
-@HorizontalExtendingPillar:
+@HorizontalExtendingPillarPosition:
+    push    { lr }
     ldr     r0, =RevealHiddenTilesFlag
     ldrb    r0, [r0]
     cmp     r0, #1
-    bne     @@horizontal_flipped_extending
+    bne     @@horizontal_extending
+    mov     r0, #Area_NOC
+    mov     r1, #26h
+    bl      CheckCurrentAreaAndRoom
+    cmp     r0, 1
+    bne     @@vanilla
+    ldr     r1, =@HorizontalPillarHiddenGfxOamPointer
+    b       @@cont
+@@vanilla:
     ldr     r1, =@HorizontalVanillaPillarOamPointer
+@@cont:
     str     r1, [r2, #Sprite_OamPointer]
     mov     r1, #Sprite_BgPriority
     add     r1, r2, r1
     mov     r0, #2
     strb    r0, [r1]
-@@horizontal_flipped_extending:
+@@horizontal_extending:
     ldrh    r0, [r2, #Sprite_XPosition]
     sub     r0, #4
     strh    r0, [r2, #Sprite_XPosition]
+    pop     { pc }
+    .pool
+
+@PillarExtendedIdle:
+    push    { r0-r2 }
+    mov     r0, #2
+    ldr     r2, =CurrentSprite
+    mov     r1, #Sprite_BgPriority
+    add     r1, r2, r1
+    strb    r0, [r1]
+    strb    r0, [r1, #Sprite_Pose - Sprite_BgPriority]
+    pop     { r0-r2 }
     bx      lr
     .pool
+
+@HorizontalExtendingPillarGfx:
+    push    { r0-r2, lr }
+    ldr     r2, =CurrentSprite
+    mov     r0, #Area_NOC
+    ldr     r1, =CurrArea
+    ldrb    r1, [r1]
+    cmp     r1, r0
+    bne     @@vanilla
+    mov     r0, #26h
+    ldr     r1, =CurrRoom
+    ldrb    r1, [r1]
+    cmp     r1, r0
+    beq     @@revealed
+@@vanilla:
+    ldr     r1, =@HorizontalVanillaPillarExtendingOamPointer
+    mov     r0, #Sprite_OamPointer
+    add     r2, r2, r0
+    str     r1, [r2]
+    b       @@return
+@@revealed:
+    ldr     r1, =@HorizontalRevealedPillarExtendingOamPointer
+    mov     r0, #Sprite_OamPointer
+    add     r2, r2, r0
+    str     r1, [r2]
+
+@@return:
+    pop     { r0-r2, pc }
+    bx      lr
+    .pool
+
 .endautoregion
