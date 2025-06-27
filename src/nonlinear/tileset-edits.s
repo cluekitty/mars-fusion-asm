@@ -72,6 +72,22 @@
     tilemap @Tileset20Tilemap, "data/tilemaps/20-tro-lush-greenery.bin", 0C04h
 
 
+; Tileset 21 - Sector 3 Yellow Rooms
+.org TilesetEntry + (TilesetEntry_Size * 21h) + TilesetEntry_RlebgGfxPointer
+    tilesetgfx  @Tileset21RlebgGfx, "data/tilesets/tileset-21.gfx", 15DCh
+
+.org TilesetEntry + (TilesetEntry_Size * 21h) + TilesetEntry_TilemapPointer
+    tilemap @Tileset21Tilemap, "data/tilemaps/21-pyr-yellow-rooms.bin", 1004h
+
+
+; Tileset 28 - Sector 3 Orange Rooms
+.org TilesetEntry + (TilesetEntry_Size * 28h) + TilesetEntry_RlebgGfxPointer
+    tilesetgfx  @Tileset28RlebgGfx, "data/tilesets/tileset-28.gfx", 17A9h
+
+.org TilesetEntry + (TilesetEntry_Size * 28h) + TilesetEntry_TilemapPointer
+    tilemap @Tileset28Tilemap, "data/tilemaps/28-pyr-orange-rooms.bin", 1004h
+
+
 ; Tileset 29 - Main Deck Dark Tunnels
 .org TilesetEntry + (TilesetEntry_Size * 29h) + TilesetEntry_RlebgGfxPointer
     tilesetgfx  @Tileset29RlebgGfx, "data/tilesets/tileset-29.gfx", 3112h
@@ -102,3 +118,11 @@
 
 .org TilesetEntry + (TilesetEntry_Size * 58h) + TilesetEntry_TilemapPointer
     tilemap @Tileset58Tilemap, "data/tilemaps/58-tourian.bin", 0E00h
+
+
+; Tileset 5E - Sector Connector Glass Tubes
+.org TilesetEntry + (TilesetEntry_Size * 5Eh) + TilesetEntry_RlebgGfxPointer
+    tilesetgfx @Tileset5ERlebgGfx, "data/tilesets/tileset-5E.gfx", 0E2Dh
+
+.org TilesetEntry + (TilesetEntry_Size * 5Eh) + TilesetEntry_TilemapPointer
+    tilemap @Tileset5ETilemap, "data/tilemaps/5E-glass-tubes.bin", 0904h
