@@ -96,6 +96,31 @@
     tilemap @Tileset29Tilemap, "data/tilemaps/29-srx-terrain.bin", 1084h
 
 
+; Tileset 2F - Sector 4 Upper
+.org TilesetEntry + (TilesetEntry_Size * 2Bh) + TilesetEntry_RlebgGfxPointer
+    tilesetgfx  @Tileset2B2FRlebgGfx, "data/tilesets/tileset-2B-2F.gfx", 2656h
+
+.org TilesetEntry + (TilesetEntry_Size * 2Bh) + TilesetEntry_TilemapPointer
+    tilemap @Tileset2B2FTilemap, "data/tilemaps/2B-2F-aqa-upper.bin", 1684h
+
+.org TilesetEntry + (TilesetEntry_Size * 2Fh) + TilesetEntry_RlebgGfxPointer
+.area 4
+    .dw     @Tileset2B2FRlebgGfx
+.endarea
+.org TilesetEntry + (TilesetEntry_Size * 2Fh) + TilesetEntry_TilemapPointer
+.area 4
+    .dw     @Tileset2B2FTilemap
+.endarea
+
+
+; Tileset 34 - Sector 4 Lower
+.org TilesetEntry + (TilesetEntry_Size * 34h) + TilesetEntry_RlebgGfxPointer
+    tilesetgfx  @Tileset34RlebgGfx, "data/tilesets/tileset-34.gfx", 2FF9h
+
+.org TilesetEntry + (TilesetEntry_Size * 34h) + TilesetEntry_TilemapPointer
+    tilemap @Tileset34Tilemap, "data/tilemaps/34-aqa-lower.bin", 1304h
+
+
 ; Tileset 43 - Generic Blue Rooms
 .org TilesetEntry + (TilesetEntry_Size * 43h) + TilesetEntry_RlebgGfxPointer
     tilesetgfx  @Tileset43RlebgGfx, "data/tilesets/tileset-43.gfx", 0DF2h
