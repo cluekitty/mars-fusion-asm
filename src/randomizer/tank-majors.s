@@ -75,6 +75,10 @@
 .endfunc
 .endautoregion
 
+; Define original RevealHiddenTank func as free space, the only place
+; it was called was in the hijack below.
+.defineregion 0806CBF4h, 58h, 0
+
 .org 0806AEC4h
     bl      RevealTank
 
