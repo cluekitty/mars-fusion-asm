@@ -3,6 +3,9 @@
 ## Unreleased - 2025-XX-XX
 - Fixed: Horizontal Extendable pillars in Pillar Highway will no longer have glitchy graphics after extending and overlapping with certain arrows when revealed tiles are enabled.
 
+### Randomizer
+- Added: Provided a message ID (0x38h) which will display the Infant Metroid message for one Metroid greater than current count.
+
 ## 0.6.0 - 2025-06-20
 
 ### Randomizer
@@ -35,9 +38,6 @@
 
 ### Randomizer
 - Fixed: Go-mode music no longer triggers from save/recharge station in operations deck. Main Deck Data room will play SA-X Ambience instead of Go-Mode music if go-mode conditions are satisifed. Main Deck Data room will not change the music if the SA-X has been defeated.
-
-### Randomizer
-- Added: Provided a message ID (0x38h) which will display the Infant Metroid message for one Metroid greater than current count.
 
 ## 0.4.2 - 2025-04-25
 

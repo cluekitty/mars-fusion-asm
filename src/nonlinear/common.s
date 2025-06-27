@@ -118,7 +118,7 @@
     ldrb    r0, [r1, PermanentUpgrades_InfantMetroids]
     add     r0, #1
     strb    r0, [r1, PermanentUpgrades_InfantMetroids]
-    cmp     r5, #Message_Auto
+    cmp     r5, #Message_AutoMetroidHandler
     bne     @@defaultMessage
 @@setMetroidMessage:
     ldr     r1, =TotalMetroidCount
@@ -240,7 +240,6 @@
     bne     @@setMessage
     ldr     r1, =PermanentUpgrades
     ldrb    r0, [r1, PermanentUpgrades_InfantMetroids]
-    add     r0, #1 ; Display the message as if you'd acquired one more
     b       @@setMetroidMessage
 @@defaultMessage:
     mov     r0, r5
