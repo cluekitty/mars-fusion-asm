@@ -237,7 +237,7 @@
     cmp     r5, #Message_Auto
     beq     @@setMessage
     cmp     r5, #Message_AutoMetroidHandler
-    bne     @@setMessage
+    bne     @@defaultMessage
     ldr     r1, =PermanentUpgrades
     ldrb    r0, [r1, PermanentUpgrades_InfantMetroids]
     b       @@setMetroidMessage

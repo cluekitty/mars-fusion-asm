@@ -73,7 +73,6 @@ MissileLimitPointer             equ 087FF024h
 RoomNamesPointer                equ 087FF028h
 RevealHiddenTilesFlagPointer    equ 087FF02Ch
 
-;.defineregion 080F9A28h, 020318h, 0FFh
 
 ; Mark end-of-file padding as free space
 EOF equ 0879ECC8h
