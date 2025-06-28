@@ -38,12 +38,21 @@
     tilemap @Tileset08Tilemap, "data/tilemaps/08-maindeck-hallways.bin", 900h
 
 
-; Tileset 0B - BSL Grated Hallways
+; Tileset 0B-1E - BSL Grated Hallways
 .org TilesetEntry + (TilesetEntry_Size * 0Bh) + TilesetEntry_RlebgGfxPointer
-    tilesetgfx  @Tileset0BRlebgGfx, "data/tilesets/tileset-0B.gfx", 1BE9h
+    tilesetgfx  @Tileset0B1ERlebgGfx, "data/tilesets/tileset-0B-1E.gfx", 1BE9h
 
 .org TilesetEntry + (TilesetEntry_Size * 0Bh) + TilesetEntry_TilemapPointer
-    tilemap @Tileset0BTilemap, "data/tilemaps/0B-bsl-grated-hallways.bin", 0E04h
+    tilemap @Tileset0B1ETilemap, "data/tilemaps/0B-1E-bsl-grated-hallways.bin", 0E04h
+
+.org TilesetEntry + (TilesetEntry_Size * 1Eh) + TilesetEntry_RlebgGfxPointer
+.area 4
+    .dw     @Tileset0B1ERlebgGfx
+.endarea
+.org TilesetEntry + (TilesetEntry_Size * 1Eh) + TilesetEntry_TilemapPointer
+.area 4
+    .dw     @Tileset0B1ETilemap
+.endarea
 
 
 ; Tileset 0D - Recharge Rooms
@@ -143,6 +152,14 @@
 
 .org TilesetEntry + (TilesetEntry_Size * 34h) + TilesetEntry_TilemapPointer
     tilemap @Tileset34Tilemap, "data/tilemaps/34-aqa-lower.bin", 1304h
+
+
+; Tileset 3E - Sector 6 Rocky Areas
+.org TilesetEntry + (TilesetEntry_Size * 3Eh) + TilesetEntry_RlebgGfxPointer
+    tilesetgfx  @Tileset3ERlebgGfx, "data/tilesets/tileset-3E.gfx", 218Bh
+
+.org TilesetEntry + (TilesetEntry_Size * 3Eh) + TilesetEntry_TilemapPointer
+    tilemap @Tileset3ETilemap, "data/tilemaps/3E-noc-rocky.bin", 1004h
 
 
 ; Tileset 43 & 44 - Generic Blue Rooms
