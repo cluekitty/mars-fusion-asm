@@ -119,6 +119,8 @@
     add     r0, #1
     strb    r0, [r1, PermanentUpgrades_InfantMetroids]
     cmp     r5, #Message_AutoMetroidHandler
+    beq     @@setMetroidMessage
+    cmp     r5, #Message_Auto
     bne     @@defaultMessage
 @@setMetroidMessage:
     ldr     r1, =TotalMetroidCount
