@@ -172,8 +172,8 @@
 .endarea
 
 .autoregion
+.align 4
 StartingLocation:
-    .align 4
     .db     Area_MainDeck
     .db     00h
     .db     00h
