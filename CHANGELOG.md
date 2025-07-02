@@ -6,6 +6,9 @@
 ### Randomizer
 - Added: Provided a message ID (0x38h) which will display the Infant Metroid message.
 
+### Visual
+- Changed: Stronger/Blue Zoros, Stronger/Red Zeelas, Super Missile Gerons, Stronger/Golden Scizer and Stronger/Golden Pirates all have slight visual adjustments made for accessibility reasons.
+
 ## 0.6.0 - 2025-06-20
 
 ### Randomizer
