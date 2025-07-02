@@ -162,6 +162,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/physics/single-walljump.s"
 .include "src/nonlinear/split-suits.s"
 .include "src/nonlinear/story-flags.s"
+.include "src/nonlinear/accessible-enemy-gfx.s"
 
 
 .if !DEBUG
