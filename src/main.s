@@ -126,6 +126,8 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/qol/unhidden-map-doors.s"
 .endif
 .include "src/qol/unhidden-pillars.s"
+.include "src/qol/accessible-enemy-gfx.s"
+.include "src/qol/accessible-flashing.s"
 .endif
 
 ; Physics patches
@@ -162,7 +164,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/physics/single-walljump.s"
 .include "src/nonlinear/split-suits.s"
 .include "src/nonlinear/story-flags.s"
-.include "src/nonlinear/accessible-enemy-gfx.s"
 
 
 .if !DEBUG
