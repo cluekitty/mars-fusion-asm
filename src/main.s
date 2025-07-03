@@ -14,7 +14,7 @@
 .definelabel QOL, 1
 .endif
 .ifndef ACCESSIBILITY
-.definelabel ACCESSIBILITY, 1
+.definelabel ACCESSIBILITY, 0
 .endif
 .ifndef PHYSICS
 .definelabel PHYSICS, 0
