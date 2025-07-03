@@ -13,6 +13,9 @@
 .ifndef QOL
 .definelabel QOL, 1
 .endif
+.ifndef ACCESSIBILITY
+.definelabel ACCESSIBILITY, 1
+.endif
 .ifndef PHYSICS
 .definelabel PHYSICS, 0
 .endif
@@ -126,8 +129,14 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/qol/unhidden-map-doors.s"
 .endif
 .include "src/qol/unhidden-pillars.s"
-.include "src/qol/accessible-enemy-gfx.s"
-.include "src/qol/accessible-flashing.s"
+
+.endif
+
+; Accessibility patches
+; Patches which make the game more acccessible to people.
+.if ACCESSIBILITY
+.include "src/a11y/accessible-enemy-gfx.s"
+.include "src/a11y/accessible-flashing.s"
 .endif
 
 ; Physics patches

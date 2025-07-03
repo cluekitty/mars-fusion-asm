@@ -6,7 +6,7 @@
 ### Randomizer
 - Added: Provided a message ID (0x38h) which will display the Infant Metroid message.
 
-### Quality of Life
+### Accessibility
 - Changed: Stronger/Blue Zoros, Stronger/Red Zeelas, Super Missile Gerons, Stronger/Golden Scizer and Stronger/Golden Pirates all have slight visual adjustments made for accessibility reasons.
 - Changed: The flashing on the map and minimap has been reduced to 3Hz.
 
