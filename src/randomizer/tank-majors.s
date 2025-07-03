@@ -184,58 +184,6 @@
 .endfunc
 .endarea
 
-.org 0802AAAEh
-.area 06h
-    bl  SetMajorLocationMessageBoxTimer
-    nop
-.endarea
-
-.org 0802AB04h
-.area 04h
-    bl  SetMinorLocationMessageBoxTimer
-.endarea
-
-.autoregion
-.func SetMajorLocationMessageBoxTimer
-    ldr     r4, =ItemJingleFlag
-    ldrb    r0, [r4]
-    cmp     r0, #0
-    beq     @@minorJingle
-    ; prolong major item fanfare so it can't interrupt audio clips
-    ; last resort solution, but prevents several audio related bugs
-    mov     r0, #410 >> 1
-    lsl     r0, #1
-    b       @@return
-@@minorJingle:
-    mov     r0, #05Ah
-@@return:    
-    ldr     r4, =CurrentSprite
-    strh    r0, [r4, Sprite_XParasiteTimer]
-    bx      lr
-.endfunc
-.pool
-.endautoregion
-
-.autoregion
-.func SetMinorLocationMessageBoxTimer
-    ldr     r1, =ItemJingleFlag
-    ldrb    r0, [r1]
-    cmp     r0, #0
-    beq     @@minorJingle
-    ; prolong major item fanfare so it can't interrupt audio clips
-    ; last resort solution, but prevents several audio related bugs
-    mov     r0, #410 >> 1
-    lsl     r0, #1
-    b       @@return
-@@minorJingle:
-    mov     r0, #05Ah
-@@return:
-    ldr     r1, =CurrentSprite
-    mov     pc, lr
-.endfunc
-.pool
-.endautoregion
-
 ; Obtain upgrade from tank and set message and fanfare
 .org 0806C3CEh
 .area 1Ah
