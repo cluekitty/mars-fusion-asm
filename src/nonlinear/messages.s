@@ -143,10 +143,28 @@
 
 .org 0802AA2Ch
 .area 04h
-    ; play upgrade collected fanfare
-    cmp     r6, #0
-    bne     0802AA3Ch
+    bl      DetermineJingle
 .endarea
+
+.autoregion
+.align 4
+; Add one to offsets to account for THUMB
+.func DetermineJingle
+    push    { r1 }
+    ldr     r1, =ItemJingleFlag
+    ldrb    r0, [r1]
+    cmp     r0, #0
+    beq     @@minorJingle
+    ldr     r0, =0802AA31h ; Will Play Major Jingle
+    b       @@return
+@@minorJingle:
+    ldr     r0, =0802AA3Dh
+@@return:
+    pop     { r1 }
+    bx      r0
+.pool
+.endfunc
+.endautoregion
 
 .org 0802AA3Ch
 .area 0Eh
