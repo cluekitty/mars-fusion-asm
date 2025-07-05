@@ -61,6 +61,7 @@ PauseScreenOamData:
 .defineregion 0856F71Ch, 352Dh, 0
 
 .autoregion
+.align 4
 @PauseScreenObjGfx:
 .incbin "data/pause-obj.gfx"
 .endautoregion
