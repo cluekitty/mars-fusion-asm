@@ -146,6 +146,7 @@ HintSecurityLevels:
 
 .autoregion
 
+.align 2
 SpawnNavLockSprite:
     push    r14
     add     sp, #-0Ch
