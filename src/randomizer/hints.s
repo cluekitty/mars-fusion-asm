@@ -159,7 +159,7 @@ SpawnNavLockSprite:
     str     r0, [sp, #4]    ; X position
     mov     r0, #0
     str     r0, [sp, #8]    ; Status
-    mov     r0, NavLockSpriteId
+    mov     r0, NavLockSprite_Id
     mov     r1, #0          ; Room slot
     mov     r2, NavLockGfxRow
     mov     r3, #20h        ; Property | spriteset slot
@@ -167,14 +167,14 @@ SpawnNavLockSprite:
     ; Load graphics and palette
     mov     r4, #0
 @@LoadGfxLoop:
-    mov     r0, NavLockSpriteId
+    mov     r0, NavLockSprite_Id
     mov     r1, NavLockGfxRow
     mov     r2, r4
     bl      LoadNewSpriteGfx
     add     r4, 1
     cmp     r4, NavLockGfxRowCount * 8
     bcc     @@LoadGfxLoop
-    mov     r0, NavLockSpriteId
+    mov     r0, NavLockSprite_Id
     mov     r1, NavLockGfxRow
     mov     r2, NavLockGfxRowCount
     bl      LoadNewSpritePal
@@ -331,14 +331,14 @@ NavLockOamPtrs:
 
 ; Modified data
 
-.org SpriteGfxLengths + ((NavLockSpriteId - 10h) * 4)
+.org SpriteGfxLengths + ((NavLockSprite_Id - 10h) * 4)
     .dw NavLockGfx_End - NavLockGfx
 
-.org PrimarySpriteAiPtrs + (NavLockSpriteId * 4)
+.org PrimarySpriteAiPtrs + (NavLockSprite_Id * 4)
     .dw NavLockAi + 1
 
-.org SpriteGfxPtrs + ((NavLockSpriteId - 10h) * 4)
+.org SpriteGfxPtrs + ((NavLockSprite_Id - 10h) * 4)
     .dw NavLockGfx
 
-.org SpritePalettePtrs + ((NavLockSpriteId - 10h) * 4)
+.org SpritePalettePtrs + ((NavLockSprite_Id - 10h) * 4)
     .dw NavLockPal
