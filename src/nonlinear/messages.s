@@ -121,7 +121,7 @@
 .endarea
 
 .autoregion
-.align 2
+.align 4
 .func @NonMajorMessageCheck
     ; if ID > 0x17h (custom message offset by 0x20h), add 0x20h
     ; to get the true message ID and return. Else follow existing logic for bounds checking
@@ -178,6 +178,7 @@
 .endarea
 
 .autoregion
+.align 4
 .func SetMajorLocationMessageBoxTimer
     ldr     r4, =ItemJingleFlag
     ldrb    r0, [r4]
@@ -199,6 +200,7 @@
 .endautoregion
 
 .autoregion
+.align 4
 .func SetMinorLocationMessageBoxTimer
     ldr     r1, =ItemJingleFlag
     ldrb    r0, [r1]
