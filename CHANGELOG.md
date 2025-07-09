@@ -7,6 +7,7 @@
 ### Randomizer
 - Added: Provided a message ID (0x38h) which will display the Infant Metroid message.
 - Added: Provide the ability to specify what jingle an item location plays.
+- Added: Navigation rooms display the security level needed to view the hint.
 
 ### Accessibility
 - Changed: Stronger/Blue Zoros, Stronger/Red Zeelas, Super Missile Gerons, Stronger/Golden Scizer and Stronger/Golden Pirates all have slight visual adjustments made for accessibility reasons.
