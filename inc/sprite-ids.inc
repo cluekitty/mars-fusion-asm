@@ -12,6 +12,7 @@ Halzyn_Id equ 013h
 ZebesianWall_Id equ 014h
 HornoadSpawner_Id equ 015h
 Gate_Id equ 016h
+NavLockSprite_Id equ 17h ; Unused in vanilla. Used to display navigation hint level
 Moto_Id equ 018h
 NavigationPad_Id equ 019h
 Gunship_Id equ 01Ah
