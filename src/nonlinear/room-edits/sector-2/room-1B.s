@@ -17,7 +17,7 @@
     .skip 2
     .dw     readptr(Sector2Levels + 1Bh * LevelMeta_Size + LevelMeta_Spriteset0)
     .db     13h
-    .db     4Eh
+    .db     47h
     .skip 2
     .dw     readptr(Sector2Levels + 1Bh * LevelMeta_Size + LevelMeta_Spriteset1)
     .db     1Eh

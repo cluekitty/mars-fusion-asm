@@ -5,6 +5,10 @@
 - Changed: Reveal Hidden Tiles: Revealed pickups with generic weak blocks have been replaced with a unique graphic indicating that the location contains an item.
 - Fixed: Fixed an issue where laying normal bombs in electrified water may not propel samus upwards when taking damage.
 
+### Room Adjustments
+#### Sector 2
+- Fixed: The Kihunters in Dessgeega Dorm now trigger when either Yakuza or Nettori is defeated, as opposed to only after Nettori is defeated.
+
 ### Randomizer
 - Added: Provided a message ID (0x38h) which will display the Infant Metroid message.
 - Added: Provide the ability to specify what jingle an item location plays.
