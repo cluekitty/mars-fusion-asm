@@ -38,6 +38,30 @@
     tilemap @Tileset08Tilemap, "data/tilemaps/08-maindeck-hallways.bin", 900h
 
 
+; Tileset 09-40 - Sector 2 Zazabi Area
+.org TilesetEntry + (TilesetEntry_Size * 09h) + TilesetEntry_RlebgGfxPointer
+    tilesetgfx  @Tileset094041RlebgGfx, "data/tilesets/tileset-09-40-41.gfx", 292Dh
+
+.org TilesetEntry + (TilesetEntry_Size * 09h) + TilesetEntry_TilemapPointer
+    tilemap @Tileset094041Tilemap, "data/tilemaps/09-40-41-tro-zazabi.bin", 0E04h
+
+.org TilesetEntry + (TilesetEntry_Size * 40h) + TilesetEntry_RlebgGfxPointer
+.area 4
+    .dw     @Tileset094041RlebgGfx
+.endarea
+.org TilesetEntry + (TilesetEntry_Size * 40h) + TilesetEntry_TilemapPointer
+.area 4
+    .dw     @Tileset094041Tilemap
+.endarea
+.org TilesetEntry + (TilesetEntry_Size * 41h) + TilesetEntry_RlebgGfxPointer
+.area 4
+    .dw     @Tileset094041RlebgGfx
+.endarea
+.org TilesetEntry + (TilesetEntry_Size * 41h) + TilesetEntry_TilemapPointer
+.area 4
+    .dw     @Tileset094041Tilemap
+.endarea
+
 ; Tileset 0B-1E - BSL Grated Hallways
 .org TilesetEntry + (TilesetEntry_Size * 0Bh) + TilesetEntry_RlebgGfxPointer
     tilesetgfx  @Tileset0B1ERlebgGfx, "data/tilesets/tileset-0B-1E.gfx", 1BE9h
