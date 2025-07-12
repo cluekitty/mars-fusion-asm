@@ -150,8 +150,9 @@
 .align 4
 ; Add one to offsets to account for THUMB
 .func DetermineJingle
-    push    { r1 }
+    push    { r1-r2 }
     ldr     r1, =ItemJingleFlag
+    mov     r2, #0
     ldrb    r0, [r1]
     cmp     r0, #0
     beq     @@minorJingle
@@ -160,7 +161,8 @@
 @@minorJingle:
     ldr     r0, =0802AA3Dh
 @@return:
-    pop     { r1 }
+    strb    r2, [r1]
+    pop     { r1-r2 }
     bx      r0
 .pool
 .endfunc
@@ -191,7 +193,7 @@
     b       @@return
 @@minorJingle:
     mov     r0, #05Ah
-@@return:    
+@@return:
     ldr     r4, =CurrentSprite
     strh    r0, [r4, Sprite_XParasiteTimer]
     bx      lr
