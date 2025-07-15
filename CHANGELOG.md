@@ -2,6 +2,7 @@
 
 ## Unreleased - 2025-XX-XX
 
+## 0.7.2 - 2025-07-15
 - Fixed: Major item jingle can no longer be canceled.
 
 ## 0.7.1 - 2025-07-15
