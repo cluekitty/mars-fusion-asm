@@ -150,9 +150,8 @@
 .align 4
 ; Add one to offsets to account for THUMB
 .func DetermineJingle
-    push    { r1-r2 }
+    push    { r1 }
     ldr     r1, =ItemJingleFlag
-    mov     r2, #0
     ldrb    r0, [r1]
     cmp     r0, #0
     beq     @@minorJingle
@@ -161,8 +160,7 @@
 @@minorJingle:
     ldr     r0, =0802AA3Dh
 @@return:
-    strb    r2, [r1]
-    pop     { r1-r2 }
+    pop     { r1 }
     bx      r0
 .pool
 .endfunc
@@ -182,6 +180,7 @@
 .autoregion
 .align 4
 .func SetMajorLocationMessageBoxTimer
+    push    { r2 }
     ldr     r4, =ItemJingleFlag
     ldrb    r0, [r4]
     cmp     r0, #0
@@ -194,6 +193,9 @@
 @@minorJingle:
     mov     r0, #05Ah
 @@return:
+    mov     r2, #0
+    strb    r2, [r4]
+    pop     { r2 }
     ldr     r4, =CurrentSprite
     strh    r0, [r4, Sprite_XParasiteTimer]
     bx      lr
@@ -204,6 +206,7 @@
 .autoregion
 .align 4
 .func SetMinorLocationMessageBoxTimer
+    push    { r2 }
     ldr     r1, =ItemJingleFlag
     ldrb    r0, [r1]
     cmp     r0, #0
@@ -216,6 +219,9 @@
 @@minorJingle:
     mov     r0, #05Ah
 @@return:
+    mov     r2, #0
+    strb    r2, [r1]
+    pop     { r2 }
     ldr     r1, =CurrentSprite
     mov     pc, lr
 .endfunc
