@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+
+## 0.7.1 - 2025-07-15
 - Fixed: Major item jingle no longer plays for message banners unrelated to item acquisition.
 - Fixed: When Revealed Hidden Tiles is enabled, the item in Zazabi speedway no longer appears as a completely blank tile.
 
