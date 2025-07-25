@@ -75,6 +75,7 @@ EnvironmentalHazardDpsPointer   equ 087FF020h
 MissileLimitPointer             equ 087FF024h
 RoomNamesPointer                equ 087FF028h
 RevealHiddenTilesFlagPointer    equ 087FF02Ch
+TitleScreenTextPointersPointer  equ 087FF030h
 
 
 ; Mark end-of-file padding as free space
@@ -198,6 +199,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/randomizer/start-location.s"
 .include "src/randomizer/tank-majors.s"
 .include "src/nonlinear/tileset-edits.s"
+.include "src/randomizer/title-screen.s"
 .include "src/randomizer/room-name-display.s"
 .endif
 

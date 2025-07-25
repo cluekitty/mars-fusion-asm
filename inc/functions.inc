@@ -73,6 +73,8 @@ Divide equ 080A3468h
 memcpy equ 080A4EF0h
 memset equ 080A4F50h
 
+TitleScreenLoadDebugText equ 080875B4h
+
 Sram_CheckLoadSaveFileWithBlank equ 08080968h
 Sram_RestoreBackupSaveFileAfterReload equ 0807FB48h ; We completely replace this unused vanilla function
 DmaTransfer equ 08002F1Ch ; r0=channel, r1=src, r2=dst, r3=len, [sp]=bitsize
