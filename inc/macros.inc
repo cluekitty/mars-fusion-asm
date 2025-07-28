@@ -84,6 +84,19 @@ label:
 .endautoregion
 .endmacro
 
+; Create text for Title Screen Debug Info
+.macro titlescreentext, label, text
+.definelabel @@title_screen_debug_text_line, org()
+label:
+    .db     text
+.if 1Eh - (. - label) < 0
+    .error "Text for TitleScreen is too long! Should be shorter than 30 Characters."
+    .error text + " is " + strlen(text) + " characters."
+.else
+    .fill 20h - (. - label ), 20h
+.endif
+.endmacro
+
 ; import a tilemap for a tileset
 .macro tilemap, label, file, regionsize
 .definelabel @@tilemap_pointer, org()
