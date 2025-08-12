@@ -63,7 +63,11 @@ PauseScreenOamData:
 .autoregion
 .align 4
 @PauseScreenObjGfx:
+.if !DEBUG
 .incbin "data/pause-obj.gfx"
+.else
+.incbin "data/pause-obj-debug.gfx"
+.endif
 .endautoregion
 .org PauseScreenGfxOamPointer
     .dw @PauseScreenObjGfx

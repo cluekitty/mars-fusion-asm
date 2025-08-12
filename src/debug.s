@@ -45,14 +45,6 @@
 .area 0801FC8Ch - 0801FC84h, 0
 .endarea
 
-;.org 0856F71Ch
-.autoregion
-@Debug_Map_3:
-.incbin "data/debug-map.gfx"
-.endautoregion
-
-.org 08076B10h
-    .dw @Debug_Map_3
 
 .org 08573EA0h
 .area 25Ch, 0
