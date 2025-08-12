@@ -287,7 +287,7 @@
     lsl     r0, #04h
     and     r0, r1
     cmp     r0, #00h
-    beq     @@return_from_highjack
+    beq     @@give_speedbooster
     ldr     r0, =0FFFFh
     lsl     r5, #10h
     asr     r5, #11h
@@ -295,6 +295,18 @@
     lsl     r7, #10h
     asr     r7, #11h
     and     r7, r0
+
+@@give_speedbooster:
+    ; We can't use Button_A because it would always be immediately applied.
+    mov     r0, #1 << Button_B
+    and     r0, r1
+    cmp     r0, #0
+    beq     @@return_from_highjack
+    push    { r1 }
+    ldr     r0, =SamusAnimations
+    mov     r1, 0B4h
+    strb    r1, [r0, #SamusAnimations_ShinesparkTimer]
+    pop     { r1 }
 
 @@return_from_highjack:
     ldr     r0, =@ReturnFromNoClipSpeedHighjack

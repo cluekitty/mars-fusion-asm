@@ -243,6 +243,15 @@ SamusState_Animation equ 22h
 SamusState_HitboxTop equ 26h
 .sym on
 
+SamusAnimations equ 030012D8h
+.sym off
+SamusAnimations_LoadingSaveFlag equ 00h
+SamusAnimations_PaletteAnimation equ 01h
+SamusAnimations_PaletteRow equ 02h
+SamusAnimations_SpaceJumpCounter equ 03h
+SamusAnimations_ShinesparkTimer equ 04h
+.sym on
+
 SamusTimers equ 030012F0h
 .sym off
 SamusTimers_SubzeroKnockback equ 05h
