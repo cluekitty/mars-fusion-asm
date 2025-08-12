@@ -84,8 +84,8 @@
 
 .org 0800DDE0h
 .area 0800DE04h-., 0
-    ldr     r0, =@CheckEnableNoClip+1
-    bx      r0
+    ldr     r0, =@CheckEnableNoClip
+    mov     pc, r0
     .pool
 .endarea
 .definelabel @ReturnFromNoClipCheck, org()+1
@@ -113,11 +113,21 @@
     sub     r0, #07h
 .org 0807E4B6h
 .area 0807E4C8h-., 0
-    ldr     r4, =@DebugMenuDrawHealthAndAmmoHighjack+1
-    bx      r4
+    ldr     r4, =@DebugMenuDrawHealthAndAmmoHighjack
+    mov     pc, r4
     .pool
 .endarea
-.definelabel @ReturnFromHighjack, org()+1
+.definelabel @ReturnFromDebugMenuDrawingHighjack, org()+1
+
+
+; Allow speeding or slowing noclip speed
+.org 0800E6F0h
+.area 0800E702h-., 0
+    ldr     r0, =@NoClipSpeedHighjack
+    mov     pc, r0
+    .pool
+.endarea
+.definelabel @ReturnFromNoClipSpeedHighjack, org()+1
 
 
 .autoregion
@@ -169,8 +179,8 @@
     ldr     r0, =SubGameMode1
     mov     r1, #06h                 ; ... then enable no-clip mode.
     strh    r1, [r0]
-    ldr     r0, =@ReturnFromNoClipCheck ; Return and break out of jump table
-    bx      r0
+    ldr     r1, =@ReturnFromNoClipCheck ; Return and break out of jump table
+    bx      r1
 
 @@if_false: ; Restore vanilla functionality
     ldr     r0, =ToggleInput
@@ -183,13 +193,13 @@
     bl      ProcessPauseButtonPress
     cmp     r0, #FALSE
     beq     @@return
-    ldr     r1, =SubGameMode1
-    ldrh    r0, [r1]
-    add     r0, #01h
-    strh    r0, [r1]
-    ldr     r1, =NonGameplayFlag
-    mov     r0, #NonGameplayFlag_PauseScreen
-    strb    r0, [r1]
+    ldr     r0, =SubGameMode1
+    ldrh    r1, [r0]
+    add     r1, #01h
+    strh    r1, [r0]
+    ldr     r0, =NonGameplayFlag
+    mov     r1, #NonGameplayFlag_PauseScreen
+    strb    r1, [r0]
 
 @@return:
     ldr     r1, =@ReturnFromNoClipCheck
@@ -199,17 +209,16 @@
 
     .align 2
 @DebugMenuModifyHealthAndAmmoHighjack:
-    ;push    { lr }
 @@check_max_energy:
     cmp     r3, #06h
     bne     @@check_metroids
     ldr     r5, =SamusUpgrades+SamusUpgrades_MaxEnergy
     sub     r2, r5, #02h
     mov     r8, r2
-    mov     r1, #03h ; length left/right
-    mov     r7, #02h ; what is r7?
+    mov     r1, #03h    ; length of numbers you can choose left/right
+    mov     r7, #02h    ; what is r7?
     mov     r0, #00h
-    mov     r9, r0 ; type of refill, 0 = energy, 1 = missile/metroid, 2 = pbomb
+    mov     r9, r0      ; type of refill, 0 = energy, 1 = missile/metroid, 2 = pbomb
     push    { r7 }
     ldr     r7, =0807E314h+1
     mov     lr, r7
@@ -220,14 +229,13 @@
     cmp     r3, #07h
     bne     @@check_next
     ldr     r5, =TotalMetroidCount
-    ;ldr     r5, [r5]
     mov     r8, r5
     ldr     r5, =PermanentUpgrades+PermanentUpgrades_InfantMetroids
-    mov     r1, #01h ; length left/right
+    mov     r1, #01h    ; length of numbers you can choose length left/right
     mov     r7, #02h
 @@set_increment_type:
     mov     r0, #01h
-    mov     r9, r0
+    mov     r9, r0      ; type of refill, 0 = energy, 1 = missile/metroid, 2 = pbomb
     push    { r7 }
     ldr     r7, =0807E314h+1
     mov     lr, r7
@@ -236,7 +244,6 @@
     .pool
 
 @@check_next:
-    ;pop     { pc }
     push    { r7 }
     ldr     r7, =0807E2C0h+1
     mov     lr, r7
@@ -257,7 +264,40 @@
     ldrb    r0, [r4, #SamusUpgrades_MaxMissiles]
     mov     r1, #DebugSection_MissileMax
     bl      DebugMenuDrawNumber
-    ldr     r0, =@ReturnFromHighjack
+    ldr     r0, =@ReturnFromDebugMenuDrawingHighjack
+    bx      r0
+    .pool
+
+    .align 2
+@NoClipSpeedHighjack:
+@@speed_up_noclip:
+    ; r1 contains HeldInput
+    ; r5 contains X-axis movement
+    ; r7 contains Y-axis movement
+    mov     r0, #(1 << Button_R) >> 4
+    lsl     r0, #04h
+    and     r0, r1
+    cmp     r0, #00h
+    beq     @@slow_down_noclip
+    lsl     r5, #01h
+    lsl     r7, #01h
+
+@@slow_down_noclip:
+    mov     r0, #(1 << Button_L) >> 4
+    lsl     r0, #04h
+    and     r0, r1
+    cmp     r0, #00h
+    beq     @@return_from_highjack
+    ldr     r0, =0FFFFh
+    lsl     r5, #10h
+    asr     r5, #11h
+    and     r5, r0
+    lsl     r7, #10h
+    asr     r7, #11h
+    and     r7, r0
+
+@@return_from_highjack:
+    ldr     r0, =@ReturnFromNoClipSpeedHighjack
     bx      r0
     .pool
 .endautoregion
