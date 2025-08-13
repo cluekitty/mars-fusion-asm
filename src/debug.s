@@ -8,12 +8,12 @@
 .sym off
 .definelabel NonGameplayFlag_PauseScreen, 2
 .definelabel NoneGameplay_DebugMenuEditingValue, 7
-.definelabel DebugSection_Top, 0
-.definelabel DebugSection_Bottom, 1
-.definelabel DebugSection_Left, 2
-.definelabel DebugSection_Right, 3
-.definelabel DebugSection_Section,4
-.definelabel DebugSection_Len, 5h
+.definelabel DebugSectionInfo_Top, 0
+.definelabel DebugSectionInfo_Bottom, 1
+.definelabel DebugSectionInfo_Left, 2
+.definelabel DebugSectionInfo_Right, 3
+.definelabel DebugSectionInfo_Section,4
+.definelabel DebugSectionInfo_Len, 5h
 .definelabel DebugSection_Beam, 0h
 .definelabel DebugSection_Missile, 01h
 .definelabel DebugSection_Bomb, 02h
@@ -42,10 +42,10 @@
     strb    r0, [r4, #2]
 
 .org 0801FC84h ; Modifies code in GunshipInit (checks if debug is enabled, we remove the check)
-.area 0801FC8Ch - 0801FC84h, 0
+.area 0801FC8Ch-., 0
 .endarea
 
-
+; Edits the BG Data to show "METROID" instead of "SUPPLY" under health.
 .org 08573EA0h
 .area 25Ch, 0
 .incbin "data/debug-menu-vram.bin"
@@ -83,26 +83,27 @@
 .definelabel @ReturnFromNoClipCheck, org()+1
 
 
-/* Make Unused Supply section for metroids */
+; Make Unused Supply section for metroids, edits the jump table
 .org 0807D4CCh
 .area 4
-    .dw     0807D5D4h
+    .dw     0807D5D4h ; Use same case as Sections for Energy/Ammo
 .endarea
 
-.org DebugSectionInfo + (DebugSection_Metroid * DebugSection_Len)
+.org DebugSectionInfo + (DebugSection_Metroid * DebugSectionInfo_Len)
 .area 5
+    ;       top, bottom, left, right, section_id
     .db     4, 4, 1Bh, 1Ch, DebugSection_Metroid
 .endarea
 
-; Editing the value
+; Editing the values
 .org 0807E2A8h
 .area 0807E2C0h-., 0
     bl      @DebugMenuModifyHealthAndAmmoHighjack
 .endarea
 
-; Drawing the value
+; Drawing the values
 .org 0807E4A8h
-    sub     r0, #07h
+    sub     r0, #DebugSection_Metroid
 .org 0807E4B6h
 .area 0807E4C8h-., 0
     ldr     r4, =@DebugMenuDrawHealthAndAmmoHighjack
@@ -137,7 +138,9 @@
     Hold Button_Select, Press Button_A to enable No Clip.
     While in No Clip mode:
     * hold Button_R to move more quickly
-    * press Button_Start to center the camera on Samus and disable scrolling.
+    * hold Button_L to move more slowly
+    * press Button_B to give yourself a speedbooster timer
+    * press Button_Start to center the camera on Samus and disable room scrolls.
       This lets you see all GFX of the room, including the normally hidden borders.
     * press Button_Select to exit No Clip mode.
     * Samus cannot be damaged.
@@ -145,7 +148,7 @@
 
 */
     .align 2
-.func @CheckEnableNoClip
+@CheckEnableNoClip:
     ldr     r0, =DebugFlag
     ldrb    r0, [r0]
     cmp     r0, #00h
@@ -163,6 +166,7 @@
     and     r0, r2                  ; ... while holding Button_Select ...
     cmp     r0, r1
     bne     @@if_false
+
 @@if_true:
     ldr     r0, =TimeStopTimer
     ldrh    r0, [r0]
@@ -171,8 +175,7 @@
     ldr     r0, =SubGameMode1
     mov     r1, #06h                 ; ... then enable no-clip mode.
     strh    r1, [r0]
-    ldr     r1, =@ReturnFromNoClipCheck ; Return and break out of jump table
-    bx      r1
+    b       @@return
 
 @@if_false: ; Restore vanilla functionality
     ldr     r0, =ToggleInput
@@ -197,7 +200,6 @@
     ldr     r1, =@ReturnFromNoClipCheck
     bx      r1
     .pool
-.endfunc
 
     .align 2
 @DebugMenuModifyHealthAndAmmoHighjack:
@@ -211,12 +213,8 @@
     mov     r7, #02h    ; what is r7?
     mov     r0, #00h
     mov     r9, r0      ; type of refill, 0 = energy, 1 = missile/metroid, 2 = pbomb
-    push    { r7 }
-    ldr     r7, =0807E314h+1
-    mov     lr, r7
-    pop     { r7 }
-    bx      lr
-    .pool
+    b       @@end_checks
+
 @@check_metroids:
     cmp     r3, #07h
     bne     @@check_next
@@ -225,21 +223,25 @@
     ldr     r5, =PermanentUpgrades+PermanentUpgrades_InfantMetroids
     mov     r1, #01h    ; length of numbers you can choose length left/right
     mov     r7, #02h
-@@set_increment_type:
     mov     r0, #01h
     mov     r9, r0      ; type of refill, 0 = energy, 1 = missile/metroid, 2 = pbomb
+
+; skips remaining checks if match is found
+@@end_checks:
     push    { r7 }
     ldr     r7, =0807E314h+1
     mov     lr, r7
     pop     { r7 }
-    bx      lr
-    .pool
+    b       @@return
 
+; jumps to max missiles check
 @@check_next:
     push    { r7 }
     ldr     r7, =0807E2C0h+1
     mov     lr, r7
     pop     { r7 }
+
+@@return:
     bx      lr
     .pool
 
@@ -262,10 +264,12 @@
 
     .align 2
 @NoClipSpeedHighjack:
-@@speed_up_noclip:
     ; r1 contains HeldInput
     ; r5 contains X-axis movement
     ; r7 contains Y-axis movement
+
+; doubles speed
+@@speed_up_noclip:
     mov     r0, #(1 << Button_R) >> 4
     lsl     r0, #04h
     and     r0, r1
@@ -274,20 +278,22 @@
     lsl     r5, #01h
     lsl     r7, #01h
 
+; halves speed
 @@slow_down_noclip:
     mov     r0, #(1 << Button_L) >> 4
     lsl     r0, #04h
     and     r0, r1
     cmp     r0, #00h
     beq     @@give_speedbooster
-    ldr     r0, =0FFFFh
+    ldr     r0, =0FFFFh ; set mask
     lsl     r5, #10h
     asr     r5, #11h
-    and     r5, r0
+    and     r5, r0      ; remove upper 16 bits
     lsl     r7, #10h
     asr     r7, #11h
     and     r7, r0
 
+; sets speedbooster timer to time you would have after pressing down to store it normally
 @@give_speedbooster:
     ; We can't use Button_A because it would always be immediately applied.
     mov     r0, #1 << Button_B
@@ -296,7 +302,7 @@
     beq     @@return_from_highjack
     push    { r1 }
     ldr     r0, =SamusAnimations
-    mov     r1, 0B4h
+    mov     r1, #0B4h
     strb    r1, [r0, #SamusAnimations_ShinesparkTimer]
     pop     { r1 }
 
