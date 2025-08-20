@@ -1,5 +1,5 @@
 /* TODO
-    * When health is dropping below 2100 (such as, if from negative E-tanks), clear gfx of left-most digit under "EN"
+    * Fix health display on File Select
 */
 ; Allows drawing health greater than 2099 withoug graphical glitches
 .org 0807276Ah
@@ -19,9 +19,7 @@
     if (MaxEnergy < 2100) {
         DrawHudEnergy() //vanilla
         if (Digit under "EN" not clear (check 06010E0Dh)) {
-
-            BitFill MaxEnergyDigitsGfxWRAM with 0
-            DMA
+            BitFill Tile with 00h
         }
     } else {
 
@@ -29,7 +27,6 @@
 */
 .func @DrawEnergyForHud
     push    { lr }
-    ;
 
     ldr     r0, =SamusUpgrades
     ldrh    r0, [r0, SamusUpgrades_MaxEnergy]
@@ -40,6 +37,23 @@
     ldr     r0, =OverHealthFlag
     mov     r1, #0
     strb    r1, [r0]
+
+    ; Clear "Thousands" digit if health is decreasing
+    ldr     r0, =06010E0Eh  ; Center Line of Tile
+    ldr     r0, [r0]
+    mov     r1, #00h
+    mvn     r1, r1
+    and     r0, r1          ; if data is all zeros
+    beq     @@return
+    sub     sp, #04h
+    mov     r0, #10h
+    str     r0, [sp]
+    mov     r0, #03h
+    mov     r1, #00h
+    ldr     r2, =06010E00h
+    mov     r3, #20h
+    bl      BitFill
+    add     sp, #04h
     b       @@return
 
 @@draw_numbers:
