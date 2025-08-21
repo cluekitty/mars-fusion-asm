@@ -88,6 +88,7 @@
     bne     @@max_thousands
 
 @@clear_gfx:
+    ; clear top e-tanks line
     ldr     r0, =083E851Ch
     ldr     r1, =06010A60h
     ldr     r2, =DMA_ENABLE | 10h * 5
@@ -96,11 +97,22 @@
     str     r1, [r6, DMA_DAD]
     str     r2, [r6, DMA_CNT]
     ldr     r2, [r6, DMA_CNT]
+    ; clear bottom e-tanks line
     ldr     r1, =06010E00h
     ldr     r2, =DMA_ENABLE | 10h * 8
     str     r1, [r6, DMA_DAD]
     str     r2, [r6, DMA_CNT]
     ldr     r2, [r6, DMA_CNT]
+    ; load new "max" text"
+    bkpt
+    ldr     r0, =@EnergyMaxText
+    ldr     r1, =06010A60h
+    ldr     r2, =DMA_ENABLE | 10h * 2
+    str     r0, [r6, DMA_SAD]
+    str     r1, [r6, DMA_DAD]
+    str     r2, [r6, DMA_CNT]
+    ldr     r2, [r6, DMA_CNT]
+
 
 @@max_thousands:
     ldr     r5, =MaxEnergyDigits
@@ -487,5 +499,10 @@
     bx      r0
     .pool
 .endfunc
+
+    .align 4
+@EnergyMaxText:
+    .incbin "data/energy-max2.gfx"
+
 
 .endautoregion
