@@ -13,6 +13,11 @@
     .dh 9999
 .endif
 
+.sym off
+.definelabel GFX_ROW, 400h
+.definelabel GFX_TILE, 20h
+.sym on
+
 .autoregion
     .align  2
 /*
@@ -38,7 +43,7 @@
     mov     r1, #0
     strb    r1, [r0]
 
-    ; Clear "Thousands" digit if health is decreasing
+; Clear "Thousands" digit if health is decreasing
     ldr     r0, =06010E0Eh  ; Center Line of Tile
     ldr     r0, [r0]
     mov     r1, #00h
@@ -190,6 +195,11 @@
     lsr     r5, #10h
 
 
+/*
+    This draws the graphics one row at a time to a temporary spot in IWRAM, then
+    copies it into VRAM using DMA. This is effectively how vanilla draws ammo
+    digits.
+*/
 @@loop_left_digits:
 @@max_thousands_gfx:
     add     r0, r4, r7  ; src = thousands + gfx
@@ -319,8 +329,9 @@
 
     ldr     r6, =DMA3
     ldr     r0, =MaxEnergyDigitsGfxWRAM
-    ;ldr     r1, =06010E00h
-    ldr     r1, =06010A60h
+    ;ldr     r1, =06010E00h ; Directly below "Energy" text
+    ;ldr     r1, =06010A60h ; Directly next to "Energy" Text
+    ldr     r1, =06010AA0h ; 3 tiles right of "Energy" Text, need to make gx for "Max" text
     ldr     r2, =DMA_ENABLE | 30h
     str     r0, [r6, DMA_SAD]
     str     r1, [r6, DMA_DAD]
