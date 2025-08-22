@@ -104,7 +104,6 @@
     str     r2, [r6, DMA_CNT]
     ldr     r2, [r6, DMA_CNT]
     ; load new "max" text"
-    bkpt
     ldr     r0, =@EnergyMaxText
     ldr     r1, =06010A60h
     ldr     r2, =DMA_ENABLE | 10h * 2
@@ -502,7 +501,7 @@
 
     .align 4
 @EnergyMaxText:
-    .incbin "data/energy-max2.gfx"
+    .incbin "data/energy-max.gfx"
 
 
 .endautoregion
