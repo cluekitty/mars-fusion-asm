@@ -2,6 +2,16 @@
 
 ## Unreleased - 2025-XX-XX
 
+### Room Adjustments
+- Removed: Removed the ANTI-SOFTLOCK conditional and instead made the changes always mandatory. This affects:
+  - Sector 2 Cultivation Station: Bomb Block on the way to the Zoro area is now always a shot block.
+  - Sector 2 Ripper Tower: Crumble Block on the bottom has been moved one tile up.
+  - Sector 2 Crumble City: Furthest shot block on the left is now always a crumble block.
+  - Sector 4 Reservoir East: All destructable blocks on the way to the bottom Power Bomb Tank never respawn.
+  - Sector 4 Security Bypass: Make the dead-ends not softlock you if you went in there without Bombs or Power Bombs.
+  - Sector 6 Zozoro Wine Cellar: Make the Bomb Block guarding the item always respawn.
+
+
 ## 0.7.2 - 2025-07-15
 - Fixed: Major item jingle can no longer be canceled.
 

@@ -32,9 +32,6 @@
 .ifndef MISSILES_WITHOUT_MAINS
 .definelabel MISSILES_WITHOUT_MAINS, 0
 .endif
-.ifndef ANTI_SOFTLOCK
-.definelabel ANTI_SOFTLOCK, 0
-.endif
 .ifndef UNHIDDEN_MAP
 .definelabel UNHIDDEN_MAP, 0
 .endif
