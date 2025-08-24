@@ -345,7 +345,7 @@
 .func @InGameSubroutineHighjack
     push    { lr }
     bl      CheckReloadWeaponGfx
-    bl      080819ECh
+    bl      080819ECh ; Restore vanilla function call (ProjectileDrawAll_True)
     pop     { r0 }
     bx      r0
 .endfunc
