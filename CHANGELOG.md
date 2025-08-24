@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+- Fixed: Weapon graphics sometimes did not reload after upgrades were collected/given.
 
 ## 0.7.2 - 2025-07-15
 - Fixed: Major item jingle can no longer be canceled.
