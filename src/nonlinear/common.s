@@ -183,6 +183,9 @@
     bl      IncrementPBCount
     mov     r0, #Upgrade_PowerBombs
 @@obtainMajor:
+    ldr     r4, =ReloadWeaponGfxFlag
+    mov     r3, #1
+    strb    r3, [r4]
     ldr     r4, =MajorUpgradeInfo
     lsl     r0, #2
     add     r4, r0
@@ -313,6 +316,36 @@
     mov     r0, #0
     pop     { r3, pc }
     .pool
+.endfunc
+
+.func CheckReloadWeaponGfx
+    push    { lr }
+    ldr     r1, =ReloadWeaponGfxFlag
+    ldrb    r0, [r1]
+    cmp     r0, #0
+    beq     @@return
+
+    bl      LoadBeamGfx
+    bl      LoadMissileGfx
+@@return:
+    pop     { pc }
+    .pool
+.endfunc
+.endautoregion
+
+.org 0800DF38h
+.area 4
+    bl  @InGameSubroutineHighjack
+.endarea
+
+.autoregion
+.align 2
+.func @InGameSubroutineHighjack
+    push    { lr }
+    bl      CheckReloadWeaponGfx
+    bl      080819ECh
+    pop     { r0 }
+    bx      r0
 .endfunc
 .endautoregion
 
