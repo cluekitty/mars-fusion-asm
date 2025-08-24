@@ -179,12 +179,12 @@
     pop     { r4, pc }
     .pool
 .endfunc
-/* Register contents during highjack
-    r4 = MostRecentSaveFile 03000BD8
-    r6 = SaveFileInfo       03000B94
-*/
+
 .align 2
 .func SetNewFileHealthInfo
+/* Register contents during highjack
+    r4 = MostRecentSaveFile 03000BD8
+*/
     push    { lr }
     ldr     r6, =SaveData
     ldrb    r1, [r4]
