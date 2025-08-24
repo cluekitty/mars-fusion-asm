@@ -327,6 +327,8 @@
 
     bl      LoadBeamGfx
     bl      LoadMissileGfx
+    mov     r0, #0
+    strb    r0, [r1]
 @@return:
     pop     { pc }
     .pool
