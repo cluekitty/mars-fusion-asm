@@ -12,6 +12,7 @@
 .include "src/nonlinear/room-edits/main-deck/scrolls.s"
 .include "src/nonlinear/room-edits/main-deck/room-06.s"
 .include "src/nonlinear/room-edits/main-deck/room-0A.s"
+.include "src/nonlinear/room-edits/main-deck/room-0C.s"
 .include "src/nonlinear/room-edits/main-deck/room-0D-4A-55.s"
 .include "src/nonlinear/room-edits/main-deck/room-12.s"
 .include "src/nonlinear/room-edits/main-deck/room-14-and-2E.s"
