@@ -103,7 +103,6 @@
 .include "src/nonlinear/room-edits/sector-6/scrolls.s"
 .include "src/nonlinear/room-edits/sector-6/room-07.s"
 .include "src/nonlinear/room-edits/sector-6/room-0C.s"
-.include "src/nonlinear/room-edits/sector-6/room-0F.s"
 .include "src/nonlinear/room-edits/sector-6/room-10.s"
 .include "src/nonlinear/room-edits/sector-6/room-18.s"
 .include "src/nonlinear/room-edits/sector-6/room-1B.s"
