@@ -1,4 +1,4 @@
-; Main Deck - Crew Quarters West
+; Main Deck - Crew Quarters East
 ; remove power bomb geron
 ; Slightly adjust exit-distance from door with gadora to prevent instant damage if the gadora is not defeated.
 
