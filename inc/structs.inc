@@ -718,3 +718,5 @@ ItemJingleFlag equ 03005670h
 MinorItemJingle equ 0
 MajorItemJingle equ 1
 .sym on
+
+ReloadWeaponGfxFlag equ 03005671h
