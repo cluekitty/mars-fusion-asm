@@ -1,5 +1,7 @@
 ; Sector 2 - Zazabi Arena Access
 ; add cocoon and kihunter spritesets to intact room state
+; Slightly adjust exit-distance from door with gadora to prevent instant damage if the gadora is not defeated.
+
 .autoregion
 @S2_ZazabiAccess_Spriteset1:
     .db     03h, 27h, 12h
@@ -66,4 +68,9 @@
 .area 08h
     .dw     @S2_ZazabiAccess_CocoonSpriteset
     .dw     @S2_ZazabiAccess_KihunterSpriteset
+.endarea
+
+.org Sector2Doors + 27h * DoorEntry_Size + DoorEntry_ExitDistanceX
+.area 1
+    .db     GadoraExitDistance_Left
 .endarea

@@ -679,4 +679,7 @@ AltTankPalD equ 27FFh
 AltTankPalE equ 0013h
 AltTankPalF equ 043Fh
 
+GadoraExitDistance_Right equ 23h
+GadoraExitDistance_Left equ 100h - 23h
+
 .sym on
