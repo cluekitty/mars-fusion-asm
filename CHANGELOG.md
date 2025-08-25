@@ -2,6 +2,7 @@
 
 ## Unreleased - 2025-XX-XX
 - Fixed: Weapon graphics sometimes did not reload after upgrades were collected/given.
+- Changed: Doors with Gadora on them have had their exit distance tweaked to prevent damage when traversing from the opposite side.
 
 ### Room Adjustments
 - Removed: Removed the ANTI-SOFTLOCK conditional and instead made the changes always mandatory. This affects:
