@@ -3,5 +3,5 @@
 
 .org Sector1Doors + 53h * DoorEntry_Size + DoorEntry_ExitDistanceX
 .area 1
-    .db     23h
+    .db     GadoraExitDistance_Right
 .endarea
