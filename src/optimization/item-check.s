@@ -433,7 +433,7 @@
     mov     r2, r4
     mov     r3, #300 >> 4
     lsl     r3, #4
-    bl      08002FECh
+    bl      BitFill
     mov     r0, #3
     mov     r1, #0
     mov     r2, #SaveData_TanksCollected >> 4
@@ -441,7 +441,7 @@
     add     r2, r4
     mov     r3, #(SaveData_Size - SaveData_TanksCollected) >> 4
     lsl     r3, #4
-    bl      08002FECh
+    bl      BitFill
     add     sp, #4
     pop     { r4, pc }
     .pool
@@ -450,6 +450,7 @@
 
 .org 0807F1BAh
     bl  InitializeSavedata
+    bl  SetNewFileHealthInfo
     b   0807F222h
 
 .org MinorLocationTablePointer

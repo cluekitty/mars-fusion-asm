@@ -161,3 +161,48 @@
     bl      @InitSaveMeta
     b       0808093Ah
 .endarea
+
+.org 080A059Ah
+.area 4
+    bl      @FileSelectDrawInfoHighjack
+.endarea
+
+.autoregion
+.align 2
+; loads StartingItems to set default energy value on new file
+.func @FileSelectDrawInfoHighjack
+    push    { r4, lr }
+    ldr     r4, =StartingItems
+    ldrh    r0, [r4, SamusUpgrades_CurrEnergy]
+    ; r1 contains Currentenergy offset for fileselect non-gameplay ram
+    strh    r0, [r1]
+    ldrh    r0, [r4, SamusUpgrades_MaxEnergy]
+    strh    r0, [r1, SamusUpgrades_MaxEnergy - SamusUpgrades_CurrEnergy]
+    pop     { r4, pc }
+    .pool
+.endfunc
+
+.align 2
+.func SetNewFileHealthInfo
+/* Register contents during highjack
+    r4 = MostRecentSaveFile 03000BD8
+*/
+    push    { lr }
+    ldr     r6, =SaveData
+    ldrb    r1, [r4]
+    mov     r0, #SaveMeta_Size
+    mul     r0, r1
+    add     r0, r0, r6
+    ldr     r0, [r0]
+    mov     r1, #0C4h       ; SamusUpgrades offset in SramWram
+    add     r0, r0, r1
+    ldr     r1, =StartingItems
+    ldrh    r1, [r1, SamusUpgrades_MaxEnergy]
+    strh    r1, [r0, SamusUpgrades_CurrEnergy]
+    strh    r1, [r0, SamusUpgrades_MaxEnergy]
+@@return:
+    pop     { r0 }
+    bx      r0
+    .pool
+.endfunc
+.endautoregion
