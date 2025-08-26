@@ -258,7 +258,7 @@ bkpt
 
     ; 2nd loop
     mov     r2, #00h
-    mov     r3, #(GFX_TILE * 2)
+    mov     r3, #GFX_TILE
     ldr     r5, =MaxEnergyDigits
     ldrb    r4, [r5, EnergyDigits_Tens]
     ldrb    r5, [r5, EnergyDigits_Ones]
