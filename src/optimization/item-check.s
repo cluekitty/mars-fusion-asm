@@ -612,7 +612,7 @@ MinorLocationTable:
 .endautoregion
 
 .autoregion
-    .align 2
+    .align 4
 MinorLocations:
 @Items_MainDeck_Room07:
     .db     Area_MainDeck, 07h, 0

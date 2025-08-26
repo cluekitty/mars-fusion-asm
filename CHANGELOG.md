@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Fixed: Game crash caused by alignment of Minor item data within the ROM.
 
 ## 0.8.0 - 2025-08-25
 - Fixed: Weapon graphics sometimes did not reload after upgrades were collected/given.

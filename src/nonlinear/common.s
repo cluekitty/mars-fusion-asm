@@ -381,31 +381,32 @@ RequiredMetroidCount:
 .endarea
 
 .autoregion
+    .align 4
 MajorLocationItems:
-        .db     Upgrade_Missiles, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_MorphBall, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_ChargeBeam, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_SecurityLevel1, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_Bombs, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_HiJump, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_Speedbooster, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_SecurityLevel2, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_SuperMissiles, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_VariaSuit, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_SecurityLevel3, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_IceMissiles, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_WideBeam, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_PowerBombs, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_SpaceJump, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_PlasmaBeam, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_GravitySuit, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_SecurityLevel4, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_DiffusionMissiles, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_WaveBeam, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_ScrewAttack, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_InfantMetroid, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_InfantMetroid, Message_Auto, MajorItemJingle, 0h
-        .db     Upgrade_InfantMetroid, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_Missiles, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_MorphBall, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_ChargeBeam, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_SecurityLevel1, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_Bombs, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_HiJump, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_Speedbooster, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_SecurityLevel2, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_SuperMissiles, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_VariaSuit, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_SecurityLevel3, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_IceMissiles, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_WideBeam, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_PowerBombs, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_SpaceJump, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_PlasmaBeam, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_GravitySuit, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_SecurityLevel4, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_DiffusionMissiles, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_WaveBeam, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_ScrewAttack, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_InfantMetroid, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_InfantMetroid, Message_Auto, MajorItemJingle, 0h
+    .db     Upgrade_InfantMetroid, Message_Auto, MajorItemJingle, 0h
 .endautoregion
 
 .org TankIncrementsPointer
