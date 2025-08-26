@@ -6,6 +6,7 @@
 - Fixed: Weapon graphics sometimes did not reload after upgrades were collected/given.
 - Fixed: Custom starting health displays incorrectly on a new file when you have not saved.
 - Changed: Doors with Gadora on them have had their exit distance tweaked to prevent damage when traversing from the opposite side.
+- Fixed: Custom Title Screen text could be dismissed accidentally when pressing `A` or `START` during the fade-in of "Press Start" and Copyright info.
 
 ### Room Adjustments
 - Removed: Removed the ANTI-SOFTLOCK conditional and instead made the changes always mandatory. This affects:

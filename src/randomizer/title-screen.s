@@ -73,6 +73,12 @@ TitleScreenTextPointers:
     mov     r4, #1E00h >> 5
     lsl     r4, #05
 .endarea
+.org 0808751Ah
+.area 4
+    ; when A or START is pressed to skip fade-in
+    mov     r2, #1E00h >> 5
+    lsl     r2, #05
+.endarea
 .org 0808738Ch
 .area 4
     ; Enables BG2 in Blending Control
