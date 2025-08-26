@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+
+## 0.8.1 - 2025-08-26
 - Fixed: Custom Title Screen text could be dismissed accidentally when pressing `A` or `START` during the fade-in of "Press Start" and Copyright info.
 
 ## 0.8.0 - 2025-08-25
