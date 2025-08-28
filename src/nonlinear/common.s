@@ -319,18 +319,18 @@
 .endfunc
 
 .func CheckReloadWeaponGfx
-    push    { lr }
-    ldr     r1, =ReloadWeaponGfxFlag
-    ldrb    r0, [r1]
+    push    { r4, lr }
+    ldr     r4, =ReloadWeaponGfxFlag
+    ldrb    r0, [r4]
     cmp     r0, #0
     beq     @@return
 
     bl      LoadBeamGfx
     bl      LoadMissileGfx
     mov     r0, #0
-    strb    r0, [r1]
+    strb    r0, [r4]
 @@return:
-    pop     { pc }
+    pop     { r4, pc }
     .pool
 .endfunc
 .endautoregion

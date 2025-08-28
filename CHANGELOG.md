@@ -2,6 +2,7 @@
 
 ## Unreleased
 - Fixed: Game crash caused by alignment of Minor item data within the ROM.
+- Fixed: Ensure that the flag for reloading weapon gfx is cleared after reloading graphics.
 
 ## 0.8.1 - 2025-08-26
 - Fixed: Custom Title Screen text could be dismissed accidentally when pressing `A` or `START` during the fade-in of "Press Start" and Copyright info.
