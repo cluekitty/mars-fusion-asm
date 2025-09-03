@@ -39,6 +39,10 @@
 .definelabel UNHIDDEN_MAP_DOORS, 0
 .endif
 
+FreeIWRam equ 03005630h
+FreeIWRamLen equ 23D0h
+FreeIWRamEnd equ FreeIWRam + FreeIWRamLen ; ends 030079FFh
+
 .include "inc/constants.inc"
 .include "inc/enums.inc"
 .include "inc/functions.inc"

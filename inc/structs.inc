@@ -704,19 +704,34 @@ PrimarySpriteAiPtrs equ 0879A29Ch
 SpriteGfxPtrs equ 0879A5D8h
 SpritePalettePtrs equ 0879A8D4h
 
-StoredRevealedTiles equ 03005630h
+
+; Store structs for new Memory Here
 .sym off
+;StoredRevealedTiles
 StoredRevealedTiles_Len equ 40h
 StoredRevealedTiles_Type equ 0
 StoredRevealedTiles_YPos equ 2
 StoredRevealedTiles_XPos equ 3
 StoredRevealedTiles_Size equ 4
-.sym on
 
-ItemJingleFlag equ 03005670h
-.sym off
+;ItemJingleFlag
 MinorItemJingle equ 0
 MajorItemJingle equ 1
 .sym on
 
-ReloadWeaponGfxFlag equ 03005671h
+; Add Label for new memory location here, align if necessary.
+; Use `.skip <length>` to automatically allocate memory without overlap.
+.headersize 03000000h
+.org FreeIWRam
+    .align 4
+StoredRevealedTiles:
+    .skip StoredRevealedTiles_Len * StoredRevealedTiles_Size
+
+ItemJingleFlag:
+    .skip 1
+
+ReloadWeaponGfxFlag:
+    .skip 1
+
+.headersize 08000000h
+.org 08000000h
