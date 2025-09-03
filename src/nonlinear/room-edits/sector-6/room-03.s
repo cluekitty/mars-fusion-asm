@@ -2,9 +2,14 @@
 
 
 ; Move Doors back by one tile to prevent weird behaviour in Entrance Rando.
-.org readptr(Sector6Levels + 03h * LevelMeta_Size + LevelMeta_Clipdata)
-.area 0A6h
+.autoregion DataFreeSpace, DataFreeSpaceEnd
+@S6_03_Clipdata:
 .incbin "data/rooms/S6-03-Clip.rlebg"
+.endautoregion
+
+.org Sector6Levels + 03h * LevelMeta_Size + LevelMeta_Clipdata
+.area 04h
+    .dw     @S6_03_Clipdata
 .endarea
 
 .org Sector6Doors + 32h * DoorEntry_Size + DoorEntry_XStart
