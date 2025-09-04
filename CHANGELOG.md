@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-??-??
 
+- Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
+- Removed: The PHYSICS compile variable/option was removed.
+
 ## 0.8.2 - 2025-08-29
 - Fixed: Game crash caused by alignment of Minor item data within the ROM.
 - Fixed: Ensure that the flag for reloading weapon gfx is cleared after reloading graphics.
