@@ -16,9 +16,6 @@
 .ifndef ACCESSIBILITY
 .definelabel ACCESSIBILITY, 0
 .endif
-.ifndef PHYSICS
-.definelabel PHYSICS, 0
-.endif
 .ifndef NONLINEAR
 .definelabel NONLINEAR, 1
 .endif
@@ -135,14 +132,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .if ACCESSIBILITY
 .include "src/a11y/accessible-enemy-gfx.s"
 .include "src/a11y/accessible-flashing.s"
-.endif
-
-; Physics patches
-; Patches which alter Samus's movement physics
-.if PHYSICS
-.notice "Applying physics patches..."
-.include "src/physics/air-momentum.s"
-.include "src/physics/speedkeep.s"
 .endif
 
 ; Non-linearity patches
