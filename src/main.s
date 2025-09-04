@@ -16,9 +16,6 @@
 .ifndef ACCESSIBILITY
 .definelabel ACCESSIBILITY, 0
 .endif
-.ifndef PHYSICS
-.definelabel PHYSICS, 0
-.endif
 .ifndef NONLINEAR
 .definelabel NONLINEAR, 1
 .endif
@@ -38,6 +35,10 @@
 .ifndef UNHIDDEN_MAP_DOORS
 .definelabel UNHIDDEN_MAP_DOORS, 0
 .endif
+
+FreeIWRam equ 03005630h
+FreeIWRamLen equ 23D0h
+FreeIWRamEnd equ FreeIWRam + FreeIWRamLen ; ends 030079FFh
 
 .include "inc/constants.inc"
 .include "inc/enums.inc"
@@ -135,14 +136,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .if ACCESSIBILITY
 .include "src/a11y/accessible-enemy-gfx.s"
 .include "src/a11y/accessible-flashing.s"
-.endif
-
-; Physics patches
-; Patches which alter Samus's movement physics
-.if PHYSICS
-.notice "Applying physics patches..."
-.include "src/physics/air-momentum.s"
-.include "src/physics/speedkeep.s"
 .endif
 
 ; Non-linearity patches
