@@ -231,7 +231,7 @@
 .endarea
 
 
-; Make BOX check both left and right for Samus, instead of only left 
+; Make BOX check both left and right for Samus, instead of only left, when deciding when to jump
 .org 08035fd8h
 .area 4
     cmp r0, #0
