@@ -6,6 +6,29 @@
 - Fixed: Game crash caused by alignment of Minor item data within the ROM.
 - Fixed: Ensure that the flag for reloading weapon gfx is cleared after reloading graphics.
 
+### Room Adjustments
+
+#### Main Deck
+- Changed: Central Reacto Core: Moved the Door leading to Silo Tunnel back by a tile to prevent getting stuck in Entrance Randomizer.
+
+#### Sector 1
+- Changed: Charge Core Upper Access: Moved the Door leading to Crab Rave back by a tile to prevent getting stuck in Entrance Randomizer.
+- Changed: Tourian Eastern Hub: Removed the shot blocks and remodelled the space leading to Animorphs to prevent getting stuck in Entrance Randomizer.
+- Changed: Twin Junctions Save Room: Moved the Door leading to Walljump Tutorial back by a tile to prevent getting stuck in Entrance Randomizer.
+
+#### Sector 3
+- Changed: Security Access: Moved the Door leading to the Security Room back by a tile to prevent getting stuck in Entrance Randomizer.
+
+#### Sector 4
+- Changed: Pump Control Save Room: Moved the Door leading to Breeding Tank Acecss back by a tile to prevent getting stuck in Entrance Randomizer.
+
+#### Sector 5
+- Changed: Flooded Tower: Moved the Door leading to Mini-Fridge back by a tile to prevent getting stuck in Entrance Randomizer.
+
+#### Sector 6
+- Changed: Geron's Crossing: Moved the Doors leading to the bottom side of Entrance Lobby and Vault back by a tile to prevent getting stuck in Entrance Randomizer.
+- Changed: Warehouse: Moved the Door leading to Zozoro's Wine Cellar back by a tile to prevent getting stuck in Entrance Randomizer.
+
 ## 0.8.1 - 2025-08-26
 - Fixed: Custom Title Screen text could be dismissed accidentally when pressing `A` or `START` during the fade-in of "Press Start" and Copyright info.
 
