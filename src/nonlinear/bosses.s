@@ -238,7 +238,7 @@
     beq 08035ff8h
 .endarea
 
-; Instead of BOX code moving him for 0x100h after 1 frame, patch it out
+; Patch out BOX code moving him for 0x100h when it spawns
 .org 08035E46h
 .area 2
     nop
