@@ -210,6 +210,45 @@
 .endautoregion
 
 
+; Walljumping Pose
+.org 080078FCh
+.area 4
+    bl      @SamusWalljumpingHijack
+.endarea
+
+.autoregion
+.align 2
+; r0 is used as the return value in the outer function, as SamusPose
+; When returning back to the original call, r1 has to be restored
+.func @SamusWalljumpingHijack
+    .definelabel @@ReturnInOuterFunction, 0800796Ch
+
+    push    {lr}
+    bl      @CheckInstantMorph
+    cmp     r0, #0
+    beq     @@OriginalCode
+    ; Adjust X-Velocity and Y-Position
+    ; Vanilla code would do it by setting the pose to SamusUpdateJumpVelocity and doing it there in a big switch statement
+    ; But that'd require us to hijack even more code, so we're doing it here instead and then returning the MorphBallMidAir Pose.
+    ldr     r1, =SamusState
+    mov     r0, #0
+    strh    r0, [r1, #SamusState_VelocityX]
+    ldrh    r0, [r1, #SamusState_PositionY]
+    add     r0, #14h
+    strh    r0, [r1, #SamusState_PositionY]
+    mov     r0, #SamusPose_MorphBallMidAir
+    pop     {r1}
+    ldr     r1, =@@ReturnInOuterFunction
+    mov     pc, r1
+
+    @@OriginalCode:
+    mov     r1, #30h
+    and     r1, r2
+    pop     {pc}
+    .pool
+.endfunc
+.endautoregion
+
 ; Unmorphing Pose
 .org 0800765Ah
 .area 4
