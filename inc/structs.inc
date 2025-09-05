@@ -774,7 +774,8 @@ ReloadWeaponGfxFlag:
 OverHealthFlag:
     .skip 1
 
+    .align 4
 MaxEnergyDigitsGfxWRAM:
-    .skip 30h; equ 03005680h
+    .skip 30h
 .headersize 08000000h
 .org 08000000h
