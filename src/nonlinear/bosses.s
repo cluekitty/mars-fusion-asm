@@ -230,6 +230,26 @@
     .pool
 .endarea
 
+
+; Make BOX check both left and right for Samus, instead of only left, when deciding when to jump
+.org 08035fd8h
+.area 4
+    cmp r0, #0
+    beq 08035ff8h
+.endarea
+
+; Patch out BOX code moving him for 0x100h when it spawns
+.org 08035E46h
+.area 2
+    nop
+.endarea
+
+; Move BOX slightly to the left to avoid bumping into him when coming from Data Room
+.org readptr(Sector3Levels + 17h * LevelMeta_Size + LevelMeta_Spriteset0) + (2 * Spriteset_SpriteSize)
+.area 2
+    .db 14h, 15h
+.endarea
+
 .org 080369A0h
 .area 3Ch
     ; set box kill status
