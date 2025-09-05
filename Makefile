@@ -18,6 +18,7 @@ OPTIONALS += missiles_without_mains
 OPTIONALS += unhidden_map
 OPTIONALS += unhidden_map_doors
 OPTIONALS += accessibility
+OPTIONALS += instant_unmorph
 
 OBJS := $(OPTIONALS:%=$(OBJ_DIR)/%.gba)
 PATCHES := $(OPTIONALS:%=$(BIN_DIR)/%.ips)
@@ -46,13 +47,6 @@ else
     QOL_SYMBOL = -definelabel QOL 0
 endif
 
-INSTANT_UNMORPH := false
-ifeq ($(INSTANT_UNMORPH), true)
-    INSTANT_UNMORPH_SYMBOL := -definelabel INSTANT_UNMORPH 1
-else
-    INSTANT_UNMORPH_SYMBOL = -definelabel INSTANT_UNMORPH 0
-endif
-
 MODIFICATION_MODE := randomizer
 ifeq ($(MODIFICATION_MODE), randomizer)
     RANDOMIZER_SYMBOL := -definelabel RANDOMIZER 1
@@ -66,7 +60,7 @@ else
 endif
 
 
-ALL_SYMBOLS = $(BUILD_SYMBOL) $(OPTIMIZE_SYMBOL) $(QOL_SYMBOL) $(INSTANT_UNMORPH_SYMBOL) $(RANDOMIZER_SYMBOL) $(NONLINEAR_SYMBOL)
+ALL_SYMBOLS = $(BUILD_SYMBOL) $(OPTIMIZE_SYMBOL) $(QOL_SYMBOL) $(RANDOMIZER_SYMBOL) $(NONLINEAR_SYMBOL)
 
 all: $(BIN_DIR)/m4rs.gba
 
@@ -112,7 +106,6 @@ help:
 	@echo "  BUILD_TYPE		- Sets the build type. Possible values are debug and release. Defaults to debug."
 	@echo "  OPTIMIZE		- Sets whether to optimize certain routines. Only change is higher performance. Possible values are true and false. Defaults to true."
 	@echo "  QOL			- Sets whether to apply non-essential but convenient features. Possible values are true and false. Defaults to true."
-	@echo "  INSTANT_UNMORPH	- Sets whether to apply a patch that allows instantly (un)morphing via SELECT. Possible values are true and false. Defaults to false."
 	@echo "  MODIFICATION_MODE	- Sets what kind of modifications should be applied. Possible values are randomizer, nonlinear and vanilla. Defaults to randomizer."
 	@echo ""
 
