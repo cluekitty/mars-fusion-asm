@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-??-??
 
+- Added: An optional compile that repurposes the SELECT button to an instant (un)morph button.
+
 ## 0.8.2 - 2025-08-29
 - Fixed: Game crash caused by alignment of Minor item data within the ROM.
 - Fixed: Ensure that the flag for reloading weapon gfx is cleared after reloading graphics.
