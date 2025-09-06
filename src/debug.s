@@ -96,13 +96,13 @@
     .db     4, 4, 1Bh, 1Ch, DebugSection_Metroid
 .endarea
 
-; Editing the values
+; Editing Health/Ammo/Metroid values
 .org 0807E2A8h
 .area 0807E2C0h-., 0
     bl      @DebugMenuModifyHealthAndAmmoHighjack
 .endarea
 
-; Drawing the values
+; Drawing health/Ammo/Metroid values
 .org 0807E4A8h
     sub     r0, #DebugSection_Metroid
 .org 0807E4B6h
@@ -230,16 +230,18 @@
 
 ; skips remaining checks if match is found
 @@end_checks:
+.definelabel @@ModifySelectedValue, 0807E314h+1
     push    { r7 }
-    ldr     r7, =0807E314h+1
+    ldr     r7, =@@ModifySelectedValue
     mov     lr, r7
     pop     { r7 }
     b       @@return
 
 ; jumps to max missiles check
 @@check_next:
+.definelabel @@CheckModifyMissiles, 0807E2C0h+1
     push    { r7 }
-    ldr     r7, =0807E2C0h+1
+    ldr     r7, =@@CheckModifyMissiles
     mov     lr, r7
     pop     { r7 }
 
