@@ -91,6 +91,7 @@
 
 .org DebugSectionInfo + (DebugSection_Metroid * DebugSectionInfo_Len)
 .area 5
+    ; position is in BG tiles which are 8x8 pixels in width/height
     ;       top, bottom, left, right, section_id
     .db     4, 4, 1Bh, 1Ch, DebugSection_Metroid
 .endarea
@@ -135,10 +136,10 @@
 .endfunc
 
 /* NOTES
-    Hold Button_Select, Press Button_A to enable No Clip.
+    Hold Button_L and Button_R, Press Button_Select to enable No Clip.
     While in No Clip mode:
-    * hold Button_R to move more quickly
-    * hold Button_L to move more slowly
+    * hold Button_R to move quickly
+    * hold Button_L to move slowly
     * press Button_B to give yourself a speedbooster timer
     * press Button_Start to center the camera on Samus and disable room scrolls.
       This lets you see all GFX of the room, including the normally hidden borders.
@@ -155,15 +156,16 @@
     beq     @@if_false
     ldr     r0, =ToggleInput
     ldrh    r0, [r0]
-    mov     r1, #1 << Button_A
-    and     r0, r1                  ; If Button_A Pressed ...
+    mov     r1, #1 << Button_Select
+    and     r0, r1                  ; If Button_Select Pressed ...
     cmp     r0, #00h
     beq     @@if_false
     ldr     r0, =HeldInput
     ldrh    r0, [r0]
-    mov     r1, #1 << Button_Select
+    mov     r1, #(1 << (Button_L | Button_R)) >> 4
+    lsl     r1, #04h
     mov     r2, r1
-    and     r0, r2                  ; ... while holding Button_Select ...
+    and     r0, r2                  ; ... while holding Button_L and Button_R ...
     cmp     r0, r1
     bne     @@if_false
 
