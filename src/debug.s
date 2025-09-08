@@ -8,12 +8,14 @@
 .sym off
 .definelabel NonGameplayFlag_PauseScreen, 2
 .definelabel NoneGameplay_DebugMenuEditingValue, 7
+
 .definelabel DebugSectionInfo_Top, 0
 .definelabel DebugSectionInfo_Bottom, 1
 .definelabel DebugSectionInfo_Left, 2
 .definelabel DebugSectionInfo_Right, 3
 .definelabel DebugSectionInfo_Section,4
 .definelabel DebugSectionInfo_Len, 5h
+
 .definelabel DebugSection_Beam, 0h
 .definelabel DebugSection_Missile, 01h
 .definelabel DebugSection_Bomb, 02h
@@ -41,7 +43,9 @@
     mov     r0, r9
     strb    r0, [r4, #2]
 
-.org 0801FC84h ; Modifies code in GunshipInit (checks if debug is enabled, we remove the check)
+; Modifies code in GunshipInit (checks if debug is enabled, we remove the check)
+; Otherwise, Samus's pose does not get set properly and you never "appear" on screen from the gunship. Instead you would be spawned into the world invisible and instantly. Several things don't seem to work when samus is not displayed, such as screen scrolling.
+.org 0801FC84h
 .area 0801FC8Ch-., 0
 .endarea
 
@@ -74,6 +78,8 @@
     bl      EnableDebug
 .endarea
 
+; Modifies InGameSubroutine to add a check for user-activated noclip.
+; vanilla functionality is restored in the highjack
 .org 0800DDE0h
 .area 0800DE04h-., 0
     ldr     r0, =@CheckEnableNoClip
@@ -204,6 +210,7 @@
     .pool
 
     .align 2
+; r9 contains refill type used for upper bounds of user-selected value
 @DebugMenuModifyHealthAndAmmoHighjack:
 @@check_max_energy:
     cmp     r3, #06h
@@ -212,7 +219,7 @@
     sub     r2, r5, #02h
     mov     r8, r2
     mov     r1, #03h    ; length of numbers you can choose left/right
-    mov     r7, #02h    ; what is r7?
+    mov     r7, #02h    ; Seems to indicate if you are editing a current/max value, 1/2 is current/max energy, 1/2 is missile, 3/4 is pbombs. May not be accurate.
     mov     r0, #00h
     mov     r9, r0      ; type of refill, 0 = energy, 1 = missile/metroid, 2 = pbomb
     b       @@end_checks
@@ -224,7 +231,7 @@
     mov     r8, r5
     ldr     r5, =PermanentUpgrades+PermanentUpgrades_InfantMetroids
     mov     r1, #01h    ; length of numbers you can choose length left/right
-    mov     r7, #02h
+    mov     r7, #00h
     mov     r0, #01h
     mov     r9, r0      ; type of refill, 0 = energy, 1 = missile/metroid, 2 = pbomb
 
