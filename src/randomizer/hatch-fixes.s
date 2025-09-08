@@ -132,3 +132,13 @@
     .pool
 .endfunc
 .endautoregion
+
+
+; Remove Pink Event doors from Navigation rooms
+; Since we don't have any story events anymore, and all our other places have
+; gray locked doors, there is no need for nav rooms specifically to have pink ones.
+; Overwrites the check in DetermineNavigationHatchesToLock on whether we're in a Navigation Room.
+.org 0806323Eh
+.area 2
+    nop
+.endarea

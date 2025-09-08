@@ -4,6 +4,7 @@
 
 - Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
 - Removed: The PHYSICS compile variable/option was removed.
+- Fixed: Permanently locked doors in Navigation Rooms are not pink anymore.
 
 ## 0.8.2 - 2025-08-29
 - Fixed: Game crash caused by alignment of Minor item data within the ROM.
