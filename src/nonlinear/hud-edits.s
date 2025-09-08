@@ -13,11 +13,6 @@
     .dh 9999
 .endif
 
-.sym off
-.definelabel GFX_ROW, 400h
-.definelabel GFX_TILE, 20h
-.sym on
-
 .autoregion
     .align  2
 /*

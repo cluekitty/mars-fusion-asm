@@ -1,10 +1,15 @@
 ; Repointing Vanilla Pause Screen OAM Data so that we can append to the list
+; Updating File Select Menu to properly display health over 2099
 
-; TODO: See if we can force armips to error if null pointers are in this table
-; Note: If you are adding more OAM sprites to this table, be sure to do the following:
-; 1. MenuSpriteGfx_Size in enums.inc
-; 2. Set the pointer for your new gfx to the index of this table such that it overwrites
-;    the null pointer generated below. Failure to do this may result in a crash.
+/*  Pause Screen OAM Changes
+    - Re-points OAM data to expand the list.
+    - Adds "L0 Lock" information.
+    TODO: See if we can force armips to error if null pointers are in this table
+    Note: If you are adding more OAM sprites to this table, be sure to do the following:
+    1. Update MenuSpriteGfx_Size in enums.inc
+    2. Set the pointer for your new gfx to the index of this table such that it overwrites
+       the null pointer generated below. Failure to do this may result in a crash.
+*/
 .autoregion
 .align 4
 PauseScreenOamData:
@@ -167,4 +172,98 @@ PauseScreenOamData:
     .dw     @Lv0UnlockedOamData
     .dw     0FFh
     .dd     0
+.endautoregion
+
+
+/*  File Select Changes
+*/
+
+
+; moves some code and adds additional checks for drawing current energy tanks
+.org  080A07AEh
+.area 080A07E2h-., 0
+    bl      @FileDrawInfoEnergyTankGfxHighjack_1
+
+    mov     r1, r8
+    ldr     r0, [r1, #04h]
+    cmp     r0, #01
+    bne     080A082Ah
+    ; if we have already drawn 20 tanks, skip drawing extra
+    cmp     r6, #20
+    .definelabel @@skip, 080A0822h
+    bge     @@skip
+    cmp     r6, #10
+    bne     @ReturnToOriginalCodeFlow_1
+    mov     r2, #4A0h >> 4
+    lsl     r2, #04
+    neg     r2, r2  ; -#4A0h
+    add     r7, r7, r2
+    b       @ReturnToOriginalCodeFlow_1
+.endarea
+.definelabel @ReturnToOriginalCodeFlow_1, org()
+
+.org 080A0846h
+.area 080A0866h-., 0
+    bl      @FileDrawInfoEnergyTankGfxHighjack_2
+    b       @ReturnToOriginalCodeFlow_2
+.endarea
+.definelabel @ReturnToOriginalCodeFlow_2, org()
+
+
+.autoregion
+    .align 2
+@FileDrawInfoEnergyTankGfxHighjack_1:
+@@loop_current:
+    ; if loop counter == 10, move e-tank gfx position to top row
+    cmp     r6, #10
+    bne     @@cont_current
+    ldr     r1, =#-4A0h
+    add     r7, r7, r1
+@@cont_current:
+    mov     r0, r12
+    str     r0, [r2, #DMA_SAD]
+    str     r7, [r2, #DMA_DAD]
+    str     r5, [r2, #DMA_CNT]
+    ldr     r0, [r2, #DMA_CNT]
+    add     r7, #GFX_TILE
+    add     r0, r6, #02h
+    lsl     r0, r0, #18h
+    lsr     r6, r0, #18h
+    ldr     r0, [sp, #24h]
+    ldr     r1, [r4, #04h]
+    sub     r0, r0, r1
+    cmp     r6, #20     ; Break out if we have drawn 20 tanks
+    bge     @@break
+    cmp     r6, r0
+    blt     @@loop_current
+@@break:
+    bx      lr
+    .pool
+
+    .align 2
+@FileDrawInfoEnergyTankGfxHighjack_2:
+@@loop_max:
+    cmp     r6, #10
+    bne     @@cont_max
+    add     r7, r12
+@@cont_max:
+    str     r5, [r2, #DMA_SAD]
+    str     r7, [r2, #DMA_DAD]
+    str     r4, [r2, #DMA_CNT]
+    ldr     r0, [r2, #DMA_CNT]
+    add     r7, #GFX_TILE
+    add     r0, r6, #02h
+    lsl     r0, r0, #18h
+    lsr     r6, r0, #18h
+    ldr     r0, [r3, #08h]
+    ldr     r1, [r3, #0Ch]
+    sub     r0, r0, r1
+    cmp     r6, #20
+    bge     @@break
+    cmp     r6, r0
+    blt     @@loop_max
+@@break:
+    bx      lr
+
+
 .endautoregion
