@@ -194,7 +194,7 @@ PauseScreenOamData:
     bge     @@skip
     cmp     r6, #10
     bne     @ReturnToOriginalCodeFlow_1
-    mov     r2, #4A0h >> 4
+    mov     r2, #(GFX_ROW + GFX_TILE*5) >> 4
     lsl     r2, #04
     neg     r2, r2  ; -#4A0h
     add     r7, r7, r2
@@ -212,12 +212,13 @@ PauseScreenOamData:
 
 .autoregion
     .align 2
+; Draws E-tanks and stops if drawing more than 20
 @FileDrawInfoEnergyTankGfxHighjack_1:
 @@loop_current:
     ; if loop counter == 10, move e-tank gfx position to top row
     cmp     r6, #10
     bne     @@cont_current
-    ldr     r1, =#-4A0h
+    ldr     r1, =#-(GFX_ROW + GFX_TILE*5)
     add     r7, r7, r1
 @@cont_current:
     mov     r0, r12
@@ -233,9 +234,32 @@ PauseScreenOamData:
     ldr     r1, [r4, #04h]
     sub     r0, r0, r1
     cmp     r6, #20     ; Break out if we have drawn 20 tanks
-    bge     @@break
+    bge     @@draw_overhealth_indicator
     cmp     r6, r0
     blt     @@loop_current
+    b       @@break
+@@draw_overhealth_indicator:
+    push    { r3-r4 }
+    ldr     r3, =@FileSelectOverhealthIndicator
+    str     r3, [r2, #DMA_SAD]
+    str     r7, [r2, #DMA_DAD]
+    ldr     r4, =DMA_ENABLE | 20h
+    str     r4, [r2, #DMA_CNT]
+    ldr     r4, [r2, #DMA_CNT]
+    add     r3, #GFX_TILE   ; load the next half of the tile
+    str     r3, [r2, #DMA_SAD]
+    mov     r4, #GFX_ROW >> 4
+    lsl     r4, #04h
+    add     r7, r7, r4      ; jump to the next gfx row
+    str     r7, [r2, #DMA_DAD]
+    ldr     r4, =DMA_ENABLE | 20h
+    str     r4, [r2, #DMA_CNT]
+    ldr     r4, [r2, #DMA_CNT]
+    mov     r4, #GFX_ROW >> 4
+    lsl     r4, #04h
+    neg     r4, r4          ; subtract added GFX Row to restore original value
+    add     r7, r7, r4
+    pop     { r3-r4 }
 @@break:
     bx      lr
     .pool
@@ -264,6 +288,10 @@ PauseScreenOamData:
     blt     @@loop_max
 @@break:
     bx      lr
+.endautoregion
 
-
+.autoregion DataFreeSpace, DataFreeSpaceEnd
+    .align 4
+@FileSelectOverhealthIndicator:
+    .incbin "data/file-select-overhealth-indicator.gfx"
 .endautoregion
