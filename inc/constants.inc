@@ -1,7 +1,3 @@
-TRUE equ 1
-FALSE equ 0
-NULL equ 0FFh
-
 ; GBA hardware constants
 OBJ0_YCoordinate equ 0b11111111 ; Bits 0-7 (0-255)
 OBJ0_Transform equ 1 << 8   ; For rotation or scaling

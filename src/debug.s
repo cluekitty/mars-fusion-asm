@@ -194,7 +194,7 @@
     cmp     r0, #00h
     beq     @@return
     bl      ProcessPauseButtonPress
-    cmp     r0, #FALSE
+    cmp     r0, #0
     beq     @@return
     ldr     r0, =SubGameMode1
     ldrh    r1, [r0]
