@@ -1,6 +1,3 @@
-/* TODO
-    * Fix health display on File Select
-*/
 ; Allows drawing health greater than 2099 withoug graphical glitches
 .org 0807276Ah
 .area 4
@@ -195,13 +192,13 @@
     lsr     r4, #10h
     lsl     r5, #15h
     lsr     r5, #10h
+
+@@loop_left_digits:
 /*
     This draws the graphics one row at a time to a temporary spot in IWRAM, then
     copies it into VRAM using DMA. This is effectively how vanilla draws ammo
     digits.
 */
-@@loop_left_digits:
-bkpt
     ; Max Health Thousands Digit
     ; The comments for this section also apply to the other digits
     add     r0, r4, r7  ; source graphics offset = digit offset + gfx ptr

@@ -174,10 +174,12 @@ PauseScreenOamData:
     .dd     0
 .endautoregion
 
-
-/*  File Select Changes
+/* End Pause Screen OAM Changes */
+/* File Select Changes
+    - Updates drawing code for Energy Tanks on file select
+        - will not display more than 20 Energy Tanks
+        - If max energy for save file is over 2099, displays a new `+` indicator.
 */
-
 
 ; moves some code and adds additional checks for drawing current energy tanks
 .org 080A07A2h
