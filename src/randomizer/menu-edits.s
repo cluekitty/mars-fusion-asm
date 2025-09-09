@@ -183,7 +183,6 @@ PauseScreenOamData:
 .org  080A07AEh
 .area 080A07E2h-., 0
     bl      @FileDrawInfoEnergyTankGfxHighjack_1
-
     mov     r1, r8
     ldr     r0, [r1, #04h]
     cmp     r0, #01
@@ -203,8 +202,24 @@ PauseScreenOamData:
 .definelabel @ReturnToOriginalCodeFlow_1, org()
 
 .org 080A0846h
-.area 080A0866h-., 0
+.area 080A087Ch-., 0
     bl      @FileDrawInfoEnergyTankGfxHighjack_2
+    mov     r3, r8
+    ldr     r0, [r3, #0Ch]
+    cmp     r0, #01
+    .definelabel @@skip, 080A088Ah
+    bne     @@skip
+    ldr     r0, [r3, #08h]
+    cmp     r6, #20
+    bge     @@skip
+    cmp     r6, r0
+    bge     @@skip
+    cmp     r6, #10
+    bne     @ReturnToOriginalCodeFlow_2
+    mov     r0, #(GFX_ROW + GFX_TILE*5) >> 4
+    lsl     r0, #04
+    neg     r0, r0  ; -#4A0h
+
     b       @ReturnToOriginalCodeFlow_2
 .endarea
 .definelabel @ReturnToOriginalCodeFlow_2, org()
@@ -234,38 +249,16 @@ PauseScreenOamData:
     ldr     r1, [r4, #04h]
     sub     r0, r0, r1
     cmp     r6, #20     ; Break out if we have drawn 20 tanks
-    bge     @@draw_overhealth_indicator
+    bge     @@break
     cmp     r6, r0
     blt     @@loop_current
-    b       @@break
-@@draw_overhealth_indicator:
-    push    { r3-r4 }
-    ldr     r3, =@FileSelectOverhealthIndicator
-    str     r3, [r2, #DMA_SAD]
-    str     r7, [r2, #DMA_DAD]
-    ldr     r4, =DMA_ENABLE | 20h
-    str     r4, [r2, #DMA_CNT]
-    ldr     r4, [r2, #DMA_CNT]
-    add     r3, #GFX_TILE   ; load the next half of the tile
-    str     r3, [r2, #DMA_SAD]
-    mov     r4, #GFX_ROW >> 4
-    lsl     r4, #04h
-    add     r7, r7, r4      ; jump to the next gfx row
-    str     r7, [r2, #DMA_DAD]
-    ldr     r4, =DMA_ENABLE | 20h
-    str     r4, [r2, #DMA_CNT]
-    ldr     r4, [r2, #DMA_CNT]
-    mov     r4, #GFX_ROW >> 4
-    lsl     r4, #04h
-    neg     r4, r4          ; subtract added GFX Row to restore original value
-    add     r7, r7, r4
-    pop     { r3-r4 }
 @@break:
     bx      lr
-    .pool
 
     .align 2
 @FileDrawInfoEnergyTankGfxHighjack_2:
+    cmp     r6, #20
+    bge     @@align_overhealth_indicator
 @@loop_max:
     cmp     r6, #10
     bne     @@cont_max
@@ -283,11 +276,33 @@ PauseScreenOamData:
     ldr     r1, [r3, #0Ch]
     sub     r0, r0, r1
     cmp     r6, #20
-    bge     @@break
+    bge     @@draw_overhealth_indicator
     cmp     r6, r0
     blt     @@loop_max
+    b       @@break
+@@align_overhealth_indicator:
+    sub     r7, #GFX_TILE
+@@draw_overhealth_indicator:
+    push    { r3-r4, r7 }
+    ldr     r3, =@FileSelectOverhealthIndicator
+    str     r3, [r2, #DMA_SAD]
+    str     r7, [r2, #DMA_DAD]
+    ldr     r4, =DMA_ENABLE | GFX_TILE/2
+    str     r4, [r2, #DMA_CNT]
+    ldr     r4, [r2, #DMA_CNT]
+    add     r3, #GFX_TILE   ; load the next half of the tile
+    str     r3, [r2, #DMA_SAD]
+    mov     r4, #GFX_ROW >> 4
+    lsl     r4, #04h
+    add     r7, r7, r4      ; jump to the next gfx row
+    str     r7, [r2, #DMA_DAD]
+    ldr     r4, =DMA_ENABLE | GFX_TILE/2
+    str     r4, [r2, #DMA_CNT]
+    ldr     r4, [r2, #DMA_CNT]
+    pop     { r3-r4, r7 }
 @@break:
     bx      lr
+    .pool
 .endautoregion
 
 .autoregion DataFreeSpace, DataFreeSpaceEnd
