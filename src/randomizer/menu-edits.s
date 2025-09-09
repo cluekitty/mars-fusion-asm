@@ -180,16 +180,22 @@ PauseScreenOamData:
 
 
 ; moves some code and adds additional checks for drawing current energy tanks
+.org 080A07A2h
+.area 2
+    bge     @ReturnFromFileDrawInfoEnergyTankGfxHighjack_1
+.endarea
+
 .org  080A07AEh
 .area 080A07E2h-., 0
     bl      @FileDrawInfoEnergyTankGfxHighjack_1
+@ReturnFromFileDrawInfoEnergyTankGfxHighjack_1:
     mov     r1, r8
     ldr     r0, [r1, #04h]
     cmp     r0, #01
     bne     080A082Ah
     ; if we have already drawn 20 tanks, skip drawing extra
     cmp     r6, #20
-    .definelabel @@skip, 080A0822h
+.definelabel @@skip, 080A0822h
     bge     @@skip
     cmp     r6, #10
     bne     @ReturnToOriginalCodeFlow_1
@@ -201,13 +207,19 @@ PauseScreenOamData:
 .endarea
 .definelabel @ReturnToOriginalCodeFlow_1, org()
 
-.org 080A0846h
+.org 080A0838h
+.area 2
+    bge     @ReturnFromFileDrawInfoEnergyTankGfxHighjack_2
+.endarea
+
+.org  080A0846h
 .area 080A087Ch-., 0
     bl      @FileDrawInfoEnergyTankGfxHighjack_2
+@ReturnFromFileDrawInfoEnergyTankGfxHighjack_2:
     mov     r3, r8
     ldr     r0, [r3, #0Ch]
     cmp     r0, #01
-    .definelabel @@skip, 080A088Ah
+.definelabel @@skip, 080A088Ah
     bne     @@skip
     ldr     r0, [r3, #08h]
     cmp     r6, #20
@@ -224,6 +236,13 @@ PauseScreenOamData:
 .endarea
 .definelabel @ReturnToOriginalCodeFlow_2, org()
 
+
+.org  080A0A08h
+.area 080A0A16h-., 0
+    ldr     r0,  =@FileDrawInfoEnergyTankGfxHighjack_3
+    mov     pc, r0
+    .pool
+.endarea
 
 .autoregion
     .align 2
@@ -257,12 +276,11 @@ PauseScreenOamData:
 
     .align 2
 @FileDrawInfoEnergyTankGfxHighjack_2:
-    cmp     r6, #20
-    bge     @@align_overhealth_indicator
 @@loop_max:
     cmp     r6, #10
     bne     @@cont_max
-    add     r7, r12
+    ldr     r1, =#-(GFX_ROW + GFX_TILE*5)
+    add     r7, r7, r1
 @@cont_max:
     str     r5, [r2, #DMA_SAD]
     str     r7, [r2, #DMA_DAD]
@@ -276,32 +294,58 @@ PauseScreenOamData:
     ldr     r1, [r3, #0Ch]
     sub     r0, r0, r1
     cmp     r6, #20
-    bge     @@draw_overhealth_indicator
+    bge     @@break
     cmp     r6, r0
     blt     @@loop_max
-    b       @@break
-@@align_overhealth_indicator:
-    sub     r7, #GFX_TILE
-@@draw_overhealth_indicator:
-    push    { r3-r4, r7 }
-    ldr     r3, =@FileSelectOverhealthIndicator
-    str     r3, [r2, #DMA_SAD]
-    str     r7, [r2, #DMA_DAD]
-    ldr     r4, =DMA_ENABLE | GFX_TILE/2
-    str     r4, [r2, #DMA_CNT]
-    ldr     r4, [r2, #DMA_CNT]
-    add     r3, #GFX_TILE   ; load the next half of the tile
-    str     r3, [r2, #DMA_SAD]
-    mov     r4, #GFX_ROW >> 4
-    lsl     r4, #04h
-    add     r7, r7, r4      ; jump to the next gfx row
-    str     r7, [r2, #DMA_DAD]
-    ldr     r4, =DMA_ENABLE | GFX_TILE/2
-    str     r4, [r2, #DMA_CNT]
-    ldr     r4, [r2, #DMA_CNT]
-    pop     { r3-r4, r7 }
 @@break:
     bx      lr
+    .pool
+
+; This highjack is at the end of the function and includes the return statement.
+@FileDrawInfoEnergyTankGfxHighjack_3:
+    ; load max energy from current save file
+    ldr     r2, =SaveMetadata
+    mov     r4, r10         ; r10 contains specified save file
+    mov     r0, #SaveMeta_Size
+    mul     r0, r4
+    add     r0, r2          ; current save file metadata
+    ldrh    r0, [r0, #SaveMeta_MaxEnergy]
+    ldr     r1, =2099
+    sub     r1, r0
+    bpl     @@return        ; if 2099 > Max, do nothing
+
+    ldr     r7, =DMA3
+    ldr     r3, =@FileSelectOverhealthIndicator
+    str     r3, [r7, #DMA_SAD]
+    ldr     r6, =VRAM+89A0h ; Tile to the right of the top E-Tank Row for File A
+    mov     r0, #(GFX_ROW * 2) >> 4
+    lsl     r0, #04
+    mul     r0, r4
+    add     r6, r0          ; Offset GFX for current file
+    str     r6, [r7, #DMA_DAD]
+    ldr     r4, =DMA_ENABLE | GFX_TILE/2
+    str     r4, [r7, #DMA_CNT]
+    ldr     r4, [r7, #DMA_CNT]
+    add     r3, #GFX_TILE   ; load the next half of the tile
+    str     r3, [r7, #DMA_SAD]
+    mov     r4, #GFX_ROW >> 4
+    lsl     r4, #04h
+    add     r6, r6, r4      ; jump to the next gfx row
+    str     r6, [r7, #DMA_DAD]
+    ldr     r4, =DMA_ENABLE | GFX_TILE/2
+    str     r4, [r7, #DMA_CNT]
+    ldr     r4, [r7, #DMA_CNT]
+
+@@return:
+    ; Restore vanilla function return statement
+    add     sp, #50h
+    pop     { r3-r5 }
+    mov     r8, r3
+    mov     r9, r4
+    mov     r10, r5
+    pop     { r4-r7 }
+    pop     { r0 }
+    bx      r0
     .pool
 .endautoregion
 
