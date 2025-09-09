@@ -13,6 +13,8 @@
 - Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
 - Removed: The PHYSICS compile variable/option was removed.
 - Changed: The stereo-default patch has been moved from an IPS patch in the patcher to an ASM change togglable via a flag in ROM.
+- Fixed: Energy values over 2099 now correctly render in-game.
+- Fixed: Energy values over 2099 are now capped on the file screen to only show 20 E-tanks. A new `+` indicator will show next to your energy if you have more than 2099 max energy.
 
 ### Room Adjustments
 
