@@ -114,7 +114,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/qol/aim-lock.s"
 .include "src/qol/completion-seconds.s"
 .include "src/qol/cross-sector-maps.s"
-.include "src/qol/stereo-default.s"
 .include "src/qol/fast-doors.s"
 .include "src/qol/fast-elevators.s"
 .include "src/qol/ice-beam-volume.s"
@@ -124,6 +123,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/qol/screw-unbonk.s"
 .include "src/qol/skip-ending.s"
 .include "src/qol/skip-intro.s"
+.include "src/qol/stereo-default.s"
 .include "src/qol/unhidden-breakable-tiles.s"
 .if UNHIDDEN_MAP
 .include "src/qol/unhidden-map.s"
