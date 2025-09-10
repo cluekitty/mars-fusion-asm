@@ -4,6 +4,7 @@
 .table "data/text.tbl"
 
 ; Assembly-time flags
+.sym off
 .ifndef DEBUG
 .definelabel DEBUG, 1
 .endif
@@ -38,6 +39,7 @@
 .ifndef UNHIDDEN_MAP_DOORS
 .definelabel UNHIDDEN_MAP_DOORS, 0
 .endif
+.sym on
 
 FreeIWRam equ 03005630h
 FreeIWRamLen equ 23D0h
@@ -77,6 +79,7 @@ MissileLimitPointer             equ 087FF024h
 RoomNamesPointer                equ 087FF028h
 RevealHiddenTilesFlagPointer    equ 087FF02Ch
 TitleScreenTextPointersPointer  equ 087FF030h
+DefaultStereoFlagPointer        equ 087FF034h
 
 
 ; Mark end-of-file padding as free space
@@ -87,9 +90,6 @@ DataFreeSpace equ 080F9A28h
 DataFreeSpaceLen equ 20318h
 DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .defineregion DataFreeSpace, DataFreeSpaceLen, 0FFh
-.autoregion DataFreeSpace, DataFreeSpaceEnd
-    .skip 0FFh ; Reserve space for stereo_default IPS patch from patcher
-.endautoregion
 
 ; Debug mode patch
 .if DEBUG
@@ -114,6 +114,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/qol/aim-lock.s"
 .include "src/qol/completion-seconds.s"
 .include "src/qol/cross-sector-maps.s"
+.include "src/qol/stereo-default.s"
 .include "src/qol/fast-doors.s"
 .include "src/qol/fast-elevators.s"
 .include "src/qol/ice-beam-volume.s"
