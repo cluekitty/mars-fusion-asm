@@ -169,7 +169,7 @@
     mov     r0, MenuSprite_Size
     mov     r1, 25h     ; Oam Slot
     mul     r0, r1
-    add     r0, #NonGamePlayRam_OamData
+    add     r0, #NonGamePlayRam_MapScreen_OamData
     add     r1, r3, r0
     mov     r0, #MenuSpriteGfx_SelectMapChange
     strb    r0, [r1, MenuSprite_Graphic]
