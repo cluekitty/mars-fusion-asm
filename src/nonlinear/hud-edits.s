@@ -31,7 +31,7 @@
     cmp     r0, r1
     bgt     @@draw_numbers
     bl      DrawHudEnergy
-    ldr     r0, =OverHealthFlag
+    ldr     r0, =ExcessEnergyFlag
     mov     r1, #0
     strb    r1, [r0]
 
@@ -74,7 +74,7 @@
     ldrh    r3, [r4, SamusUpgrades_CurrEnergy]
     mov     r8, r3
 
-    ldr     r0, =OverHealthFlag
+    ldr     r0, =ExcessEnergyFlag
     ldrb    r0, [r0]
     cmp     r0, #0
     bne     @@max_thousands
@@ -118,7 +118,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@set_max_thousands_digit
@@ -137,7 +137,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@set_max_hundreds_digit
@@ -156,7 +156,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@set_max_tens_digit
@@ -171,7 +171,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@set_max_ones_digit
@@ -353,7 +353,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@check_curr_thousands_digit_is_same
@@ -385,7 +385,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@check_curr_hundreds_digit_is_same
@@ -417,7 +417,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@check_curr_tens_digit_is_same
@@ -445,7 +445,7 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =OverHealthFlag
+    ldr     r2, =ExcessEnergyFlag
     ldrb    r2, [r2]
     cmp     r2, #1
     beq     @@check_curr_ones_digit_is_same
@@ -467,7 +467,7 @@
 
 
 @@return:
-    ldr     r0, =OverHealthFlag
+    ldr     r0, =ExcessEnergyFlag
     mov     r1, #1
     strb    r1, [r0]
     pop     { r4-r5 }
