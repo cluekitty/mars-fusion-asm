@@ -184,13 +184,13 @@ PauseScreenOamData:
 ; moves some code and adds additional checks for drawing current energy tanks
 .org 080A07A2h
 .area 2
-    bge     @ReturnFromFileDrawInfoEnergyTankGfxHighjack_1
+    bge     @ReturnFromFileDrawInfoEnergyTankGfxHighjack_CurrentEnergy
 .endarea
 
 .org  080A07AEh
 .area 080A07E2h-., 0
-    bl      @FileDrawInfoEnergyTankGfxHighjack_1
-@ReturnFromFileDrawInfoEnergyTankGfxHighjack_1:
+    bl      @FileDrawInfoEnergyTankGfxHighjack_CurrentEnergy
+@ReturnFromFileDrawInfoEnergyTankGfxHighjack_CurrentEnergy:
     mov     r1, r8
     ldr     r0, [r1, #04h]
     cmp     r0, #01
@@ -200,24 +200,24 @@ PauseScreenOamData:
 .definelabel @@skip, 080A0822h
     bge     @@skip
     cmp     r6, #10
-    bne     @ReturnToOriginalCodeFlow_1
+    bne     @ReturnToOriginalCodeFlow_CurrentEnergy
     mov     r2, #(GFX_ROW + GFX_TILE*5) >> 4
     lsl     r2, #04
     neg     r2, r2  ; -#4A0h
     add     r7, r7, r2
-    b       @ReturnToOriginalCodeFlow_1
+    b       @ReturnToOriginalCodeFlow_CurrentEnergy
 .endarea
-.definelabel @ReturnToOriginalCodeFlow_1, org()
+.definelabel @ReturnToOriginalCodeFlow_CurrentEnergy, org()
 
 .org 080A0838h
 .area 2
-    bge     @ReturnFromFileDrawInfoEnergyTankGfxHighjack_2
+    bge     @ReturnFromFileDrawInfoEnergyTankGfxHighjack_MaxEnergy
 .endarea
 
 .org  080A0846h
 .area 080A087Ch-., 0
-    bl      @FileDrawInfoEnergyTankGfxHighjack_2
-@ReturnFromFileDrawInfoEnergyTankGfxHighjack_2:
+    bl      @FileDrawInfoEnergyTankGfxHighjack_MaxEnergy
+@ReturnFromFileDrawInfoEnergyTankGfxHighjack_MaxEnergy:
     mov     r3, r8
     ldr     r0, [r3, #0Ch]
     cmp     r0, #01
@@ -229,19 +229,19 @@ PauseScreenOamData:
     cmp     r6, r0
     bge     @@skip
     cmp     r6, #10
-    bne     @ReturnToOriginalCodeFlow_2
+    bne     @ReturnToOriginalCodeFlow_MaxEnergy
     mov     r0, #(GFX_ROW + GFX_TILE*5) >> 4
     lsl     r0, #04
     neg     r0, r0  ; -#4A0h
 
-    b       @ReturnToOriginalCodeFlow_2
+    b       @ReturnToOriginalCodeFlow_MaxEnergy
 .endarea
-.definelabel @ReturnToOriginalCodeFlow_2, org()
+.definelabel @ReturnToOriginalCodeFlow_MaxEnergy, org()
 
 
 .org  080A0A08h
 .area 080A0A16h-., 0
-    ldr     r0,  =@FileDrawInfoEnergyTankGfxHighjack_3
+    ldr     r0,  =@FileDrawInfoEnergyTankGfxHighjack_ExcessEnergyIndicator
     mov     pc, r0
     .pool
 .endarea
@@ -249,7 +249,7 @@ PauseScreenOamData:
 .autoregion
     .align 2
 ; Draws E-tanks and stops if drawing more than 20
-@FileDrawInfoEnergyTankGfxHighjack_1:
+@FileDrawInfoEnergyTankGfxHighjack_CurrentEnergy:
 @@loop_current:
     ; if loop counter == 10, move e-tank gfx position to top row
     cmp     r6, #10
@@ -277,7 +277,7 @@ PauseScreenOamData:
     bx      lr
 
     .align 2
-@FileDrawInfoEnergyTankGfxHighjack_2:
+@FileDrawInfoEnergyTankGfxHighjack_MaxEnergy:
 @@loop_max:
     cmp     r6, #10
     bne     @@cont_max
@@ -304,7 +304,7 @@ PauseScreenOamData:
     .pool
 
 ; This highjack is at the end of the function and includes the return statement.
-@FileDrawInfoEnergyTankGfxHighjack_3:
+@FileDrawInfoEnergyTankGfxHighjack_3ExcessEnergyIndicator
     ; load max energy from current save file
     ldr     r2, =SaveMetadata
     mov     r4, r10         ; r10 contains specified save file
@@ -317,7 +317,7 @@ PauseScreenOamData:
     bpl     @@return        ; if 2099 > Max, do nothing
 
     ldr     r7, =DMA3
-    ldr     r3, =@FileSelectOverhealthIndicator
+    ldr     r3, =@FileSelectExcessEnergyIndicator
     str     r3, [r7, #DMA_SAD]
     ldr     r6, =VRAM+89A0h ; Tile to the right of the top E-Tank Row for File A
     mov     r0, #(GFX_ROW * 2) >> 4
@@ -353,6 +353,6 @@ PauseScreenOamData:
 
 .autoregion DataFreeSpace, DataFreeSpaceEnd
     .align 4
-@FileSelectOverhealthIndicator:
-    .incbin "data/file-select-overhealth-indicator.gfx"
+@FileSelectExcessEnergyIndicator:
+    .incbin "data/file-select-excessenergy-indicator.gfx"
 .endautoregion
