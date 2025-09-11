@@ -6,10 +6,6 @@
 - Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
 - Removed: The PHYSICS compile variable/option was removed.
 
-## 0.8.2 - 2025-08-29
-- Fixed: Game crash caused by alignment of Minor item data within the ROM.
-- Fixed: Ensure that the flag for reloading weapon gfx is cleared after reloading graphics.
-
 ### Room Adjustments
 
 #### Main Deck
@@ -32,6 +28,11 @@
 #### Sector 6
 - Changed: Geron's Crossing: Moved the Doors leading to the bottom side of Entrance Lobby and Vault back by a tile to prevent getting stuck in Entrance Randomizer.
 - Changed: Warehouse: Moved the Door leading to Zozoro's Wine Cellar back by a tile to prevent getting stuck in Entrance Randomizer.
+
+
+## 0.8.2 - 2025-08-29
+- Fixed: Game crash caused by alignment of Minor item data within the ROM.
+- Fixed: Ensure that the flag for reloading weapon gfx is cleared after reloading graphics.
 
 ## 0.8.1 - 2025-08-26
 - Fixed: Custom Title Screen text could be dismissed accidentally when pressing `A` or `START` during the fade-in of "Press Start" and Copyright info.
