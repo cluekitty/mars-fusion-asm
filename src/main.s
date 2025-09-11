@@ -134,16 +134,16 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 
 .endif
 
-; Instant Unmorph Patch
-.if INSTANT_UNMORPH
-.include "src/physics/instant-morph.s"
-.endif
-
 ; Accessibility patches
 ; Patches which make the game more acccessible to people.
 .if ACCESSIBILITY
 .include "src/a11y/accessible-enemy-gfx.s"
 .include "src/a11y/accessible-flashing.s"
+.endif
+
+; Instant Unmorph Patch
+.if INSTANT_UNMORPH
+.include "src/physics/instant-morph.s"
 .endif
 
 ; Non-linearity patches
