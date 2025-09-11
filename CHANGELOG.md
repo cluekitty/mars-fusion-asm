@@ -5,6 +5,7 @@
 - Added: An optional compile that repurposes the SELECT button to an instant (un)morph button.
 - Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
 - Removed: The PHYSICS compile variable/option was removed.
+- Changed: The stereo-default patch has been moved from an IPS patch in the patcher to an ASM change togglable via a flag in ROM.
 
 ## 0.8.2 - 2025-08-29
 - Fixed: Game crash caused by alignment of Minor item data within the ROM.
