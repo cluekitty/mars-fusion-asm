@@ -771,7 +771,7 @@ ReloadWeaponGfxFlag:
     .skip 1
 
 ; used for if health > 2099
-OverHealthFlag:
+ExcessEnergyFlag:
     .skip 1
 
     .align 4
