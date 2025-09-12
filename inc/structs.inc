@@ -321,7 +321,17 @@ ButtonAssignments_Pause equ 06h
 
 NonGameplayRam equ 03001484h
 .sym off
-NonGamePlayRam_OamData equ 02Ch
+; NonGameplayRam for MapScreen
+NonGamePlayRam_MapScreen_OamData equ 02Ch
+.sym on
+
+.sym off
+;NonGameplayRam for FileSelect
+NonGameplayRam_FileSelect_OamData equ 018h
+
+; File Select OAM in NonGameplayRam for FileSelect
+FileSelectOam_Stage equ 09h
+FileSelectOam_Len equ 1Ch
 .sym on
 
 MenuSprites equ 030014B0h
