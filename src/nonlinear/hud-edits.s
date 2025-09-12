@@ -1,4 +1,4 @@
-; Allows drawing health greater than 2099 withoug graphical glitches
+; Allows drawing health greater than 2099 without graphical glitches
 .org 0807276Ah
 .area 4
     bl      @DrawEnergyForHud
@@ -6,22 +6,23 @@
 
 .if DEBUG
 ; increases max-health in debug menu
-.org 857618Ah
+.org 0857618Ah
     .dh 9999
 .endif
 
 .autoregion
-    .align  2
 /*
     if (MaxEnergy < 2100) {
         DrawHudEnergy() //vanilla
-        if (Digit under "EN" not clear (check 06010E0Dh)) {
+        if (leftmost digit of current energy not clear (by checking contents of tile at 06010E0Dh)) {
+            // This clears the "thousands" digit if health is decreasing from >=2100
             BitFill Tile with 00h
         }
     } else {
-
+        Draw 4-digit energy value
     }
 */
+    .align  2
 .func @DrawEnergyForHud
     push    { lr }
 
@@ -203,49 +204,49 @@
     ; The comments for this section also apply to the other digits
     add     r0, r4, r7  ; source graphics offset = digit offset + gfx ptr
     add     r1, r3, r6  ; dest = tile offset + wram
-    ldrb    r0, [r0]    ; load gfx tile offset from ROM
-    strb    r0, [r1]    ; store gfx tile offset in RAM
-    add     r3, #01h    ; increment tile offset
-    lsl     r3, #18h
-    lsr     r3, #18h    ; Ensure we only have a byte (make this clearer)
-    add     r4, #01h    ; increment digit rom gfx offset
-    lsl     r4, #10h
-    lsr     r4, #10h    ; ensure we have hword (make this clearer)
+    ldrb    r0, [r0]    ; load gfx pixels from ROM (first 2 pixels)
+    strb    r0, [r1]    ; store gfx pixels in RAM (first 2 pixels)
+    add     r3, #01h    ; increment pixel offset within target tile (dst offset)
+    lsl     r3, #18h    ; Ensure we only have 1 byte,
+    lsr     r3, #18h    ;   otherwise we may inadvertently jump too far in memory.
+    add     r4, #01h    ; increment pixel offset within thousands digit source tile (src offset)
+    lsl     r4, #10h    ; ensure we only have 2 byte,
+    lsr     r4, #10h    ;   otherwise we may incorrectly align to the source tile
     add     r0, r4, r7  ; src = digit + gfx
     add     r1, r3, r6  ; dest = tile offset + wram
-    ldrb    r0, [r0]
-    strb    r0, [r1]
-    add     r3, #01h    ; increment tile offset
-    lsl     r3, #18h
-    lsr     r3, #18h    ; Ensure we only have a byte
-    add     r4, #03h    ; increment thousands (make this clearer why it's by 3)
+    ldrb    r0, [r0]    ; load gfx pixels from ROM (second 2 pixels)
+    strb    r0, [r1]    ; store gfx pixels in RAM
+    add     r3, #01h    ; increment pixel offset within target tile
+    lsl     r3, #18h    ; Ensure we only have 1 byte
+    lsr     r3, #18h    ;   otherwise we may inadvertently jump too far in memory.
+    add     r4, #03h    ; increment to next row of pixels for thousands digit
     lsl     r4, #10h
-    lsr     r4, #10h    ; ensure we have hword
+    lsr     r4, #10h    ; ensure we are properly aligned to the source graphics
 
     ; Max Health Hundreds Digit
     add     r0, r5, r7
     add     r1, r3, r6
-    ldrb    r0, [r0]
-    strb    r0, [r1]
+    ldrb    r0, [r0]    ; load gfx pixels from ROM (first 2 pixels)
+    strb    r0, [r1]    ; store gfx pixels in RAM (first 2 pixels)
     add     r3, #01h
     lsl     r3, #18h
     lsr     r3, #18h
-    add     r5, #01h
+    add     r5, #01h    ; increment pixel ofset within hundreds digit source tile (src offset)
     lsl     r5, #10h
-    lsr     r5, #10h
+    lsr     r5, #10h    ; ensure we are properly aligned to source graphics
     add     r0, r5, r7
     add     r1, r3, r6
-    ldrb    r0, [r0]
-    strb    r0, [r1]
+    ldrb    r0, [r0]    ; load gfx pixels from ROM (second 2 pixels)
+    strb    r0, [r1]    ; store gfx pixels in RAM (second 2 pixels)
     add     r3, #01h
     lsl     r3, #18h
     lsr     r3, #18h
-    add     r5, #03h
+    add     r5, #03h    ; increment to next row of pixels for hundreds digit
     lsl     r5, #10h
     lsr     r5, #10h
 
     add     r2, #01h
-    cmp     r2, #07h
+    cmp     r2, #07h    ; if < 8, loop again
     bls     @@loop_left_digits
 
     ; 2nd loop
