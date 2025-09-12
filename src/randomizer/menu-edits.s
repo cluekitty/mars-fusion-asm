@@ -192,10 +192,22 @@ PauseScreenOamData:
     bl      @FileDrawInfoEnergyTankGfxHighjack_CurrentEnergy
 @ReturnFromFileDrawInfoEnergyTankGfxHighjack_CurrentEnergy:
     mov     r1, r8
+
+    /* The value in `r1, 04h` below is a stack relative value and appears to be
+    the a representation of energy in either even or odd tanks, aka
+    CurrentEnergyTanks % 2.
+    */
     ldr     r0, [r1, #04h]
     cmp     r0, #01
+    /* If odd skip to the next part of FileSelectDrawFileInfo()
+    This handles drawing the remaining ETank at the end and determines if it
+    should be drawn as FULL | BLANK (Odd num of etanks),
+    FULL | EMPTY (Even num of etanks, but not at full health),
+    or EMPTY | EMPTY (same as previous).
+    */
     bne     080A082Ah
-    ; if we have already drawn 20 tanks, skip drawing extra
+
+    ; r6 contains loop counter. if we have already drawn 20 tanks, skip drawing extra.
     cmp     r6, #20
 .definelabel @@skip, 080A0822h
     bge     @@skip
@@ -203,8 +215,8 @@ PauseScreenOamData:
     bne     @ReturnToOriginalCodeFlow_CurrentEnergy
     mov     r2, #(GFX_ROW + GFX_TILE*5) >> 4
     lsl     r2, #04
-    neg     r2, r2  ; -#4A0h
-    add     r7, r7, r2
+    neg     r2, r2      ; -#4A0h
+    add     r7, r7, r2  ; r7 holds the current VRAM GFX pointer for drawing ETanks
     b       @ReturnToOriginalCodeFlow_CurrentEnergy
 .endarea
 .definelabel @ReturnToOriginalCodeFlow_CurrentEnergy, org()
@@ -219,20 +231,24 @@ PauseScreenOamData:
     bl      @FileDrawInfoEnergyTankGfxHighjack_MaxEnergy
 @ReturnFromFileDrawInfoEnergyTankGfxHighjack_MaxEnergy:
     mov     r3, r8
+
+    /* The value in `r3, 0Ch` below is stack-relative and appears to be
+    representative of whether or not we have drawn the last set of e-tank gfx.
+    */
     ldr     r0, [r3, #0Ch]
-    cmp     r0, #01
-.definelabel @@skip, 080A088Ah
+    cmp     r0, #01             ; If done processing e-tanks
+.definelabel @@skip, 080A088Ah  ; Skip to drawing in-game time
     bne     @@skip
     ldr     r0, [r3, #08h]
-    cmp     r6, #20
+    cmp     r6, #20             ; r6 contains loop counter
     bge     @@skip
     cmp     r6, r0
     bge     @@skip
     cmp     r6, #10
     bne     @ReturnToOriginalCodeFlow_MaxEnergy
-    mov     r0, #(GFX_ROW + GFX_TILE*5) >> 4
-    lsl     r0, #04
-    neg     r0, r0  ; -#4A0h
+    mov     r0, #(GFX_ROW + GFX_TILE*5) >> 4    ;\ -#4A0h, gets added to VRAM GFX
+    lsl     r0, #04                             ;} pointer for drawing ETanks if
+    neg     r0, r0                              ;/ moving to the next row.
 
     b       @ReturnToOriginalCodeFlow_MaxEnergy
 .endarea
@@ -304,7 +320,7 @@ PauseScreenOamData:
     .pool
 
 ; This highjack is at the end of the function and includes the return statement.
-@FileDrawInfoEnergyTankGfxHighjack_3ExcessEnergyIndicator
+@FileDrawInfoEnergyTankGfxHighjack_ExcessEnergyIndicator:
     ; load max energy from current save file
     ldr     r2, =SaveMetadata
     mov     r4, r10         ; r10 contains specified save file
