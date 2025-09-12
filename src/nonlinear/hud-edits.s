@@ -67,7 +67,8 @@
     push    { r4-r7, lr }
     mov     r4, r8
     mov     r5, r9
-    push    { r4-r5 }
+    mov     r6, r10
+    push    { r4-r6 }
 
     ldr     r4, =SamusUpgrades
     ldrh    r3, [r4, SamusUpgrades_MaxEnergy]
@@ -77,8 +78,18 @@
 
     ldr     r0, =ExcessEnergyFlag
     ldrb    r0, [r0]
+    mov     r10, r0
     cmp     r0, #0
     bne     @@max_thousands
+    /*
+    if (ExcessEnergyFlag != 0) {
+        // ExcessEnergyFlag has been set so the appropraite graphics have already been cleared
+        goto @@max_thousands
+    } else {
+        // ExcessEnergyFlag has not been set yet so we need to clear graphics first
+        // and load the new "/MAX" text that goes next to "ENERGY"
+    }
+    */
 
 @@clear_gfx:
     ; clear top e-tanks line
@@ -119,9 +130,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@set_max_thousands_digit
     b       @@max_hundreds
 @@set_max_thousands_digit:
@@ -138,9 +148,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@set_max_hundreds_digit
     b       @@max_tens
 @@set_max_hundreds_digit:
@@ -157,9 +166,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@set_max_tens_digit
     b       @@max_ones
 @@set_max_tens_digit:
@@ -172,9 +180,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@set_max_ones_digit
     b       @@curr_energy
 @@set_max_ones_digit:
@@ -354,9 +361,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@check_curr_thousands_digit_is_same
     b       @@load_curr_thousands_gfx
 @@check_curr_thousands_digit_is_same:
@@ -386,9 +392,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@check_curr_hundreds_digit_is_same
     b       @@load_curr_hundreds_gfx
 @@check_curr_hundreds_digit_is_same:
@@ -418,9 +423,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@check_curr_tens_digit_is_same
     b       @@load_curr_tens_gfx
 @@check_curr_tens_digit_is_same:
@@ -446,9 +450,8 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    ldr     r2, =ExcessEnergyFlag
-    ldrb    r2, [r2]
-    cmp     r2, #1
+    mov     r2, r10
+    cmp     r2, #01
     beq     @@check_curr_ones_digit_is_same
     b       @@load_curr_ones_gfx
 @@check_curr_ones_digit_is_same:
@@ -471,7 +474,8 @@
     ldr     r0, =ExcessEnergyFlag
     mov     r1, #1
     strb    r1, [r0]
-    pop     { r4-r5 }
+    pop     { r4-r6 }
+    mov     r10, r6
     mov     r9, r5
     mov     r8, r4
     pop     { r4-r7 }
