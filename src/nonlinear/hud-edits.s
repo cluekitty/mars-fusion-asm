@@ -69,6 +69,9 @@
     mov     r5, r9
     mov     r6, r10
     push    { r4-r6 }
+    sub     sp, #04
+    mov     r0, #00
+    str     r0, [sp]
 
     ldr     r4, =SamusUpgrades
     ldrh    r3, [r4, SamusUpgrades_MaxEnergy]
@@ -130,12 +133,16 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    mov     r2, r10
-    cmp     r2, #01
-    beq     @@set_max_thousands_digit
-    b       @@max_hundreds
-@@set_max_thousands_digit:
+@@check_max_thousands_digit_is_same:
+    ldrb    r1, [r5, EnergyDigits_Thousands]
+    cmp     r0, r1
+    beq     @@max_hundreds ; if thousands digit doesn't change, no need to store
+    ; if it did change, store a bitflag indicating that we need to reload gfx
     strb    r0, [r5, EnergyDigits_Thousands]
+    mov     r1, #1 << EnergyDigits_Thousands
+    ldr     r0, [sp]
+    orr     r0, r1
+    str     r0, [sp]
 
 @@max_hundreds:
     mov     r0, r9
@@ -148,12 +155,16 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    mov     r2, r10
-    cmp     r2, #01
-    beq     @@set_max_hundreds_digit
-    b       @@max_tens
-@@set_max_hundreds_digit:
+@@check_max_hundreds_digit_is_same:
+    ldrb    r1, [r5, EnergyDigits_Hundreds]
+    cmp     r0, r1
+    beq     @@max_tens ; if hundreds digit doesn't change, no need to store
+    ; if it did change, store a bitflag indicating that we need to reload gfx
     strb    r0, [r5, EnergyDigits_Hundreds]
+    mov     r1, #1 << EnergyDigits_Hundreds
+    ldr     r0, [sp]
+    orr     r0, r1
+    str     r0, [sp]
 
 @@max_tens:
     mov     r0, r9
@@ -166,12 +177,16 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    mov     r2, r10
-    cmp     r2, #01
-    beq     @@set_max_tens_digit
-    b       @@max_ones
-@@set_max_tens_digit:
+@@check_max_tens_digit_is_same:
+    ldrb    r1, [r5, EnergyDigits_Tens]
+    cmp     r0, r1
+    beq     @@max_ones ; if tens digit doesn't change, no need to store
+    ; if it did change, store a bitflag indicating that we need to reload gfx
     strb    r0, [r5, EnergyDigits_Tens]
+    mov     r1, #1 << EnergyDigits_Tens
+    ldr     r0, [sp]
+    orr     r0, r1
+    str     r0, [sp]
 
 @@max_ones:
     mov     r0, r9
@@ -180,12 +195,23 @@
     lsl     r0, #18h
     lsr     r0, #18h
 
-    mov     r2, r10
-    cmp     r2, #01
-    beq     @@set_max_ones_digit
-    b       @@curr_energy
-@@set_max_ones_digit:
+@@check_max_ones_digit_is_same:
+    ldrb    r1, [r5, EnergyDigits_Ones]
+    cmp     r0, r1
+    beq     @@start_draw_max_digits ; if tens digit doesn't change, no need to store
+    ; if it did change, store a bitflag indicating that we need to reload gfx
     strb    r0, [r5, EnergyDigits_Ones]
+    mov     r1, #1 << EnergyDigits_Ones
+    ldr     r0, [sp]
+    orr     r0, r1
+    str     r0, [sp]
+
+@@start_draw_max_digits:
+    ; Check if we need to reload max digits graphics
+    ldr     r0, [sp]
+    mov     r1, #1111b
+    bic     r1, r0
+    beq     @@skip_drawing_max_digits
 
     ; Load "Max" graphics pointers
     ldr     r7, =AmmoDigitsGfx+AmmoDigitsGfx_Alt
@@ -200,6 +226,10 @@
     lsr     r4, #10h
     lsl     r5, #15h
     lsr     r5, #10h
+    b       @@loop_left_digits
+
+@@skip_drawing_max_digits:
+    b       @@curr_energy
 
 @@loop_left_digits:
 /*
@@ -474,6 +504,7 @@
     ldr     r0, =ExcessEnergyFlag
     mov     r1, #1
     strb    r1, [r0]
+    add     sp, #04
     pop     { r4-r6 }
     mov     r10, r6
     mov     r9, r5
