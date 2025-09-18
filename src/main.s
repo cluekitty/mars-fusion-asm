@@ -4,6 +4,7 @@
 .table "data/text.tbl"
 
 ; Assembly-time flags
+.sym off
 .ifndef DEBUG
 .definelabel DEBUG, 1
 .endif
@@ -12,6 +13,9 @@
 .endif
 .ifndef QOL
 .definelabel QOL, 1
+.endif
+.ifndef INSTANT_UNMORPH
+.definelabel INSTANT_UNMORPH, 0
 .endif
 .ifndef ACCESSIBILITY
 .definelabel ACCESSIBILITY, 0
@@ -35,6 +39,7 @@
 .ifndef UNHIDDEN_MAP_DOORS
 .definelabel UNHIDDEN_MAP_DOORS, 0
 .endif
+.sym on
 
 FreeIWRam equ 03005630h
 FreeIWRamLen equ 23D0h
@@ -74,6 +79,7 @@ MissileLimitPointer             equ 087FF024h
 RoomNamesPointer                equ 087FF028h
 RevealHiddenTilesFlagPointer    equ 087FF02Ch
 TitleScreenTextPointersPointer  equ 087FF030h
+DefaultStereoFlagPointer        equ 087FF034h
 
 
 ; Mark end-of-file padding as free space
@@ -84,9 +90,6 @@ DataFreeSpace equ 080F9A28h
 DataFreeSpaceLen equ 20318h
 DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .defineregion DataFreeSpace, DataFreeSpaceLen, 0FFh
-.autoregion DataFreeSpace, DataFreeSpaceEnd
-    .skip 0FFh ; Reserve space for stereo_default IPS patch from patcher
-.endautoregion
 
 ; Debug mode patch
 .if DEBUG
@@ -120,6 +123,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/qol/screw-unbonk.s"
 .include "src/qol/skip-ending.s"
 .include "src/qol/skip-intro.s"
+.include "src/qol/stereo-default.s"
 .include "src/qol/unhidden-breakable-tiles.s"
 .if UNHIDDEN_MAP
 .include "src/qol/unhidden-map.s"
@@ -136,6 +140,11 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .if ACCESSIBILITY
 .include "src/a11y/accessible-enemy-gfx.s"
 .include "src/a11y/accessible-flashing.s"
+.endif
+
+; Instant Unmorph Patch
+.if INSTANT_UNMORPH
+.include "src/physics/instant-morph.s"
 .endif
 
 ; Non-linearity patches

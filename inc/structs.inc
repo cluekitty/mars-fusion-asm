@@ -243,6 +243,15 @@ SamusState_Animation equ 22h
 SamusState_HitboxTop equ 26h
 .sym on
 
+SamusAnimations equ 030012D8h
+.sym off
+SamusAnimations_LoadingSaveFlag equ 00h
+SamusAnimations_PaletteAnimation equ 01h
+SamusAnimations_PaletteRow equ 02h
+SamusAnimations_SpaceJumpCounter equ 03h
+SamusAnimations_ShinesparkTimer equ 04h
+.sym on
+
 SamusTimers equ 030012F0h
 .sym off
 SamusTimers_SubzeroKnockback equ 05h
@@ -312,7 +321,17 @@ ButtonAssignments_Pause equ 06h
 
 NonGameplayRam equ 03001484h
 .sym off
-NonGamePlayRam_OamData equ 02Ch
+; NonGameplayRam for MapScreen
+NonGamePlayRam_MapScreen_OamData equ 02Ch
+.sym on
+
+.sym off
+;NonGameplayRam for FileSelect
+NonGameplayRam_FileSelect_OamData equ 018h
+
+; File Select OAM in NonGameplayRam for FileSelect
+FileSelectOam_Stage equ 09h
+FileSelectOam_Len equ 1Ch
 .sym on
 
 MenuSprites equ 030014B0h
