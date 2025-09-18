@@ -6,8 +6,6 @@
 - Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
 - Removed: The PHYSICS compile variable/option was removed.
 - Fixed: Permanently locked doors in Navigation Rooms are not pink anymore.
-- Fixed: Game crash caused by alignment of Minor item data within the ROM.
-- Fixed: Ensure that the flag for reloading weapon gfx is cleared after reloading graphics.
 - Changed: The stereo-default patch has been moved from an IPS patch in the patcher to an ASM change togglable via a flag in ROM.
 
 ### Room Adjustments
