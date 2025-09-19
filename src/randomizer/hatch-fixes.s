@@ -142,3 +142,10 @@
 .area 2
     nop
 .endarea
+
+; Change the Palette for the Event Door Graphic used in Nav Room conversations.
+.org 08565BC8h
+.area 32
+    .incbin "data/nav-cutscene-gray-door.bin"
+.endarea
+
