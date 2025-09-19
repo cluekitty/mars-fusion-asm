@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.9.0 - 2025-09-19
+
 - Added: An optional compile that repurposes the SELECT button to an instant (un)morph button.
 - Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
 - Removed: The PHYSICS compile variable/option was removed.
