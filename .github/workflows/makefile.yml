@@ -103,9 +103,9 @@ jobs:
             }
 
             if (context.eventName === "pull_request") {
+              // PRs and issues go over same endpoints
               const {data: comments} = await github.rest.issues.listComments({repo: context.repo.repo, owner: context.repo.owner, issue_number: context.payload.pull_request.number});
               const does_comment_exist = comments.find((c) => c.user.login === "github-actions[bot]");
-              // PRs and issues go over same endpoints
               if (does_comment_exist) {
                 await github.rest.issues.updateComment({
                     owner: context.repo.owner,
