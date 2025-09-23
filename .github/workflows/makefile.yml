@@ -45,7 +45,8 @@ jobs:
 
   check_size:
     runs-on: 'ubuntu-latest'
-    permissions: write-all
+    permissions: 
+      issues: write
     needs:
       - build
 
