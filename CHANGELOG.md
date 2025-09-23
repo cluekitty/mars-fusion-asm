@@ -2,6 +2,9 @@
 
 ## Unreleased - 2025-??-??
 
+- Changed: The Instant Morph feature has been moved from an optional compile flag, to a ROM flag.
+- Removed: Being able to Instant Morph during Spinjumping, Walljumping, and Mid-Air while moving left/right in order to prevent abuse.
+
 ## 0.9.0 - 2025-09-19
 
 - Added: An optional compile that repurposes the SELECT button to an instant (un)morph button.
