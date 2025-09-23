@@ -115,7 +115,7 @@ label:
 .endautoregion
 .endmacro
 
-.macro reserve_flag, label
+.macro reserve_pointer, label
     .align 4
 label:
     .skip 4
