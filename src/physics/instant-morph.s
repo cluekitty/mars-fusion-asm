@@ -162,6 +162,13 @@ InstantMorphFlag:
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
+    ; Additionally, also only proceed if neither left nor right is pressed
+    ldr     r0, =HeldInput
+    ldrh    r0, [r0]
+    mov     r1, #((1 << Button_Left) + (1 << Button_Right))
+    and     r0, r1
+    cmp     r0, #0
+    bne     @@OriginalCode
     mov     r0, SoundEffect_Morph
     bl      Sfx_Play
     mov     r0, #SamusPose_MorphBallMidAir
@@ -178,85 +185,8 @@ InstantMorphFlag:
 .endautoregion
 
 
-; Spinning Pose
+; Intentionally not hijack Spinjumping and Walljumping in order to prevent abuse
 
-.org 080071BEh
-.area 4
-    bl      @SamusSpinningHijack
-.endarea
-
-.autoregion
-.align 2
-; r0 is used as the return value in the outer function, as SamusPose
-; When returning back to the original call, r0 and r3 have to be restored
-.func @SamusSpinningHijack
-.definelabel @@ReturnInOuterFunction, 08007360h
-
-    push    { lr }
-    bl      @CheckInstantMorph
-    cmp     r0, #0
-    beq     @@OriginalCode
-    ; Adjust X-Velocity and Y-Position
-    ; Vanilla code would do it by setting the pose to SamusUpdateJumpVelocity and doing it there in a big switch statement
-    ; But that'd require us to hijack even more code, so we're doing it here instead and then returning the MorphBallMidAir Pose.
-    ldr     r1, =SamusState
-    mov     r0, #0
-    strh    r0, [r1, #SamusState_VelocityX]
-    ldrh    r0, [r1, #SamusState_PositionY]
-    add     r0, #14h
-    strh    r0, [r1, #SamusState_PositionY]
-    mov     r0, #SamusPose_MorphBallMidAir
-    pop     { r1 }
-    ldr     r1, =@@ReturnInOuterFunction
-    mov     pc, r1
-
-@@OriginalCode:
-    ldr     r3, =SamusState
-    mov     r0, r3
-    pop     { pc }
-    .pool
-.endfunc
-.endautoregion
-
-
-; Walljumping Pose
-.org 080078FCh
-.area 4
-    bl      @SamusWalljumpingHijack
-.endarea
-
-.autoregion
-.align 2
-; r0 is used as the return value in the outer function, as SamusPose
-; When returning back to the original call, r1 has to be restored
-.func @SamusWalljumpingHijack
-.definelabel @@ReturnInOuterFunction, 0800796Ch
-
-    push    { lr }
-    bl      @CheckInstantMorph
-    cmp     r0, #0
-    beq     @@OriginalCode
-    ; Adjust X-Velocity and Y-Position
-    ; Vanilla code would do it by setting the pose to SamusUpdateJumpVelocity and doing it there in a big switch statement
-    ; But that'd require us to hijack even more code, so we're doing it here instead and then returning the MorphBallMidAir Pose.
-    ldr     r1, =SamusState
-    mov     r0, #0
-    strh    r0, [r1, #SamusState_VelocityX]
-    ldrh    r0, [r1, #SamusState_PositionY]
-    add     r0, #14h
-    strh    r0, [r1, #SamusState_PositionY]
-    mov     r0, #SamusPose_MorphBallMidAir
-    pop     { r1 }
-    ldr     r1, =@@ReturnInOuterFunction
-    mov     pc, r1
-
-@@OriginalCode:
-    mov     r1, #30h
-    and     r1, r2
-    pop     { pc }
-    .pool
-.endfunc
-.endautoregion
 
 ; Unmorphing Pose
 .org 0800765Ah
