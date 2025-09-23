@@ -57,10 +57,7 @@ jobs:
       - name: Unzip patches
         run: |
           mkdir ./patches 
-          cd artifacts
-          ls -l ./
-          unzip "Randomizer Patches.zip"
-          mv ./bin/*.ips ../patches
+          mv "./bin/Randomizer Patches/*.ips" ./patches
 
       - name: View context attributes
         uses: actions/github-script@v8
@@ -102,13 +99,25 @@ jobs:
             }
 
             if (context.eventName === "pull_request") {
+              const {data: comments} = await github.rest.issues.listComments({repo: context.repo.repo, owner: context.repo.owner, issue_number: context.payload.pull_request.number});
+              const does_comment_exist = comments.find((c) => c.user.login === "github-actions[bot]");
               // PRs and issues go over same endpoints
-              await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: context.payload.pull_request.number,
-                  body: final_message,
+              if (does_comment_exist) {
+                await github.rest.issues.updateComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: does_comment_exist.id,
+                    body: final_message,
+                  });
+              }
+              else {
+                await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.payload.pull_request.number,
+                    body: final_message,
                 });
+              }
             }
 
       
