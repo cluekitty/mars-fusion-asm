@@ -1,32 +1,41 @@
 ; Add Instant (Un)Morph via SELECT button
+.org InstantMorphFlagPointer
+    .dw     InstantMorphFlag
 
 .autoregion
+InstantMorphFlag:
+    .db     00
 .align 2
 ; r0 has boolean return value on whether we should instant morph
 .func @CheckInstantMorph
-    push {lr}
+    push    { lr }
+    ldr     r1, =InstantMorphFlag
+    ldrb    r0, [r1]
+    cmp     r0, #01
+    bne     @@if_false
+
     ; If SELECT got pressed
     ldr     r0, =ToggleInput
     ldrh    r0, [r0]
     mov     r1, #(1 << Button_Select)
     and     r0, r1
-    cmp     r0, #0
+    cmp     r0, #00
     beq     @@if_false
     ; ...and we have Morph
     ldr     r0, =SamusUpgrades
     ldrb    r0, [r0, #SamusUpgrades_SuitUpgrades]
     mov     r1, #(1 << SuitUpgrade_MorphBall)
     and     r0, r1
-    cmp     r0, #0
+    cmp     r0, #00
     beq     @@if_false
     ; ...then set to Morphing pose
-    @@if_true:
-    mov     r0, #1
+@@if_true:
+    mov     r0, #01
     b       @@return
-    @@if_false:
-    mov     r0, #0
-    @@return:
-    pop     {pc}
+@@if_false:
+    mov     r0, #00
+@@return:
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
