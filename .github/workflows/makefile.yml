@@ -58,7 +58,8 @@ jobs:
         run: |
           mkdir ./patches 
           tree ./artifacts
-          mv ./artifacts/Randomizer\ Patches/bin/*.ips ./patches
+          unzip "./artifacts/Randomizer Patches.zip/Randomizer Patches.zip"
+          mv ./bin/*.ips ./patches
 
       - name: View context attributes
         uses: actions/github-script@v8
