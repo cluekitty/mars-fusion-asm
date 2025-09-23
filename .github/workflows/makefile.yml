@@ -58,7 +58,7 @@ jobs:
         run: |
           mkdir ./patches 
           cd artifacts
-          ls ./
+          ls -l ./
           unzip "Randomizer Patches.zip"
           mv ./bin/*.ips ../patches
 
