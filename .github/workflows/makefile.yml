@@ -108,6 +108,7 @@ jobs:
               const {data: comments} = await github.rest.issues.listComments({repo: context.repo.repo, owner: context.repo.owner, issue_number: context.payload.pull_request.number});
               const does_comment_exist = comments.find((c) => c.user.login === "github-actions[bot]");
               if (does_comment_exist) {
+                core.info(`Comment ${does_comment_exist.id} in PR ${context.payload.pull_request.number} found, updating`);
                 await github.rest.issues.updateComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
@@ -116,6 +117,7 @@ jobs:
                   });
               }
               else {
+                core.info(`Creating new comment on PR ${context.payload.pull_request.number}`);
                 await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
