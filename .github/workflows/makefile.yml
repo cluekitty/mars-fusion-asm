@@ -57,6 +57,7 @@ jobs:
       - name: Unzip patches
         run: |
           mkdir ./patches 
+          tree ./artifacts
           mv ./artifacts/Randomizer\ Patches/bin/*.ips ./patches
 
       - name: View context attributes
