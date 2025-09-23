@@ -114,3 +114,9 @@ label:
     .dw     0
 .endautoregion
 .endmacro
+
+.macro reserve_pointer, label
+    .align 4
+label:
+    .skip 4
+.endmacro
