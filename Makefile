@@ -63,6 +63,12 @@ ALL_SYMBOLS = $(BUILD_SYMBOL) $(OPTIMIZE_SYMBOL) $(QOL_SYMBOL) $(RANDOMIZER_SYMB
 
 all: $(BIN_DIR)/m4rs.gba
 
+# Symbols file are only created on debug
+ifeq ($(BUILD_TYPE), debug)
+all:
+	cat mf_u.sym $(BIN_DIR)/$(OUT)-symbols.sym > $(BIN_DIR)/$(OUT).sym
+endif
+
 $(OBJ_DIR) $(BIN_DIR):
 	mkdir -p $@
 
