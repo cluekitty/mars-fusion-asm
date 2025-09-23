@@ -17,7 +17,7 @@ jobs:
           - mode: randomizer
             zip-name: Randomizer Patches
           - mode: nonlinear
-            zip-name: Nonlinear patches
+            zip-name: Nonlinear Patches
             
     runs-on: self-hosted
 
@@ -59,7 +59,7 @@ jobs:
           mkdir ./patches 
           cd artifacts
           ls ./
-          unzip ./Randomizer Patches.zip 
+          unzip "Randomizer Patches.zip"
           mv ./bin/*.ips ../patches
 
       - name: View context attributes
