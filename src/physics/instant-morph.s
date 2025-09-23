@@ -1,10 +1,19 @@
 ; Add Instant (Un)Morph via SELECT button
+.org InstantMorphFlagPointer
+    .dw     InstantMorphFlag
 
 .autoregion
+InstantMorphFlag:
+    .db     00
 .align 2
 ; r0 has boolean return value on whether we should instant morph
 .func @CheckInstantMorph
-    push {lr}
+    push    { lr }
+    ldr     r1, =InstantMorphFlag
+    ldrb    r0, [r1]
+    cmp     r0, #01
+    bne     @@if_false
+
     ; If SELECT got pressed
     ldr     r0, =ToggleInput
     ldrh    r0, [r0]
@@ -20,13 +29,13 @@
     cmp     r0, #0
     beq     @@if_false
     ; ...then set to Morphing pose
-    @@if_true:
-    mov     r0, #1
+@@if_true:
+    mov     r0, #01
     b       @@return
-    @@if_false:
-    mov     r0, #0
-    @@return:
-    pop     {pc}
+@@if_false:
+    mov     r0, #00
+@@return:
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -41,29 +50,29 @@
 .area 4
     bl      @SamusStandingHijack
 .endarea
-    
+
 .autoregion
 .align 2
 ; r0 is used as the return value in the outer function, as SamusPose
 ; When returning back to the original call, r0 and r4 have to be restored
 .func @SamusStandingHijack
-    .definelabel @@ReturnInOuterFunction, 080066EAh
+.definelabel @@ReturnInOuterFunction, 080066EAh
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
     mov     r0, SoundEffect_Morph
     bl      Sfx_Play
     mov     r0, #SamusPose_Morphing
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@ReturnInOuterFunction
     mov     pc, r1
 
-    @@OriginalCode:
-    ldr     r0, =HeldInput                 
-    ldr     r4, =SamusState 
-    pop     {pc}                                  
+@@OriginalCode:
+    ldr     r0, =HeldInput
+    ldr     r4, =SamusState
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -80,23 +89,23 @@
 ; r0 is used as the return value in the outer function, as SamusPose
 ; When returning back to the original call, r0 and r1 have to be restored
 .func @SamusRunningHijack
-    .definelabel @@ReturnInOuterFunction, 08006982h
+.definelabel @@ReturnInOuterFunction, 08006982h
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
     mov     r0, SoundEffect_Morph
     bl      Sfx_Play
     mov     r0, #SamusPose_Morphing
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@ReturnInOuterFunction
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r0, =ToggleInput
     ldrh    r1, [r0]
-    pop     {pc} 
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -114,23 +123,23 @@
 ; r0 is used as the return value in the outer function, as SamusPose
 ; When returning back to the original call, r0 and r1 have to be restored
 .func @SamusCrouchingHijack
-    .definelabel @@ReturnInOuterFunction, 08006F64h
+.definelabel @@ReturnInOuterFunction, 08006F64h
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
     mov     r0, SoundEffect_Morph
     bl      Sfx_Play
     mov     r0, #SamusPose_Morphing
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@ReturnInOuterFunction
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r0, =ToggleInput
     ldrh    r1, [r0]
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -147,23 +156,23 @@
 ; r0 is used as the return value in the outer function, as SamusPose
 ; When returning back to the original call, r1 and r2 have to be restored
 .func @SamusMidAirHijack
-    .definelabel @@ReturnInOuterFunction, 08006B64h
+.definelabel @@ReturnInOuterFunction, 08006B64h
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
     mov     r0, SoundEffect_Morph
     bl      Sfx_Play
     mov     r0, #SamusPose_MorphBallMidAir
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@ReturnInOuterFunction
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r2, =ToggleInput
     ldrh    r1, [r2]
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -181,9 +190,9 @@
 ; r0 is used as the return value in the outer function, as SamusPose
 ; When returning back to the original call, r0 and r3 have to be restored
 .func @SamusSpinningHijack
-    .definelabel @@ReturnInOuterFunction, 08007360h
+.definelabel @@ReturnInOuterFunction, 08007360h
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
@@ -197,14 +206,14 @@
     add     r0, #14h
     strh    r0, [r1, #SamusState_PositionY]
     mov     r0, #SamusPose_MorphBallMidAir
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@ReturnInOuterFunction
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r3, =SamusState
     mov     r0, r3
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -221,9 +230,9 @@
 ; r0 is used as the return value in the outer function, as SamusPose
 ; When returning back to the original call, r1 has to be restored
 .func @SamusWalljumpingHijack
-    .definelabel @@ReturnInOuterFunction, 0800796Ch
+.definelabel @@ReturnInOuterFunction, 0800796Ch
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
@@ -237,14 +246,14 @@
     add     r0, #14h
     strh    r0, [r1, #SamusState_PositionY]
     mov     r0, #SamusPose_MorphBallMidAir
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@ReturnInOuterFunction
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     mov     r1, #30h
     and     r1, r2
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -260,22 +269,22 @@
 ; r0 is used as the return value in the outer function, as SamusPose
 ; When returning back to the original call, r0 and r1 have to be restored
 .func @SamusUnmorphingHijack
-    .definelabel @@ReturnInOuterFunction, 08007688h
+.definelabel @@ReturnInOuterFunction, 08007688h
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
     ; We do NOT want to play the morphing sound effect here.
     mov     r0, #SamusPose_Morphing
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@ReturnInOuterFunction
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r0, =ToggleInput
     ldrh    r1, [r0]
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -295,20 +304,20 @@
 .align 2
 ; When returning back to the original call, r0 and r1 have to be restored
 .func @SamusMorphBallHijack
-    .definelabel @@CheckForMoreUnmorphingConditions, 080074D0h
+.definelabel @@CheckForMoreUnmorphingConditions, 080074D0h
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@CheckForMoreUnmorphingConditions
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r0, =ToggleInput
     ldrh    r1, [r0]
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -323,20 +332,20 @@
 .align 2
 ; When returning back to the original call, r0 and r1 have to be restored
 .func @SamusRollingHijack
-    .definelabel @@CheckForMoreUnmorphingConditions, 080075ECh
+.definelabel @@CheckForMoreUnmorphingConditions, 080075ECh
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@CheckForMoreUnmorphingConditions
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r0, =ToggleInput
     ldrh    r1, [r0]
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -352,20 +361,20 @@
 .align 2
 ; When returning back to the original call, r0 and r1 have to be restored
 .func @SamusMorphBallMidAirHijack
-    .definelabel @@CheckForMoreUnmorphingConditions, 080076E6h
+.definelabel @@CheckForMoreUnmorphingConditions, 080076E6h
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@CheckForMoreUnmorphingConditions
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r0, =ToggleInput
     ldrh    r1, [r0]
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion
@@ -381,20 +390,20 @@
 .align 2
 ; When returning back to the original call, r0 and r1 have to be restored
 .func @SamusMorphingHijack
-    .definelabel @@CheckForMoreUnmorphingConditions, 0800740Ah
+.definelabel @@CheckForMoreUnmorphingConditions, 0800740Ah
 
-    push    {lr}
+    push    { lr }
     bl      @CheckInstantMorph
     cmp     r0, #0
     beq     @@OriginalCode
-    pop     {r1}
+    pop     { r1 }
     ldr     r1, =@@CheckForMoreUnmorphingConditions
     mov     pc, r1
 
-    @@OriginalCode:
+@@OriginalCode:
     ldr     r0, =ToggleInput
     ldrh    r1, [r0]
-    pop     {pc}
+    pop     { pc }
     .pool
 .endfunc
 .endautoregion

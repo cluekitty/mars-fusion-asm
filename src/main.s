@@ -14,9 +14,6 @@
 .ifndef QOL
 .definelabel QOL, 1
 .endif
-.ifndef INSTANT_UNMORPH
-.definelabel INSTANT_UNMORPH, 0
-.endif
 .ifndef ACCESSIBILITY
 .definelabel ACCESSIBILITY, 0
 .endif
@@ -80,6 +77,7 @@ RoomNamesPointer                equ 087FF028h
 RevealHiddenTilesFlagPointer    equ 087FF02Ch
 TitleScreenTextPointersPointer  equ 087FF030h
 DefaultStereoFlagPointer        equ 087FF034h
+InstantMorphFlagPointer         equ 087FF038h
 
 
 ; Mark end-of-file padding as free space
@@ -111,6 +109,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 ; Patches providing non-essential but convenient features
 .if QOL
 .notice "Applying quality of life patches..."
+.include "src/physics/instant-morph.s"
 .include "src/qol/aim-lock.s"
 .include "src/qol/completion-seconds.s"
 .include "src/qol/cross-sector-maps.s"
@@ -140,11 +139,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .if ACCESSIBILITY
 .include "src/a11y/accessible-enemy-gfx.s"
 .include "src/a11y/accessible-flashing.s"
-.endif
-
-; Instant Unmorph Patch
-.if INSTANT_UNMORPH
-.include "src/physics/instant-morph.s"
 .endif
 
 ; Non-linearity patches
