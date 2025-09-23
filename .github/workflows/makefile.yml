@@ -43,6 +43,71 @@ jobs:
         if-no-files-found: error
         path: ${{ matrix.config.zip-name }}.zip
 
+  check_size:
+    runs-on: 'ubuntu-latest'
+    needs:
+      - build
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Unzip patches
+        run: mkdir ./patches && unzip "./artifacts/Randomizer Patches" && mv ./artifacts/bin/*.ips ./patches
+
+      - name: View context attributes
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require("fs");
+            const path = require("path");
+
+            const ALLOW_LIST = ["accessibility.ips"];
+            const THRESHOLD = 100;
+
+            let table_msg = "| File | Size (Bytes) |\n|-----|-----|\n";
+            let warnings = "";
+            
+
+            const patch_path = "patches";
+            const files = fs.readdirSync(patch_path);
+
+            for (const file of files) {
+              const size = fs.statSync(path.join(patch_path, file)).size;
+              if (size >= THRESHOLD && !ALLOW_LIST.includes(file)) {
+                warnings += "- `${file}` (${size}B)\n";
+              }
+              table_msg += "| ${file} | ${size} |\n";
+            }
+
+            let final_message = "";
+            if (warnings) {
+              final_message += "⚠️ Big files detected: ⚠️\n${warnings}\n";
+            }
+            final_message += "<details><summary>Expand for detailed file sizes</summary>\n<p>\n\n";
+            final_message += "${table_msg}";
+            final_message += "\n\n</p>\n</details>";
+
+            console.log(final_message)
+
+            if (warnings) {
+              core.setFailed("Big files detected.\n ${warnings}");
+            }
+
+            if (context.eventName === "pull_request") {
+              // PRs and issues go over same endpoints
+              await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.pull_request.number,
+                  body: final_message,
+                });
+            }
+
+      
+
   release:
     runs-on: 'ubuntu-latest'
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
