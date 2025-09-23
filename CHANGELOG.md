@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.9.1- 2025-09-23
+
 - Changed: The Instant Morph feature has been moved from an optional compile flag, to a ROM flag.
 - Removed: Being able to Instant Morph during Spinjumping, Walljumping, and Mid-Air while moving left/right in order to prevent abuse.
 
