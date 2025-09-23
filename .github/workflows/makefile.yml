@@ -45,6 +45,8 @@ jobs:
 
   check_size:
     runs-on: 'ubuntu-latest'
+    permissions:
+      issues: write
     needs:
       - build
 
@@ -61,7 +63,7 @@ jobs:
           unzip "./artifacts/Randomizer Patches.zip/Randomizer Patches.zip"
           mv ./bin/*.ips ./patches
 
-      - name: View context attributes
+      - name: Check patch sizes
         uses: actions/github-script@v8
         with:
           script: |
