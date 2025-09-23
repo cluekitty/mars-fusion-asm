@@ -62,22 +62,24 @@ CreditsMusicSpace equ 087F0000h ; takes up 0x14E0h
 FutureReservedSpace equ 087F14E0h
 FutureReservedSpace_Len equ 0DB20h
 
-;Pointers
-MinorLocationTablePointer       equ 087FF000h
-MinorLocationsPointer           equ 087FF004h
-MajorLocationsPointer           equ 087FF008h
-TankIncrementsPointer           equ 087FF00Ch
-MetroidCountPointer             equ 087FF010h
-StartingLocationPointer         equ 087FF014h
-CreditsParametersPointer        equ 087FF018h
-HintSecurityLevelsPointer       equ 087FF01Ch
-EnvironmentalHazardDpsPointer   equ 087FF020h
-MissileLimitPointer             equ 087FF024h
-RoomNamesPointer                equ 087FF028h
-RevealHiddenTilesFlagPointer    equ 087FF02Ch
-TitleScreenTextPointersPointer  equ 087FF030h
-DefaultStereoFlagPointer        equ 087FF034h
-InstantMorphFlagPointer         equ 087FF038h
+; Reserved Pointers
+ReservedPatcherAddrs equ 087FF000h
+.org ReservedPatcherAddrs
+reserve_flag MinorLocationTablePointer
+reserve_flag MinorLocationsPointer
+reserve_flag MajorLocationsPointer
+reserve_flag TankIncrementsPointer
+reserve_flag MetroidCountPointer
+reserve_flag StartingLocationPointer
+reserve_flag CreditsParametersPointer
+reserve_flag HintSecurityLevelsPointer
+reserve_flag EnvironmentalHazardDpsPointer
+reserve_flag MissileLimitPointer
+reserve_flag RoomNamesPointer
+reserve_flag RevealHiddenTilesFlagPointer
+reserve_flag TitleScreenTextPointersPointer
+reserve_flag DefaultStereoFlagPointer
+reserve_flag InstantMorphFlagPointer
 
 
 ; Mark end-of-file padding as free space
