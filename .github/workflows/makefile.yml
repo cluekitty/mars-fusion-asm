@@ -45,9 +45,7 @@ jobs:
 
   check_size:
     runs-on: 'ubuntu-latest'
-    permissions:
-      issues: write
-      pull-requests: write
+    permissions: write-all
     needs:
       - build
 
@@ -84,23 +82,23 @@ jobs:
             for (const file of files) {
               const size = fs.statSync(path.join(patch_path, file)).size;
               if (size >= THRESHOLD && !ALLOW_LIST.includes(file)) {
-                warnings += "- `${file}` (${size}B)\n";
+                warnings += `- \`${file}\` (${size}B)\n`;
               }
-              table_msg += "| ${file} | ${size} |\n";
+              table_msg += `| ${file} | ${size} |\n`;
             }
 
             let final_message = "";
             if (warnings) {
-              final_message += "⚠️ Big files detected: ⚠️\n${warnings}\n";
+              final_message += `⚠️ Big files detected: ⚠️\n${warnings}\n`;
             }
             final_message += "<details><summary>Expand for detailed file sizes</summary>\n<p>\n\n";
-            final_message += "${table_msg}";
+            final_message += `${table_msg}`;
             final_message += "\n\n</p>\n</details>";
 
             console.log(final_message)
 
             if (warnings) {
-              core.setFailed("Big files detected.\n ${warnings}");
+              core.setFailed(`Big files detected.\n ${warnings}`);
             }
 
             if (context.eventName === "pull_request") {
