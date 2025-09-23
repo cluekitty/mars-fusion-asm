@@ -185,6 +185,8 @@ InstantMorphFlag:
 .endautoregion
 
 
+; Intentionally not hijack Spinjumping and Walljumping in order to prevent abuse
+
 
 ; Unmorphing Pose
 .org 0800765Ah
