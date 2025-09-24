@@ -1,4 +1,59 @@
 ; Allows drawing health greater than 2099 without graphical glitches
+
+.org  08071D48h
+.area 08071D50h-.
+    nop
+    bl      @DrawHudEnergyTensHighJack
+    cmp     r3, #00     ; if != 0, skip drawing
+.endarea
+
+.org  08071D76h
+.area 08071D7Eh-.
+    nop
+    bl      @DrawHudEnergyOnesHighJack
+    cmp     r3, #00     ; if != 0, skip drawing
+.endarea
+
+.autoregion
+    .align 2
+@DrawHudEnergyTensHighJack:
+    ldr     r3, =ExcessEnergyFlag
+    ldrb    r3, [r3]
+    mov     r2, #00
+    lsl     r0, r0, #18h
+    lsr     r1, r0, #18h
+    ldrb    r0, [r5, #EnergyDigits_Tens]
+    cmp     r0, r1
+    bne     @@skip_drawing_tens
+    b       @@return
+
+@@skip_drawing_tens:
+    mov     r2, #01
+
+@@return:
+    orr     r3, r2
+    bx      lr
+
+@DrawHudEnergyOnesHighJack:
+    ldr     r3, =ExcessEnergyFlag
+    ldrb    r3, [r3]
+    mov     r2, #00
+    lsl     r0, r0, #18h
+    lsr     r1, r0, #18h
+    ldrb    r0, [r5, #EnergyDigits_Ones]
+    cmp     r0, r1
+    bne     @@skip_drawing_ones
+    b       @@return
+
+@@skip_drawing_ones:
+    mov     r2, #01
+
+@@return:
+    orr     r3, r2
+    bx      lr
+    .pool
+.endautoregion
+
 .org 0807276Ah
 .area 4
     bl      @DrawEnergyForHud
@@ -10,7 +65,14 @@
     .dh 9999
 .endif
 
+.org ForceExcessHealthDisplayPointer
+.area 4
+    .dw     ForceExcessHealthDisplay
+.endarea
+
 .autoregion
+ForceExcessHealthDisplay:
+    .db     00
 /*
     if (MaxEnergy < 2100) {
         DrawHudEnergy() //vanilla
@@ -26,17 +88,26 @@
 .func @DrawEnergyForHud
     push    { lr }
 
+    ; check for if we should always display new Energy HUD
+    ldr     r0, =ForceExcessHealthDisplay
+    ldrb    r0, [r0]
+    cmp     r0, #01
+    beq     @@draw_numbers
+
+    ; if we don't always display new Energy HUD, display it when health exceeds 2099
     ldr     r0, =SamusUpgrades
     ldrh    r0, [r0, SamusUpgrades_MaxEnergy]
     ldr     r1, =2099
     cmp     r0, r1
     bgt     @@draw_numbers
+
+    ; otherwise, draw Vanilla HUD Graphics ...
     bl      DrawHudEnergy
     ldr     r0, =ExcessEnergyFlag
     mov     r1, #0
     strb    r1, [r0]
 
-    ; Clear "Thousands" digit if health is decreasing
+    ; ... and clear "Thousands" digit if health is decreasing from greater than 2099
     ldr     r0, =06010E0Eh  ; Center Line of Tile
     ldr     r0, [r0]
     mov     r1, #00h
@@ -518,6 +589,5 @@
     .align 4
 @EnergyMaxText:
     .incbin "data/energy-max.gfx"
-
 
 .endautoregion

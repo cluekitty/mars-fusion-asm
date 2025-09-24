@@ -1,6 +1,11 @@
 # Changelog
 
 ## Unreleased - 2025-??-??
+- Fixed: Energy values over 2099 now correctly render in-game.
+- Changed: Maximum Energy has been limited to 9999.
+- Fixed: Energy values over 2099 are now capped on the file screen to only show 20 E-tanks. A new `+` indicator will show next to your energy if you have more than 2099 max energy.
+- Changed: For debug builds, the debug menu now allows editing energy values up to 9999.
+- Added: Ability for patcher to indicate that new Excess Energy HUD layout always be used over Vanilla Energy HUD layout.
 
 ## 0.9.1- 2025-09-23
 
@@ -13,10 +18,6 @@
 - Changed: B.O.X has been moved slightly to the left to avoid bumping immediately into him in Entrance Rando.
 - Removed: The PHYSICS compile variable/option was removed.
 - Changed: The stereo-default patch has been moved from an IPS patch in the patcher to an ASM change togglable via a flag in ROM.
-- Fixed: Energy values over 2099 now correctly render in-game.
-- Changed: Maximum Energy has been limited to 9999.
-- Fixed: Energy values over 2099 are now capped on the file screen to only show 20 E-tanks. A new `+` indicator will show next to your energy if you have more than 2099 max energy.
-- Changed: For debug builds, the debug menu now allows editing energy values up to 9999.
 
 ### Room Adjustments
 

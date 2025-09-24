@@ -80,6 +80,7 @@ reserve_pointer RevealHiddenTilesFlagPointer
 reserve_pointer TitleScreenTextPointersPointer
 reserve_pointer DefaultStereoFlagPointer
 reserve_pointer InstantMorphFlagPointer
+reserve_pointer ForceExcessHealthDisplayPointer
 
 
 ; Mark end-of-file padding as free space
