@@ -1,17 +1,19 @@
 ; Allows drawing health greater than 2099 without graphical glitches
 
 .org  08071D48h
+; Highjacks the check to see if we should redraw the Tens digit
 .area 08071D50h-.
     nop
-    bl      @DrawHudEnergyTensHighJack
-    cmp     r3, #00     ; if != 0, skip drawing
+    bl      @DrawHudEnergyTensHighJack  ; check if we should re-draw the digits, bool in r3
+    cmp     r3, #00                     ; if != 0, skip drawing
 .endarea
 
 .org  08071D76h
+; Highjacks the check to see if we should redraw the Ones digit
 .area 08071D7Eh-.
     nop
-    bl      @DrawHudEnergyOnesHighJack
-    cmp     r3, #00     ; if != 0, skip drawing
+    bl      @DrawHudEnergyOnesHighJack  ; check if we should re-draw the digits, bool in r3
+    cmp     r3, #00                     ; if != 0, skip drawing
 .endarea
 
 .autoregion
@@ -20,6 +22,9 @@
     ldr     r3, =ExcessEnergyFlag
     ldrb    r3, [r3]
     mov     r2, #00
+
+    ; Vanilla check to see if Current Energy and Displayed Energy differ
+    ; r0 is the result of a ModuloUnsigned operation prior to highjacking
     lsl     r0, r0, #18h
     lsr     r1, r0, #18h
     ldrb    r0, [r5, #EnergyDigits_Tens]
@@ -31,13 +36,16 @@
     mov     r2, #01
 
 @@return:
-    orr     r3, r2
+    orr     r3, r2  ; ExcessEnergyFlag | Digits Differ
     bx      lr
 
 @DrawHudEnergyOnesHighJack:
     ldr     r3, =ExcessEnergyFlag
     ldrb    r3, [r3]
     mov     r2, #00
+
+    ; Vanilla check to see if Current Energy and Displayed Energy differ
+    ; r0 is the result of a ModuloUnsigned operation prior to highjacking
     lsl     r0, r0, #18h
     lsr     r1, r0, #18h
     ldrb    r0, [r5, #EnergyDigits_Ones]
@@ -49,7 +57,7 @@
     mov     r2, #01
 
 @@return:
-    orr     r3, r2
+    orr     r3, r2  ; ExcessEnergyFlag | Digits Differ
     bx      lr
     .pool
 .endautoregion
