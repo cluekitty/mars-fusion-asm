@@ -1,7 +1,7 @@
 ; Allows drawing health greater than 2099 without graphical glitches
 
 .org  08071D48h
-; Highjacks the check to see if we should redraw the Tens digit
+; Highjacks the check in Vanilla DrawHudEnergy to see if we should redraw the Tens digit
 .area 08071D50h-.
     nop
     bl      @DrawHudEnergyTensHighJack  ; check if we should re-draw the digits, bool in r3
@@ -9,7 +9,7 @@
 .endarea
 
 .org  08071D76h
-; Highjacks the check to see if we should redraw the Ones digit
+; Highjacks the check in Vanilla DrawHudEnergy to see if we should redraw the Ones digit
 .area 08071D7Eh-.
     nop
     bl      @DrawHudEnergyOnesHighJack  ; check if we should re-draw the digits, bool in r3
