@@ -1,8 +1,10 @@
 # Changelog
 
 ## Unreleased - 2025-??-??
-- Fixed: The upper item in Sector 6 - Spaceboost Alley would not load the correct information if assembled data after the Minor Locations data table contained a non-zero value for the next room index.
 
+## 0.9.2 - 2025-09-26
+
+- Fixed: The upper item in Sector 6 - Spaceboost Alley would not load the correct information if assembled data after the Minor Locations data table contained a non-zero value for the next room index.
 
 ## 0.9.1- 2025-09-23
 
