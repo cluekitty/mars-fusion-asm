@@ -525,9 +525,9 @@ ClipdataTile_SpeedNoReform equ 0058h
 ClipdataTile_ScrewAttack equ 0059h
 ClipdataTile_Crumble equ 005Ah
 ClipdataTile_WeakNoReform equ 005Bh
-ClipdataTile_MissileNoReform equ 005Eh
 ClipdataTile_2x2TopLeftNoReform equ 005Ch
 ClipdataTile_2x2TopRightNoReform equ 005Dh
+ClipdataTile_MissileNoReform equ 005Eh
 ClipdataTile_2x2BottomLeftNeverReform  equ 0060h
 ClipdataTile_2x2BottomRightNeverReform equ 0061h
 ClipdataTile_MissileTankHidden equ 0064h
@@ -553,6 +553,7 @@ ClipdataRevealed_PBomb equ 8007h
 ClipdataRevealed_Speed equ 8008h
 ClipdataRevealed_ScrewAttack equ 800Ah
 ClipdataRevealed_Pickup equ 4Ah
+ClipdataRevealed_None equ 0FFFFh
 
 ; non-vanilla enums
 
