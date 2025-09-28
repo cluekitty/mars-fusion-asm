@@ -102,15 +102,16 @@ RevealHiddenTilesFlag:
 .autoregion
     .align 2
 .func RevealHiddenBreakableTiles
-; Max Cycles 157618 in crumble city
-;            157769
+; Max Cycles in crumble city before refactor 157769
+; Max Cycles in crumble city after refactor 113796
+;
 ; r8-r11 are basically unused, we can speed up by storing temp vars here instead of on the stack
     push    { r4-r7, lr }
     mov     r4, r8
     mov     r5, r9
     mov     r6, r10
     push    { r4-r5 }
-    sub     sp, #8
+    sub     sp, #04
     ldr     r0, =RevealHiddenTilesFlag
     ldrb    r0, [r0]
     cmp     r0, #0
@@ -138,31 +139,21 @@ RevealHiddenTilesFlag:
     lsl     r2, #01
     mov     r10, r2                     ; end of room
     mov     r8, r5                      ; width [sp]
-    mov     r9, r6                     ; height [sp+4]
-;    mov     r5, #0
-;    mov     r6, #0
+    mov     r9, r6                      ; height [sp+4]
 @@loop:
     mov     r1, r7
     mov     r3, r8
     mov     r2, r6
-    ;mul     r2, r3      ; height * room width
-    ;add     r2, r2, r5  ; + width
-    ;lsl     r2, #1
-    mov     r2, r10
+    mov     r2, r10                     ; start at end of room and walk backards
     add     r0, r1, r2
-    ;ldr     r1, =3001h
-    cmp     r2, #0      ; don't read past Clipdata RAM
+    cmp     r2, #0                      ; stop when we hit the last tile
     beq     @@return
     ldrh    r0, [r7, r2]
-    ;cmp     r0, #ClipdataTile_Air
-    ;beq     @@dec_width
-    ;cmp     r0, #ClipdataTile_Solid
-    ;beq     @@dec_width
-    ;cmp     r0, #ClipdataTile_DoorTransition
-    ;beq     @@dec_width
     cmp     r0, #ClipdataTile_2x2TopLeftNeverReform
-    bls     @@dec_width
-    bl      @SearchForHiddenBlocks
+    bls     @@dec_width                 ; if tile is not breakable, skip
+    mov     r1, r5
+    mov     r2, r6
+    bl      @LoadRevealedTile
     mov     r1, #0
     mvn     r1, r1
     lsl     r1, #10h
@@ -176,22 +167,20 @@ RevealHiddenTilesFlag:
     mov     r2, r5  ; X Pos
     bl      SetSpecialBg1Tile
 @@dec_width:
-    mov     r2, r10
-    sub     r2, #02
-    mov     r10, r2
+    mov     r2, r10 ;\
+    sub     r2, #02 ;} Decrement Room Tile Index
+    mov     r10, r2 ;/
     sub     r5, #01
-    ;mov     r0, r8
     cmp     r5, #00
     bgt     @@loop
 @@dec_height:
     sub     r6, #01
-    ;mov     r0, r9
     cmp     r6, #00
     beq     @@return
     mov     r5, r8
     b       @@loop
 @@return:
-    add     sp, #8
+    add     sp, #4
     pop     { r4-r5 }
     mov     r8, r4
     mov     r9, r5
@@ -207,29 +196,38 @@ RevealHiddenTilesFlag:
     .align 2
 @ClipDataReplacements:
    ;.db Clip to check, replacement clip
-    .dh ClipdataTile_Crumble,                   ClipdataRevealed_Crumble
-    .dh ClipdataTile_WeakReform,                ClipdataRevealed_Weak
-    .dh ClipdataTile_BombNeverReform,           ClipdataRevealed_Bomb
-    .dh ClipdataTile_BombReform,                ClipdataRevealed_Bomb
-    .dh ClipdataTile_SpeedNoReform,             ClipdataRevealed_Speed
-    .dh ClipdataTile_SpeedReform,               ClipdataRevealed_Speed
-    .dh ClipdataTile_MissileNeverReform,        ClipdataRevealed_Missile
-    .dh ClipdataTile_MissileNoReform,           ClipdataRevealed_Missile
-    .dh ClipdataTile_PBomb,                     ClipdataRevealed_PBomb
-    .dh ClipdataTile_ScrewAttack,               ClipdataRevealed_ScrewAttack
-    .dh ClipdataTile_MissileTankHidden,         ClipdataRevealed_Pickup
-    .dh ClipdataTile_EnergyTankHidden,          ClipdataRevealed_Pickup
-    .dh ClipdataTile_PBombTankHidden,           ClipdataRevealed_Pickup
     .dh ClipdataTile_2x2TopLeftNeverReform,     ClipdataRevealed_Weak
     .dh ClipdataTile_2x2TopRightNeverReform,    ClipdataRevealed_Weak
     .dh ClipdataTile_WeakNeverReform,           ClipdataRevealed_Weak
+    .dh ClipdataTile_WeakReform,                ClipdataRevealed_Weak
+    .dh ClipdataTile_MissileNeverReform,        ClipdataRevealed_Missile
+    .dh ClipdataTile_BombNeverReform,           ClipdataRevealed_Bomb
+    .dh ClipdataTile_BombReform,                ClipdataRevealed_Bomb
+    .dh ClipdataTile_PBomb,                     ClipdataRevealed_PBomb
+    .dh ClipdataTile_SpeedNoReform,             ClipdataRevealed_Speed
+    .dh ClipdataTile_ScrewAttack,               ClipdataRevealed_ScrewAttack
+    .dh ClipdataTile_Crumble,                   ClipdataRevealed_Crumble
     .dh ClipdataTile_WeakNoReform,              ClipdataRevealed_Weak
     .dh ClipdataTile_2x2TopLeftNoReform,        ClipdataRevealed_Weak
     .dh ClipdataTile_2x2TopRightNoReform,       ClipdataRevealed_Weak
+    .dh ClipdataTile_MissileNoReform,           ClipdataRevealed_Missile
+    .dh 005Fh,                                  ClipdataRevealed_None
     .dh ClipdataTile_2x2BottomLeftNeverReform,  ClipdataRevealed_Weak
     .dh ClipdataTile_2x2BottomRightNeverReform, ClipdataRevealed_Weak
+    .dh 0062h,                                  ClipdataRevealed_None
+    .dh 0063h,                                  ClipdataRevealed_None
+    .dh ClipdataTile_MissileTankHidden,         ClipdataRevealed_Pickup
+    .dh ClipdataTile_EnergyTankHidden,          ClipdataRevealed_Pickup
+    .dh 0066h,                                  ClipdataRevealed_None
+    .dh 0067h,                                  ClipdataRevealed_None
+    .dh 0068h,                                  ClipdataRevealed_None
+    .dh ClipdataTile_PBombTankHidden,           ClipdataRevealed_Pickup
+    .dh 006Ah,                                  ClipdataRevealed_None
+    .dh ClipdataTile_SpeedReform,               ClipdataRevealed_Speed
     .dh ClipdataTile_2x2BottomLeftNoReform,     ClipdataRevealed_Weak
     .dh ClipdataTile_2x2BottomRightNoReform,    ClipdataRevealed_Weak
+    .dh 006Eh,                                  ClipdataRevealed_None
+    .dh 006Fh,                                  ClipdataRevealed_None
     .dh ClipdataTile_VerticalBombChain1,        ClipdataRevealed_Bomb
     .dh ClipdataTile_VerticalBombChain2,        ClipdataRevealed_Bomb
     .dh ClipdataTile_VerticalBombChain3,        ClipdataRevealed_Bomb
@@ -238,72 +236,63 @@ RevealHiddenTilesFlag:
     .dh ClipdataTile_HorizontalBombChain2,      ClipdataRevealed_Bomb
     .dh ClipdataTile_HorizontalBombChain3,      ClipdataRevealed_Bomb
     .dh ClipdataTile_HorizontalBombChain4,      ClipdataRevealed_Bomb
-    .dh 0FFFFh, 0FFFFh
+
+    ; Fill remainder of table to prevent out-of-bounds reads
+    .fill (0FFh - ClipdataTile_HorizontalBombChain4) * 4, 0FFh
 .endautoregion
 
 
 .autoregion
 ; input
 ; r0 = Block to Search For
-; r5 = X Pos
-; r6 = Y Pos
+; r1 = X Pos
+; r2 = Y Pos
 ; output
 ; r0 = Replacement Tile, or None (0FFFFh)
     .align 2
-.func @SearchForHiddenBlocks
-    push    { r1-r4, lr }
-    sub     sp, #4
-    mov     r3, #0
-    str     r3, [sp]
-@@search:
-    ldr     r3, [sp]
-    lsl     r3, #2
+.func @LoadRevealedTile
+    push    { r4-r6, lr }
     ldr     r4, =@ClipDataReplacements
-    add     r4, r4, r3
-    ldrh    r2, [r4]
-    mov     r1, #0
-    mvn     r1, r1
+    mov     r5, r1
+    mov     r6, r2
+
+    ;Make ClipdataTile_2x2TopLeftNeverReform the starting index at 0
+    sub     r0, #ClipdataTile_2x2TopLeftNeverReform
+    bmi     @@return_none
+    cmp     r0, #ClipdataTile_HorizontalBombChain4 - ClipdataTile_2x2TopLeftNeverReform
+    bhi     @@return_none
+    lsl     r0, #02
+    add     r4, r0
+    ldrh    r2, [r4]        ; load tile into r2
+    ldrh    r4, [r4, #02]   ; load replacement into r0
+    ldr     r1, =ClipdataRevealed_Bomb
+    cmp     r4, r1
+    bne     @@return_replacement
+
+@@check_bomb_chain:
+    mov     r1, #ClipdataTile_VerticalBombChain1
     lsl     r1, r1, 10h
     lsr     r1, r1, 10h
     cmp     r2, r1
-    beq     @@return_none
-    cmp     r0, r2
-    beq     @@check_bomb_chain
-    ; increment counter
-    lsr     r3, #2
-    add     r3, #1
-    str     r3, [sp]
-    b       @@search
-@@check_bomb_chain:
-/*
-if (r0 >= ClipdataTile_VerticalBombChain1 and
-    r0 <= ClipdataTile_HorizontalBombChain4
-   ) then
-*/
-    ldr     r1, =ClipdataTile_VerticalBombChain1
-    lsl     r1, r1, 10h
-    lsr     r1, r1, 10h
-    cmp     r0, r1
     blt     @@return_replacement ; else
-    ldr     r1, =ClipdataTile_HorizontalBombChain4
+    mov     r1, #ClipdataTile_HorizontalBombChain4
     lsl     r1, r1, 10h
     lsr     r1, r1, 10h
-    cmp     r1, r0
+    cmp     r1, r2
     blt     @@return_replacement ; else
 
     mov     r0, r5 ; X Pos
     mov     r1, r6 ; Y Pos
-    bl StoreBombChainTile
-@@return_replacement:
-    ldr     r2, =@ClipDataReplacements+2
-    add     r2, r2, r3
-    ldrh    r0, [r2, #0]
-    add     sp, #4
-    pop     { r1-r4, pc }
+    bl      StoreBombChainTile
+    b       @@return_replacement
 @@return_none:
-    ldr     r0, =0FFFFh
-    add     sp, #4
-    pop     { r1-r4, pc }
+    mov     r0, #00
+    mvn     r0, r0
+    lsl     r0, r0, #10h
+    lsr     r0, r0, #10h
+@@return_replacement:
+    mov     r0, r4
+    pop     { r4-r6, pc }
     .pool
 .endfunc
 .endautoregion
@@ -315,7 +304,7 @@ if (r0 >= ClipdataTile_VerticalBombChain1 and
 ; r1 = Y Pos
     .align 2
 .func StoreBombChainTile
-    push    { r3, lr }
+    push    { r3-r4, lr }
     sub     sp, #4
     mov     r3, #0
     str     r3, [sp] ; counter @ SP
@@ -350,7 +339,7 @@ if (r0 >= ClipdataTile_VerticalBombChain1 and
     b       @@loop
 @@return:
     add     sp, #4
-    pop     { r3, pc }
+    pop     { r3-r4, pc }
     .pool
 .endfunc
 .endautoregion
