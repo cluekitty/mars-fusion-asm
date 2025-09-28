@@ -6,23 +6,6 @@
     bx      r0
 .endarea
 
-.autoregion
-    .align 2
-.func @RemoveMiscTilesFromRoom
-    push    { lr }
-    bl      RemoveNeverReformBlocks
-    bl      RemoveCollectedTanks
-    bl      RevealHiddenBreakableTiles
-    pop     { r0 }
-    bx      r0
-.endfunc
-.endautoregion
-
-.autoregion
-RevealHiddenTilesFlag:
-    .db     00h
-.endautoregion
-
 .org RevealHiddenTilesFlagPointer
 .area 04h
     .dw     RevealHiddenTilesFlag
@@ -34,7 +17,19 @@ RevealHiddenTilesFlag:
 .endarea
 
 .autoregion
+RevealHiddenTilesFlag:
+    .db     01h
     .align 2
+.func @RemoveMiscTilesFromRoom
+    push    { lr }
+    bl      RemoveNeverReformBlocks
+    bl      RemoveCollectedTanks
+    bl      RevealHiddenBreakableTiles
+    pop     { r0 }
+    bx      r0
+.endfunc
+
+
 .func @BreakStateIfRevealed
     push    { r4, lr }
     ldr     r4, =RevealHiddenTilesFlag
@@ -56,17 +51,15 @@ RevealHiddenTilesFlag:
     pop     { r4, lr }
     .pool
 .endfunc
-.endautoregion
 
-.autoregion
+
+.func RevealBombChainTile
 ; input
 ; r4 = stack pointer, should have indexed block being checked for updating animation
 ; output
 ; r4 = bool
 ;      true = block found and r0 updated
 ;      false = no block found
-    .align 2
-.func RevealBombChainTile
     push    { r5-r7, lr }
     mov     r6, r4
     mov     r5, #0
@@ -97,15 +90,9 @@ RevealHiddenTilesFlag:
     pop     { r5-r7, pc }
     .pool
 .endfunc
-.endautoregion
 
-.autoregion
-    .align 2
+
 .func RevealHiddenBreakableTiles
-; Max Cycles in crumble city before refactor 157769
-; Max Cycles in crumble city after refactor 113796
-;
-; r8-r11 are basically unused, we can speed up by storing temp vars here instead of on the stack
     push    { r4-r7, lr }
     mov     r4, r8
     mov     r5, r9
@@ -190,6 +177,102 @@ RevealHiddenTilesFlag:
     bx      r0
     .pool
 .endfunc
+
+.func @LoadRevealedTile
+; input
+; r0 = Block to Search For
+; r1 = X Pos
+; r2 = Y Pos
+; output
+; r0 = Replacement Tile, or None (0FFFFh)
+    push    { r4-r6, lr }
+    ldr     r4, =@ClipDataReplacements
+    mov     r5, r1
+    mov     r6, r2
+
+    ;Make ClipdataTile_2x2TopLeftNeverReform the starting index at 0
+    sub     r0, #ClipdataTile_2x2TopLeftNeverReform
+    bmi     @@return_none
+    cmp     r0, #ClipdataTile_HorizontalBombChain4 - ClipdataTile_2x2TopLeftNeverReform
+    bhi     @@return_none
+    lsl     r0, #02
+    add     r4, r0
+    ldrh    r2, [r4]        ; load tile into r2
+    ldrh    r4, [r4, #02]   ; load replacement into r0
+    ldr     r1, =ClipdataRevealed_Bomb
+    cmp     r4, r1
+    bne     @@return_replacement
+
+@@check_bomb_chain:
+    mov     r1, #ClipdataTile_VerticalBombChain1
+    lsl     r1, r1, 10h
+    lsr     r1, r1, 10h
+    cmp     r2, r1
+    blt     @@return_replacement ; else
+    mov     r1, #ClipdataTile_HorizontalBombChain4
+    lsl     r1, r1, 10h
+    lsr     r1, r1, 10h
+    cmp     r1, r2
+    blt     @@return_replacement ; else
+
+    mov     r0, r5 ; X Pos
+    mov     r1, r6 ; Y Pos
+    bl      StoreBombChainTile
+    b       @@return_replacement
+@@return_none:
+    mov     r0, #00
+    mvn     r0, r0
+    lsl     r0, r0, #10h
+    lsr     r0, r0, #10h
+@@return_replacement:
+    mov     r0, r4
+    pop     { r4-r6, pc }
+    .pool
+.endfunc
+
+
+.func StoreBombChainTile
+; input
+; r0 = X Pos
+; r1 = Y Pos
+    push    { r3-r4, lr }
+    sub     sp, #4
+    mov     r3, #0
+    str     r3, [sp] ; counter @ SP
+
+@@loop:
+    ldr     r4, =StoredRevealedTiles
+    mov     r3, sp
+    ldr     r3, [r3]
+    lsl     r3, #2
+    add     r4, r4, r3
+    ldrh    r3, [r4, StoredRevealedTiles_Type]
+    cmp     r3, #0
+    bne     @@inc_counter
+@@store:
+    strb    r0, [r4, StoredRevealedTiles_XPos]
+    strb    r1, [r4, StoredRevealedTiles_YPos]
+    ldr     r3, =LevelLayers + LevelLayers_Bg1
+    ldrh    r2, [r3, LevelLayer_Stride]
+    mul     r2, r1      ; height * room width
+    add     r2, r2, r0  ; + width
+    lsl     r0, r2, #1h
+    ldr     r1, [r3]
+    ldrh    r1, [r1, r0]
+    strh    r1, [r4, StoredRevealedTiles_Type]
+    b       @@return
+@@inc_counter:
+    ldr     r3, [sp]
+    add     r3, r3, #1
+    str     r3, [sp]
+    cmp     r3, #StoredRevealedTiles_Len    ; exit early if end of table
+    beq     @@return
+    b       @@loop
+@@return:
+    add     sp, #4
+    pop     { r3-r4, pc }
+    .pool
+.endfunc
 .endautoregion
 
 .autoregion
@@ -239,107 +322,4 @@ RevealHiddenTilesFlag:
 
     ; Fill remainder of table to prevent out-of-bounds reads
     .fill (0FFh - ClipdataTile_HorizontalBombChain4) * 4, 0FFh
-.endautoregion
-
-
-.autoregion
-; input
-; r0 = Block to Search For
-; r1 = X Pos
-; r2 = Y Pos
-; output
-; r0 = Replacement Tile, or None (0FFFFh)
-    .align 2
-.func @LoadRevealedTile
-    push    { r4-r6, lr }
-    ldr     r4, =@ClipDataReplacements
-    mov     r5, r1
-    mov     r6, r2
-
-    ;Make ClipdataTile_2x2TopLeftNeverReform the starting index at 0
-    sub     r0, #ClipdataTile_2x2TopLeftNeverReform
-    bmi     @@return_none
-    cmp     r0, #ClipdataTile_HorizontalBombChain4 - ClipdataTile_2x2TopLeftNeverReform
-    bhi     @@return_none
-    lsl     r0, #02
-    add     r4, r0
-    ldrh    r2, [r4]        ; load tile into r2
-    ldrh    r4, [r4, #02]   ; load replacement into r0
-    ldr     r1, =ClipdataRevealed_Bomb
-    cmp     r4, r1
-    bne     @@return_replacement
-
-@@check_bomb_chain:
-    mov     r1, #ClipdataTile_VerticalBombChain1
-    lsl     r1, r1, 10h
-    lsr     r1, r1, 10h
-    cmp     r2, r1
-    blt     @@return_replacement ; else
-    mov     r1, #ClipdataTile_HorizontalBombChain4
-    lsl     r1, r1, 10h
-    lsr     r1, r1, 10h
-    cmp     r1, r2
-    blt     @@return_replacement ; else
-
-    mov     r0, r5 ; X Pos
-    mov     r1, r6 ; Y Pos
-    bl      StoreBombChainTile
-    b       @@return_replacement
-@@return_none:
-    mov     r0, #00
-    mvn     r0, r0
-    lsl     r0, r0, #10h
-    lsr     r0, r0, #10h
-@@return_replacement:
-    mov     r0, r4
-    pop     { r4-r6, pc }
-    .pool
-.endfunc
-.endautoregion
-
-
-.autoregion
-; input
-; r0 = X Pos
-; r1 = Y Pos
-    .align 2
-.func StoreBombChainTile
-    push    { r3-r4, lr }
-    sub     sp, #4
-    mov     r3, #0
-    str     r3, [sp] ; counter @ SP
-
-@@loop:
-    ldr     r4, =StoredRevealedTiles
-    mov     r3, sp
-    ldr     r3, [r3]
-    lsl     r3, #2
-    add     r4, r4, r3
-    ldrh    r3, [r4, StoredRevealedTiles_Type]
-    cmp     r3, #0
-    bne     @@inc_counter
-@@store:
-    strb    r0, [r4, StoredRevealedTiles_XPos]
-    strb    r1, [r4, StoredRevealedTiles_YPos]
-    ldr     r3, =LevelLayers + LevelLayers_Bg1
-    ldrh    r2, [r3, LevelLayer_Stride]
-    mul     r2, r1      ; height * room width
-    add     r2, r2, r0  ; + width
-    lsl     r0, r2, #1h
-    ldr     r1, [r3]
-    ldrh    r1, [r1, r0]
-    strh    r1, [r4, StoredRevealedTiles_Type]
-    b       @@return
-@@inc_counter:
-    ldr     r3, [sp]
-    add     r3, r3, #1
-    str     r3, [sp]
-    cmp     r3, #StoredRevealedTiles_Len    ; exit early if end of table
-    beq     @@return
-    b       @@loop
-@@return:
-    add     sp, #4
-    pop     { r3-r4, pc }
-    .pool
-.endfunc
 .endautoregion
