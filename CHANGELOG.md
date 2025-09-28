@@ -7,6 +7,10 @@
 - Changed: For debug builds, the debug menu now allows editing energy values up to 9999.
 - Added: Ability for patcher to indicate that new Excess Energy HUD layout always be used over Vanilla Energy HUD layout.
 
+## 0.9.2 - 2025-09-26
+
+- Fixed: The upper item in Sector 6 - Spaceboost Alley would not load the correct information if assembled data after the Minor Locations data table contained a non-zero value for the next room index.
+
 ## 0.9.1- 2025-09-23
 
 - Changed: The Instant Morph feature has been moved from an optional compile flag, to a ROM flag.
