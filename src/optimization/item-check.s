@@ -4,9 +4,9 @@
 ; This patch saves a significant amount of memory, freeing up large chunks in
 ; both external WRAM and SRAM.
 
-; WIP: rewrite binary search tree for the following features:
-; - configurable item collection messages
-; - item locations shared between multiple rooms
+; WIP/TODO: rewrite binary search tree for the following features:
+; - item locations shared between multiple room variants of the same room. 
+;   E.g. Bob's Abode has 2 rooms and collecting Bob in either should make it dissapear in the other too.
 
 .autoregion
 ; Gets the first item index found in the currently loaded room.
