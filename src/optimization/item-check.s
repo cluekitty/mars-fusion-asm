@@ -4,9 +4,9 @@
 ; This patch saves a significant amount of memory, freeing up large chunks in
 ; both external WRAM and SRAM.
 
-; WIP: rewrite binary search tree for the following features:
-; - configurable item collection messages
-; - item locations shared between multiple rooms
+; WIP/TODO: rewrite binary search tree for the following features:
+; - item locations shared between multiple room variants of the same room. 
+;   E.g. Bob's Abode has 2 rooms and collecting Bob in either should make it dissapear in the other too.
 
 .autoregion
 ; Gets the first item index found in the currently loaded room.
@@ -1327,6 +1327,19 @@ MinorLocations:
     .db     UpgradeSprite_PowerBombTank
     .db     Message_Auto, MinorItemJingle
     .fill   07h, 0
+
+@EndOfMinorLocationsTable:
+/* Note
+This was added to fix an out of bounds read on the last item in the table. Other
+data can live directly next to the end of this table and the RemoveCollectedTanks
+function above only exits when the next item room index equals zero. When
+non-zero data lives after this table, there is the possibility that the offset
+for the room index check contains nonzero data causing the function to
+erroneously loop again.
+If you are adding any new locations to the game, do so in the appropriate area
+and room order above the @EndOfMinorLocationsTable label.
+*/
+    .fill   10h, 0
 .endautoregion
 
 .org MinorLocationsPointer

@@ -12,6 +12,10 @@
 #### Sector 2
 - The door between Cathedral and Cathedral Save Access has been changed from a Level-0 door to an open one.
 
+## 0.9.2 - 2025-09-26
+
+- Fixed: The upper item in Sector 6 - Spaceboost Alley would not load the correct information if assembled data after the Minor Locations data table contained a non-zero value for the next room index.
+
 ## 0.9.1- 2025-09-23
 
 - Changed: The Instant Morph feature has been moved from an optional compile flag, to a ROM flag.

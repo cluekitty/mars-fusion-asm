@@ -1,5 +1,10 @@
 ; Allows drawing health greater than 2099 without graphical glitches
 
+.org  0800E456h
+.area 4
+    bl      @InitAndLoadGenericsHighjack
+.endarea
+
 .org  08071D48h
 ; Highjacks the check in Vanilla DrawHudEnergy to see if we should redraw the Tens digit
 .area 08071D50h-.
@@ -18,6 +23,15 @@
 
 .autoregion
     .align 2
+@InitAndLoadGenericsHighjack:
+    push    { lr }
+    bl      08072D50h   ; Load Common Graphics
+    ldr     r1, =ExcessEnergyFlag
+    mov     r0, #00
+    strb    r0, [r1]
+    pop     { r0 }
+    bx      r0
+
 @DrawHudEnergyTensHighJack:
     ldr     r3, =ExcessEnergyFlag
     ldrb    r3, [r3]
