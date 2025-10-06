@@ -7,6 +7,11 @@
 - Changed: For debug builds, the debug menu now allows editing energy values up to 9999.
 - Added: Ability for patcher to indicate that new Excess Energy HUD layout always be used over Vanilla Energy HUD layout.
 
+### Room Adjustments
+
+#### Sector 2
+- The door between Cathedral and Cathedral Save Access has been changed from a Level-0 door to an open one.
+
 ## 0.9.1- 2025-09-23
 
 - Changed: The Instant Morph feature has been moved from an optional compile flag, to a ROM flag.
