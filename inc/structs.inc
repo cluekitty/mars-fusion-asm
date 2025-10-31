@@ -776,6 +776,9 @@ ExcessEnergyFlag:
 
     .align 4
 MaxEnergyDigitsGfxWRAM:
-    .skip 30h
+    .skip 60h
+
+RevealedTilesCode:
+    .skip RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles
 .headersize 08000000h
 .org 08000000h

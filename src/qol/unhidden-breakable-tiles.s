@@ -25,8 +25,17 @@ RevealHiddenTilesFlag:
     bl      RemoveNeverReformBlocks
     bl      RemoveCollectedTanks
     bl      RevealHiddenBreakableTiles
+    ;bl      SetupRevealedTileCode
+
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
+    ldr     r0, =RevealedTilesCode+1
+.else
+    ldr     r0, =NonGameplayRam+(140*2)+1 ; space after Clipdata code
+.endif
+    blx      r0
     pop     { r0 }
     bx      r0
+    .pool
 .endfunc
 
 
@@ -92,6 +101,25 @@ RevealHiddenTilesFlag:
 .endfunc
 
 
+.func SetupRevealedTileCode
+    push    { lr }
+    ldr     r3, =DMA3
+    ldr     r2, =RevealHiddenBreakableTiles+1
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
+    ldr     r1, =RevealedTilesCode
+.else
+    ldr     r1, =NonGameplayRam+(140*2) ; space after Clipdata code
+.endif
+    ldr     r0, =DMA_ENABLE | DMA_TYPE_32BIT | (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) / 4
+    str     r2, [r3, DMA_SAD]
+    str     r1, [r3, DMA_DAD]
+    str     r0, [r3, DMA_CNT]
+    ldr     r0, [r3, DMA_CNT]
+    pop     { r0 }
+    bx      r0
+    .pool
+.endfunc
+
 .func RevealHiddenBreakableTiles
     push    { r4-r7, lr }
     mov     r4, r8
@@ -102,11 +130,11 @@ RevealHiddenTilesFlag:
     ldr     r0, =RevealHiddenTilesFlag
     ldrb    r0, [r0]
     cmp     r0, #0
-    beq     @@return
+    beq     @return_from_revealhiddentiles
     ldr     r0, =NonGameplayFlag
     ldrb    r0, [r0]
     cmp     r0, #0
-    bne     @@return ; exit early if called from non-gameplay or cutscene
+    bne     @return_from_revealhiddentiles ; exit early if called from non-gameplay or cutscene
 @@clear_StoredRevealedTiles:
     mov     r0, #20h
     str     r0, [sp]
@@ -114,7 +142,9 @@ RevealHiddenTilesFlag:
     mov     r1, #0
     ldr     r2, =StoredRevealedTiles
     ldr     r3, =StoredRevealedTiles_Len * StoredRevealedTiles_Size
-    bl      BitFill
+    ;bl      BitFill
+    ldr     r4, =BitFill
+    blx      r4
 @@load_room_info:
     ldr     r7, =LevelLayers + LevelLayers_Clipdata
     ldrh    r6, [r7, LevelLayer_Rows]   ; height
@@ -127,46 +157,50 @@ RevealHiddenTilesFlag:
     mov     r10, r2                     ; end of room
     mov     r8, r5                      ; width [sp]
     mov     r9, r6                      ; height [sp+4]
-@@loop:
+@loop_in_revealhiddentiles:
     mov     r1, r7
     mov     r3, r8
     mov     r2, r6
     mov     r2, r10                     ; start at end of room and walk backards
     add     r0, r1, r2
     cmp     r2, #0                      ; stop when we hit the last tile
-    beq     @@return
+    beq     @return_from_revealhiddentiles
     ldrh    r0, [r7, r2]
     cmp     r0, #ClipdataTile_2x2TopLeftNeverReform
-    bls     @@dec_width                 ; if tile is not breakable, skip
+    bls     @dec_width                 ; if tile is not breakable, skip
     mov     r1, r5
     mov     r2, r6
-    bl      @LoadRevealedTile
+    b       @LoadRevealedTile
+.definelabel @ReturnFromLoadRevealedTile, org()
     mov     r1, #0
     mvn     r1, r1
     lsl     r1, #10h
     lsr     r1, #10h
     cmp     r1, r0  ; if not FFFF
-    bne     @@reveal_hidden_block
-    b       @@dec_width
-@@reveal_hidden_block:
+    bne     @reveal_hidden_block
+    b       @dec_width
+@reveal_hidden_block:
     ; r0 should contain value of new tile
     mov     r1, r6  ; Y Pos
     mov     r2, r5  ; X Pos
-    bl      SetSpecialBg1Tile
-@@dec_width:
+    push    { r3 }
+    ldr     r3, =SetSpecialBg1Tile
+    blx     r3
+    pop     { r3 }
+@dec_width:
     mov     r2, r10 ;\
     sub     r2, #02 ;} Decrement Room Tile Index
     mov     r10, r2 ;/
     sub     r5, #01
     cmp     r5, #00
-    bgt     @@loop
-@@dec_height:
+    bgt     @loop_in_revealhiddentiles
+@dec_height:
     sub     r6, #01
     cmp     r6, #00
-    beq     @@return
+    beq     @return_from_revealhiddentiles
     mov     r5, r8
-    b       @@loop
-@@return:
+    b       @loop_in_revealhiddentiles
+@return_from_revealhiddentiles:
     add     sp, #4
     pop     { r4-r5 }
     mov     r8, r4
@@ -185,48 +219,52 @@ RevealHiddenTilesFlag:
 ; r2 = Y Pos
 ; output
 ; r0 = Replacement Tile, or None (0FFFFh)
-    push    { r4-r6, lr }
-    ldr     r4, =@ClipDataReplacements
+    push    { r4-r6 }
+    ;ldr     r4, =@ClipDataReplacements
+    mov     r4, pc
+    add     r4, @ClipDataReplacements - org() - 2 ;@RelativeLoadValue
     mov     r5, r1
     mov     r6, r2
 
     ;Make ClipdataTile_2x2TopLeftNeverReform the starting index at 0
     sub     r0, #ClipdataTile_2x2TopLeftNeverReform
-    bmi     @@return_none
+    bmi     @return_none
     cmp     r0, #ClipdataTile_HorizontalBombChain4 - ClipdataTile_2x2TopLeftNeverReform
-    bhi     @@return_none
+    bhi     @return_none
     lsl     r0, #02
     add     r4, r0
     ldrh    r2, [r4]        ; load tile into r2
     ldrh    r4, [r4, #02]   ; load replacement into r0
     ldr     r1, =ClipdataRevealed_Bomb
     cmp     r4, r1
-    bne     @@return_replacement
+    bne     @return_replacement
 
 @@check_bomb_chain:
     mov     r1, #ClipdataTile_VerticalBombChain1
     lsl     r1, r1, 10h
     lsr     r1, r1, 10h
     cmp     r2, r1
-    blt     @@return_replacement ; else
+    blt     @return_replacement ; else
     mov     r1, #ClipdataTile_HorizontalBombChain4
     lsl     r1, r1, 10h
     lsr     r1, r1, 10h
     cmp     r1, r2
-    blt     @@return_replacement ; else
+    blt     @return_replacement ; else
 
     mov     r0, r5 ; X Pos
     mov     r1, r6 ; Y Pos
-    bl      StoreBombChainTile
-    b       @@return_replacement
-@@return_none:
+    b       StoreBombChainTile
+.definelabel @ReturnFromStoreBombChainTile, org()
+    b       @return_replacement
+@return_none:
     mov     r0, #00
     mvn     r0, r0
     lsl     r0, r0, #10h
     lsr     r0, r0, #10h
-@@return_replacement:
+@return_replacement:
     mov     r0, r4
-    pop     { r4-r6, pc }
+    pop     { r4-r6 }
+    b       @ReturnFromLoadRevealedTile
     .pool
 .endfunc
 
@@ -235,15 +273,12 @@ RevealHiddenTilesFlag:
 ; input
 ; r0 = X Pos
 ; r1 = Y Pos
-    push    { r3-r4, lr }
-    sub     sp, #4
-    mov     r3, #0
-    str     r3, [sp] ; counter @ SP
+    push    { r3-r5 }
+    mov     r5, #0
 
 @@loop:
     ldr     r4, =StoredRevealedTiles
-    mov     r3, sp
-    ldr     r3, [r3]
+    mov     r3, r5
     lsl     r3, #2
     add     r4, r4, r3
     ldrh    r3, [r4, StoredRevealedTiles_Type]
@@ -262,20 +297,16 @@ RevealHiddenTilesFlag:
     strh    r1, [r4, StoredRevealedTiles_Type]
     b       @@return
 @@inc_counter:
-    ldr     r3, [sp]
-    add     r3, r3, #1
-    str     r3, [sp]
-    cmp     r3, #StoredRevealedTiles_Len    ; exit early if end of table
+    add     r5, #1
+    cmp     r5, #StoredRevealedTiles_Len    ; exit early if end of table
     beq     @@return
     b       @@loop
 @@return:
-    add     sp, #4
-    pop     { r3-r4, pc }
+    pop     { r3-r5 }
+    b       @ReturnFromStoreBombChainTile
     .pool
 .endfunc
-.endautoregion
 
-.autoregion
     .align 2
 @ClipDataReplacements:
    ;.db Clip to check, replacement clip
@@ -320,6 +351,9 @@ RevealHiddenTilesFlag:
     .dh ClipdataTile_HorizontalBombChain3,      ClipdataRevealed_Bomb
     .dh ClipdataTile_HorizontalBombChain4,      ClipdataRevealed_Bomb
 
+    ; This has been disabled
     ; Fill remainder of table to prevent out-of-bounds reads
-    .fill (0FFh - ClipdataTile_HorizontalBombChain4) * 4, 0FFh
+    .fill (0AFh - ClipdataTile_HorizontalBombChain4) * 4, 0FFh
+
+RevealHiddenBreakableTilesEndAddr:
 .endautoregion
