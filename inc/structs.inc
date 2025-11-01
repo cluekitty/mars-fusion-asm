@@ -778,7 +778,10 @@ ExcessEnergyFlag:
 MaxEnergyDigitsGfxWRAM:
     .skip 60h
 
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
 RevealedTilesCode:
     .skip RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles
+.endif
+
 .headersize 08000000h
 .org 08000000h

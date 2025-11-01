@@ -24,18 +24,26 @@ RevealHiddenTilesFlag:
     push    { lr }
     bl      RemoveNeverReformBlocks
     bl      RemoveCollectedTanks
-    bl      RevealHiddenBreakableTiles
-    ;bl      SetupRevealedTileCode
+    ldr     r0, =RevealHiddenTilesFlag
+    ldrb    r0, [r0]
+    cmp     r0, #01
+    bne     @@skip
+    bl      SetupRevealedTileCode
 
+; This will automatically use leftover NonGameplayRam for code, or if the code
+; is too long, it will put it in FreeIWRam.
 .if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
     ldr     r0, =RevealedTilesCode+1
 .else
-    ldr     r0, =NonGameplayRam+(140*2)+1 ; space after Clipdata code
+    ldr     r0, =NonGameplayRam+(140h*2)+1 ; space after Clipdata code in WRAM
 .endif
     blx      r0
+
+@@skip:
     pop     { r0 }
     bx      r0
     .pool
+.definelabel RevealHiddenBreakableTilesWram, NonGameplayRam+(140h*2)
 .endfunc
 
 
@@ -108,7 +116,7 @@ RevealHiddenTilesFlag:
 .if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
     ldr     r1, =RevealedTilesCode
 .else
-    ldr     r1, =NonGameplayRam+(140*2) ; space after Clipdata code
+    ldr     r1, =NonGameplayRam+(140h*2) ; space after Clipdata code
 .endif
     ldr     r0, =DMA_ENABLE | DMA_TYPE_32BIT | (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) / 4
     str     r2, [r3, DMA_SAD]
@@ -121,6 +129,9 @@ RevealHiddenTilesFlag:
 .endfunc
 
 .func RevealHiddenBreakableTiles
+.if DEBUG
+.notice "code size: " + tohex(RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles)
+.endif
     push    { r4-r7, lr }
     mov     r4, r8
     mov     r5, r9
@@ -142,9 +153,8 @@ RevealHiddenTilesFlag:
     mov     r1, #0
     ldr     r2, =StoredRevealedTiles
     ldr     r3, =StoredRevealedTiles_Len * StoredRevealedTiles_Size
-    ;bl      BitFill
     ldr     r4, =BitFill
-    blx      r4
+    blx     r4
 @@load_room_info:
     ldr     r7, =LevelLayers + LevelLayers_Clipdata
     ldrh    r6, [r7, LevelLayer_Rows]   ; height
@@ -167,11 +177,85 @@ RevealHiddenTilesFlag:
     beq     @return_from_revealhiddentiles
     ldrh    r0, [r7, r2]
     cmp     r0, #ClipdataTile_2x2TopLeftNeverReform
-    bls     @dec_width                 ; if tile is not breakable, skip
+    blt     @dec_width                 ; if tile is not breakable, skip
     mov     r1, r5
     mov     r2, r6
-    b       @LoadRevealedTile
-.definelabel @ReturnFromLoadRevealedTile, org()
+
+//u16 replacementTile LoadRevealedTile(u16 xPos, u16 yPos)
+@LoadRevealedTile:
+    push    { r4-r6 }
+    ldr     r4, [@ClipDataReplacementsPointer] ; PC relative load instead of loading from a pool. Value is defined manually
+    mov     r5, r1
+    mov     r6, r2
+
+    ;Make ClipdataTile_2x2TopLeftNeverReform the starting index at 0
+    sub     r0, #ClipdataTile_2x2TopLeftNeverReform
+    bmi     @return_replacement
+    cmp     r0, #ClipdataTile_HorizontalBombChain4 - ClipdataTile_2x2TopLeftNeverReform
+    bhi     @return_replacement
+    lsl     r0, #02
+    add     r4, r0
+    ldrh    r2, [r4]        ; load tile into r2
+    ldrh    r4, [r4, #02]   ; load replacement into r0
+    ldr     r1, =ClipdataRevealed_Bomb
+    cmp     r4, r1
+    bne     @return_replacement
+
+@@check_bomb_chain:
+    mov     r1, #ClipdataTile_VerticalBombChain1
+    lsl     r1, r1, 10h
+    lsr     r1, r1, 10h
+    cmp     r2, r1
+    blt     @return_replacement ; else
+    mov     r1, #ClipdataTile_HorizontalBombChain4
+    lsl     r1, r1, 10h
+    lsr     r1, r1, 10h
+    cmp     r1, r2
+    blt     @return_replacement ; else
+
+    mov     r0, r5 ; X Pos
+    mov     r1, r6 ; Y Pos
+//end in-line func
+
+//void StoreBombChainTile(u16 xPos, u16 yPos)
+@StoreBombChainTile:
+    push    { r3-r5 }
+    mov     r5, #0
+
+@@loop:
+    ldr     r4, =StoredRevealedTiles
+    mov     r3, r5
+    lsl     r3, #2
+    add     r4, r4, r3
+    ldrh    r3, [r4, StoredRevealedTiles_Type]
+    cmp     r3, #0
+    bne     @@inc_counter
+@@store:
+    strb    r0, [r4, StoredRevealedTiles_XPos]
+    strb    r1, [r4, StoredRevealedTiles_YPos]
+    ldr     r3, =LevelLayers + LevelLayers_Bg1
+    ldrh    r2, [r3, LevelLayer_Stride]
+    mul     r2, r1      ; height * room width
+    add     r2, r2, r0  ; + width
+    lsl     r0, r2, #1h
+    ldr     r1, [r3]
+    ldrh    r1, [r1, r0]
+    strh    r1, [r4, StoredRevealedTiles_Type]
+    b       @@return
+@@inc_counter:
+    add     r5, #1
+    cmp     r5, #StoredRevealedTiles_Len    ; exit if end of table
+    beq     @@return
+    b       @@loop
+@@return:
+    pop     { r3-r5 }
+    b       @return_replacement
+
+@return_replacement:
+    mov     r0, r4
+    pop     { r4-r6 }
+// end in-line func
+
     mov     r1, #0
     mvn     r1, r1
     lsl     r1, #10h
@@ -210,101 +294,12 @@ RevealHiddenTilesFlag:
     pop     { r0 }
     bx      r0
     .pool
-.endfunc
-
-.func @LoadRevealedTile
-; input
-; r0 = Block to Search For
-; r1 = X Pos
-; r2 = Y Pos
-; output
-; r0 = Replacement Tile, or None (0FFFFh)
-    push    { r4-r6 }
-    ;ldr     r4, =@ClipDataReplacements
-    mov     r4, pc
-    add     r4, @ClipDataReplacements - org() - 2 ;@RelativeLoadValue
-    mov     r5, r1
-    mov     r6, r2
-
-    ;Make ClipdataTile_2x2TopLeftNeverReform the starting index at 0
-    sub     r0, #ClipdataTile_2x2TopLeftNeverReform
-    bmi     @return_none
-    cmp     r0, #ClipdataTile_HorizontalBombChain4 - ClipdataTile_2x2TopLeftNeverReform
-    bhi     @return_none
-    lsl     r0, #02
-    add     r4, r0
-    ldrh    r2, [r4]        ; load tile into r2
-    ldrh    r4, [r4, #02]   ; load replacement into r0
-    ldr     r1, =ClipdataRevealed_Bomb
-    cmp     r4, r1
-    bne     @return_replacement
-
-@@check_bomb_chain:
-    mov     r1, #ClipdataTile_VerticalBombChain1
-    lsl     r1, r1, 10h
-    lsr     r1, r1, 10h
-    cmp     r2, r1
-    blt     @return_replacement ; else
-    mov     r1, #ClipdataTile_HorizontalBombChain4
-    lsl     r1, r1, 10h
-    lsr     r1, r1, 10h
-    cmp     r1, r2
-    blt     @return_replacement ; else
-
-    mov     r0, r5 ; X Pos
-    mov     r1, r6 ; Y Pos
-    b       StoreBombChainTile
-.definelabel @ReturnFromStoreBombChainTile, org()
-    b       @return_replacement
-@return_none:
-    mov     r0, #00
-    mvn     r0, r0
-    lsl     r0, r0, #10h
-    lsr     r0, r0, #10h
-@return_replacement:
-    mov     r0, r4
-    pop     { r4-r6 }
-    b       @ReturnFromLoadRevealedTile
-    .pool
-.endfunc
-
-
-.func StoreBombChainTile
-; input
-; r0 = X Pos
-; r1 = Y Pos
-    push    { r3-r5 }
-    mov     r5, #0
-
-@@loop:
-    ldr     r4, =StoredRevealedTiles
-    mov     r3, r5
-    lsl     r3, #2
-    add     r4, r4, r3
-    ldrh    r3, [r4, StoredRevealedTiles_Type]
-    cmp     r3, #0
-    bne     @@inc_counter
-@@store:
-    strb    r0, [r4, StoredRevealedTiles_XPos]
-    strb    r1, [r4, StoredRevealedTiles_YPos]
-    ldr     r3, =LevelLayers + LevelLayers_Bg1
-    ldrh    r2, [r3, LevelLayer_Stride]
-    mul     r2, r1      ; height * room width
-    add     r2, r2, r0  ; + width
-    lsl     r0, r2, #1h
-    ldr     r1, [r3]
-    ldrh    r1, [r1, r0]
-    strh    r1, [r4, StoredRevealedTiles_Type]
-    b       @@return
-@@inc_counter:
-    add     r5, #1
-    cmp     r5, #StoredRevealedTiles_Len    ; exit early if end of table
-    beq     @@return
-    b       @@loop
-@@return:
-    pop     { r3-r5 }
-    b       @ReturnFromStoreBombChainTile
-    .pool
+@ClipDataReplacementsPointer:
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
+    .dw     RevealedTilesCode + (@ClipDataReplacements - RevealHiddenBreakableTiles) ;ClipDataReplacements in WRAM
+.else
+    .dw     @ClipDataReplacements
+.endif
 .endfunc
 
     .align 2
@@ -351,7 +346,6 @@ RevealHiddenTilesFlag:
     .dh ClipdataTile_HorizontalBombChain3,      ClipdataRevealed_Bomb
     .dh ClipdataTile_HorizontalBombChain4,      ClipdataRevealed_Bomb
 
-    ; This has been disabled
     ; Fill remainder of table to prevent out-of-bounds reads
     .fill (0AFh - ClipdataTile_HorizontalBombChain4) * 4, 0FFh
 
