@@ -32,10 +32,10 @@ RevealHiddenTilesFlag:
 
 ; This will automatically use leftover NonGameplayRam for code, or if the code
 ; is too long, it will put it in FreeIWRam.
-.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > (NonGameplayRam_Len - ConvertClipdataCodeLength)
     ldr     r0, =RevealedTilesCode+1
 .else
-    ldr     r0, =NonGameplayRam+(140h*2)+1 ; space after Clipdata code in WRAM
+    ldr     r0, =NonGameplayRam+ConvertClipdataCodeLength+1 ; space after Clipdata code in WRAM
 .endif
     blx      r0
 
@@ -43,7 +43,7 @@ RevealHiddenTilesFlag:
     pop     { r0 }
     bx      r0
     .pool
-.definelabel RevealHiddenBreakableTilesWram, NonGameplayRam+(140h*2)
+.definelabel RevealHiddenBreakableTilesWram, NonGameplayRam+ConvertClipdataCodeLength
 .endfunc
 
 
@@ -113,10 +113,10 @@ RevealHiddenTilesFlag:
     push    { lr }
     ldr     r3, =DMA3
     ldr     r2, =RevealHiddenBreakableTiles+1
-.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > (NonGameplayRam_Len - ConvertClipdataCodeLength)
     ldr     r1, =RevealedTilesCode
 .else
-    ldr     r1, =NonGameplayRam+(140h*2) ; space after Clipdata code
+    ldr     r1, =NonGameplayRam+ConvertClipdataCodeLength ; space after Clipdata code
 .endif
     ldr     r0, =DMA_ENABLE | DMA_TYPE_32BIT | (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) / 4
     str     r2, [r3, DMA_SAD]
@@ -129,14 +129,11 @@ RevealHiddenTilesFlag:
 .endfunc
 
 .func RevealHiddenBreakableTiles
-.if DEBUG
-.notice "code size: " + tohex(RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles)
-.endif
     push    { r4-r7, lr }
     mov     r4, r8
     mov     r5, r9
     mov     r6, r10
-    push    { r4-r5 }
+    push    { r4-r6 }
     sub     sp, #04
     ldr     r0, =RevealHiddenTilesFlag
     ldrb    r0, [r0]
@@ -286,7 +283,7 @@ RevealHiddenTilesFlag:
     b       @loop_in_revealhiddentiles
 @return_from_revealhiddentiles:
     add     sp, #4
-    pop     { r4-r5 }
+    pop     { r4-r6 }
     mov     r8, r4
     mov     r9, r5
     mov     r10, r6
@@ -295,10 +292,10 @@ RevealHiddenTilesFlag:
     bx      r0
     .pool
 @ClipDataReplacementsPointer:
-.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > 2C0h
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > (NonGameplayRam_Len - ConvertClipdataCodeLength)
     .dw     RevealedTilesCode + (@ClipDataReplacements - RevealHiddenBreakableTiles) ;ClipDataReplacements in WRAM
 .else
-    .dw     @ClipDataReplacements
+    .dw     NonGameplayRam+ConvertClipdataCodeLength + (@ClipDataReplacements - RevealHiddenBreakableTiles)
 .endif
 .endfunc
 
