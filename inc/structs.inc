@@ -323,6 +323,7 @@ NonGameplayRam equ 03001484h
 .sym off
 ; NonGameplayRam for MapScreen
 NonGamePlayRam_MapScreen_OamData equ 02Ch
+NonGameplayRam_Len equ 540h
 .sym on
 
 .sym off
@@ -776,6 +777,12 @@ ExcessEnergyFlag:
 
     .align 4
 MaxEnergyDigitsGfxWRAM:
-    .skip 30h
+    .skip 60h
+
+.if (RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles) > (NonGameplayRam_Len - ConvertClipdataCodeLength)
+RevealedTilesCode:
+    .skip RevealHiddenBreakableTilesEndAddr - RevealHiddenBreakableTiles
+.endif
+
 .headersize 08000000h
 .org 08000000h

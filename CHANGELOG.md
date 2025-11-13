@@ -7,6 +7,7 @@
 - Changed: For debug builds, the debug menu now allows editing energy values up to 9999.
 - Added: Ability for patcher to indicate that new Excess Energy HUD layout always be used over Vanilla Energy HUD layout.
 - Added: Option to nerf Geron weaknesses to the "intended" values.
+- Changed: The Revealed Tiles code has received some optimizations to give a performance boost. Number of generated lag frames during room loads as a result of enabling this option has been reduced.
 
 ### Room Adjustments
 
