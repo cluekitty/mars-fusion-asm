@@ -50,17 +50,12 @@ endif
 MODIFICATION_MODE := randomizer
 ifeq ($(MODIFICATION_MODE), randomizer)
     RANDOMIZER_SYMBOL := -definelabel RANDOMIZER 1
-    NONLINEAR_SYMBOL := -definelabel NONLINEAR 1
-else ifeq ($(MODIFICATION_MODE), nonlinear)
-    RANDOMIZER_SYMBOL := -definelabel RANDOMIZER 0
-    NONLINEAR_SYMBOL := -definelabel NONLINEAR 1
 else
     RANDOMIZER_SYMBOL := -definelabel RANDOMIZER 0
-    NONLINEAR_SYMBOL := -definelabel NONLINEAR 0
 endif
 
 
-ALL_SYMBOLS = $(BUILD_SYMBOL) $(OPTIMIZE_SYMBOL) $(QOL_SYMBOL) $(RANDOMIZER_SYMBOL) $(NONLINEAR_SYMBOL)
+ALL_SYMBOLS = $(BUILD_SYMBOL) $(OPTIMIZE_SYMBOL) $(QOL_SYMBOL) $(RANDOMIZER_SYMBOL)
 
 all: $(BIN_DIR)/m4rs.gba
 
@@ -112,7 +107,7 @@ help:
 	@echo "  BUILD_TYPE		- Sets the build type. Possible values are debug and release. Defaults to debug."
 	@echo "  OPTIMIZE		- Sets whether to optimize certain routines. Only change is higher performance. Possible values are true and false. Defaults to true."
 	@echo "  QOL			- Sets whether to apply non-essential but convenient features. Possible values are true and false. Defaults to true."
-	@echo "  MODIFICATION_MODE	- Sets what kind of modifications should be applied. Possible values are randomizer, nonlinear and vanilla. Defaults to randomizer."
+	@echo "  MODIFICATION_MODE	- Sets what kind of modifications should be applied. Possible values are randomizer and vanilla. Defaults to randomizer."
 	@echo ""
 
 .PHONY: all check clean dist

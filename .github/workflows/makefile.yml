@@ -16,8 +16,6 @@ jobs:
         config:
           - mode: randomizer
             zip-name: Randomizer Patches
-          - mode: nonlinear
-            zip-name: Nonlinear Patches
             
     runs-on: self-hosted
 

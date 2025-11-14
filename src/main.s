@@ -17,9 +17,6 @@
 .ifndef ACCESSIBILITY
 .definelabel ACCESSIBILITY, 0
 .endif
-.ifndef NONLINEAR
-.definelabel NONLINEAR, 1
-.endif
 .ifndef RANDOMIZER
 .definelabel RANDOMIZER, 1
 .endif
@@ -150,7 +147,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 ; Non-linearity patches
 ; Patches which mitigate or remove linear story restrictions
 ; Forced if randomizer flag is on
-.if NONLINEAR || RANDOMIZER
+.if RANDOMIZER
 .notice "Applying non-linearity patches..."
 .include "src/nonlinear/common.s"
 .include "src/nonlinear/hud-edits.s"
