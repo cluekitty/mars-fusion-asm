@@ -11,6 +11,7 @@
 - Fixed: Hatch bulkheads will now always show as "locked" when speaking with the computer in a Navigation room. This fixes the following scenarios ensuring a consistent display state:
   - When using Door Lock Randomizer: Permanently locked doors do not show as "locked" in computer conversations.
   - When using Door Lock Randomizer: Level 0 thru Level 4 Doors that could be closed in the navigation room show up in the navigation conversation as locked, except when opened manually by the player before talking to the computer.
+- Fixed: It is no longer possible for the SA-X Monster form to jump out-of-bounds.
 
 ### Room Adjustments
 
