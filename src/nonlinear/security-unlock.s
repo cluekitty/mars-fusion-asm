@@ -107,7 +107,6 @@
     bcc     0806CBE2h
 .endarea
 
-.if RANDOMIZER
 .org 08077E96h
 .area 0Eh, 0
     mov     r3, #0
@@ -120,17 +119,7 @@
     mov     r6, #1
     and     r6, r0
 .endarea
-.else
-.org 08077F04h
-.area 0Ah, 0
-    ; Check locks on map menu
-    lsr     r0, r3
-    mov     r6, #1
-    and     r6, r0
-.endarea
-.endif
 
-.if RANDOMIZER
 .org 08077EA4h
 ; The vanilla function works for setup of data, except it iterates at the beginning
 ; of the loop. We offset the function 2 bytes and move the iterator to the end of
@@ -168,14 +157,6 @@
 .area 2
     cmp     r4, #4
 .endarea
-.else
-.org 08077E9Ch
-.area 0Ah, 0
-    lsr     r0, r3
-    mov     r6, #1
-    and     r6, r0
-.endarea
-.endif
 
 .org 0807D66Ah
 .area 12h, 0
@@ -220,7 +201,6 @@
 .endarea
 @@cont:
 
-.if RANDOMIZER
 .autoregion
     .aligna 2
 @MapScreenLockLevels:
@@ -239,4 +219,3 @@
 
 .org 08077F38h
     .dw @MapScreenLockLevels
-.endif
