@@ -119,13 +119,6 @@
     mov     r6, #1
     and     r6, r0
 .endarea
-.org 08077F04h
-.area 0Ah, 0
-    ; Check locks on map menu
-    lsr     r0, r3
-    mov     r6, #1
-    and     r6, r0
-.endarea
 
 .org 08077EA4h
 ; The vanilla function works for setup of data, except it iterates at the beginning
@@ -163,12 +156,6 @@
 .org 08077F56h
 .area 2
     cmp     r4, #4
-.endarea
-.org 08077E9Ch
-.area 0Ah, 0
-    lsr     r0, r3
-    mov     r6, #1
-    and     r6, r0
 .endarea
 
 .org 0807D66Ah
