@@ -119,7 +119,6 @@
     mov     r6, #1
     and     r6, r0
 .endarea
-.else
 .org 08077F04h
 .area 0Ah, 0
     ; Check locks on map menu
@@ -165,7 +164,6 @@
 .area 2
     cmp     r4, #4
 .endarea
-.else
 .org 08077E9Ch
 .area 0Ah, 0
     lsr     r0, r3

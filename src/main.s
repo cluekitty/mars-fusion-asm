@@ -176,7 +176,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .if BOMBLESS_PBS
 .include "src/nonlinear/bombless-pbs.s"
 .endif
-.endif
 
 ; Randomizer patches
 ; Patches making randomization of the game possible
