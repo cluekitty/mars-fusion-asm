@@ -81,7 +81,7 @@
     ldrh    r0, [r2]
     add     r0, r1
     strh    r0, [r2]
-@@skipForPause:    
+@@skipForPause:
     b       080A22D8h
     .pool
 .endarea
@@ -111,7 +111,8 @@
     .dw     CreditsEndDelay
 .endarea
 
-.autoregion
+.autoregion DataFreeSpace, DataFreeSpaceEnd
+    .align 2
 CreditsEndDelay:
     .dh     512
 CreditsScrollSpeed:
