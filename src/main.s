@@ -71,6 +71,7 @@ reserve_pointer TitleScreenTextPointersPointer
 reserve_pointer DefaultStereoFlagPointer
 reserve_pointer InstantMorphFlagPointer
 reserve_pointer ForceExcessHealthDisplayPointer
+reserve_pointer SeedHashPointersPointer
 
 
 ; Mark end-of-file padding as free space
@@ -172,6 +173,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 ; Patches making randomization of the game possible
 .notice "Applying randomizer patches..."
 .include "src/randomizer/credits.s"
+.include "src/randomizer/ending-screen.s"
 .include "src/randomizer/hatch-fixes.s"
 .include "src/randomizer/hints.s"
 .include "src/randomizer/less-map-info.s"
