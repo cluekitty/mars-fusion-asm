@@ -1,3 +1,4 @@
+ResetFreeOam equ 08000ADCh
 DeflateVram equ 080009ECh
 InitializeAudio equ 08002298h
 Sfx_Play equ 0800270Ch
@@ -45,7 +46,8 @@ DrawHudEnergy equ 08071C4Ch
 DetermineNavigationHatchesToLockForNavigationConversation equ 08065618h
 
 GetCharWidth equ 08079118h
-RenderChar equ 08079438h
+RenderChar equ 0807913Ch ; r0=Character, r1=dest, r2=width, r3=indent, [sp]=color
+RenderCharForMessage equ 08079438h
 
 CheckProjectiles equ 0808116Ch
 SpawnProjectile equ 080811BCh

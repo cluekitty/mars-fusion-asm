@@ -4,7 +4,7 @@
 
 .org 08079654h
 .area 0ECh
-.func RenderMessage
+.func RenderTextForMessageBanner
     push    { r4-r7, lr }
     sub     sp, #04h
     mov     r6, r1
@@ -97,7 +97,7 @@
     lsl     r3, r5, #20h - 3
     lsr     r3, #20h - 3
     add     r5, r2
-    bl      RenderChar
+    bl      RenderCharForMessage
 @@render_message_loop_inc:
     ldr     r0, [r6]
     add     r0, #2
