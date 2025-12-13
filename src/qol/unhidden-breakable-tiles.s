@@ -18,7 +18,7 @@
 
 .autoregion
 RevealHiddenTilesFlag:
-    .db     01h
+    .db     00h
     .align 2
 .func @RemoveMiscTilesFromRoom
     push    { lr }
