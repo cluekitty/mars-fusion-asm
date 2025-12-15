@@ -23,4 +23,5 @@ To get a list of all assembly flags, you can check out [this file](https://githu
 # License
 
 The code is licensed under GPLv3. See [LICENSE.md](LICENSE.md).
+
 [Item graphics](data/major-tanks.gfx) are licensed under CC-BY-SA-4.0 from the MARS Team. See [LICENSE-CC-BY-SA-4.0.md](LICENSE-CC-BY-SA-4.0.md).
