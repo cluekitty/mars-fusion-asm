@@ -19,3 +19,9 @@ To compile, place your US copy of Metroid Fusion into the root of the repo as `m
 By running `make dist` you will additionally get an IPS patch of the base patch, as well as for some optional changes.
 
 To get a list of all assembly flags, you can check out [this file](https://github.com/MetroidAdvRandomizerSystem/MARS-Fusion/blob/main/src/main.s).
+
+# License
+
+The code is licensed under GPLv3. See [LICENSE.md](LICENSE.md).
+
+[Item graphics](data/major-tanks.gfx) are licensed under CC-BY-SA-4.0 from the MARS Team. See [LICENSE-CC-BY-SA-4.0.md](LICENSE-CC-BY-SA-4.0.md).
