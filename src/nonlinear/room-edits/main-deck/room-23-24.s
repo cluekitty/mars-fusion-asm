@@ -24,7 +24,7 @@
 
 .org MainDeckDoors + 92h * DoorEntry_Size + DoorEntry_Type
 .area 7
-    .db     DoorType_NoHatch
+    .db     DoorType_LockableHatch
     .db     23h
     .db     02h, 02h
     .db     38h, 3Bh
@@ -33,7 +33,7 @@
 
 .org MainDeckDoors + 0CCh * DoorEntry_Size + DoorEntry_Type
 .area 7
-    .db     DoorType_NoHatch
+    .db     DoorType_LockableHatch
     .db     23h
     .db     10h, 10h
     .db     38h, 3Bh
