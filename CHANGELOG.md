@@ -15,8 +15,11 @@
 
 ### Room Adjustments
 
+#### Main Deck
+- Changed: Given the doors in the "falling down"-variant of Operations Ventilations the hex IDs 0x92 and 0xCC (left and right respectively).
+
 #### Sector 2
-- The door between Cathedral and Cathedral Save Access has been changed from a Level-0 door to an open one.
+- Changed: The door between Cathedral and Cathedral Save Access has been changed from a Level-0 door to an open one.
 
 ## 0.9.2 - 2025-09-26
 

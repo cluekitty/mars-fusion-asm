@@ -10,6 +10,36 @@
 .incbin "data/rooms/S0-23-BG2.rlebg"
 .endarea
 
+; Add doors so that it can have them synced with Operations Crossing (room 0x24)
+; Reuse Doors 0x92 and 0xCC for this. Those are from the SA-X version of Operations Deck, which we dont use (room 0x55)
+.autoregion DataFreeSpace, DataFreeSpaceEnd
+@S0_OperationsVentilation_Clipdata:
+.incbin "data/rooms/S0-23-Clip.rlebg"
+.endautoregion
+
+.org MainDeckLevels + 23h * LevelMeta_Size + LevelMeta_Clipdata
+.area 04h
+    .dw     @S0_OperationsVentilation_Clipdata
+.endarea
+
+.org MainDeckDoors + 92h * DoorEntry_Size + DoorEntry_Type
+.area 7
+    .db     DoorType_LockableHatch
+    .db     23h
+    .db     02h, 02h
+    .db     38h, 3Bh
+    .db     50h
+.endarea
+
+.org MainDeckDoors + 0CCh * DoorEntry_Size + DoorEntry_Type
+.area 7
+    .db     DoorType_LockableHatch
+    .db     23h
+    .db     10h, 10h
+    .db     38h, 3Bh
+    .db     53h
+.endarea
+
 .defineregion readptr(MainDeckLevels + 52h * LevelMeta_Size + LevelMeta_Spriteset0), 12h
 
 .autoregion
