@@ -12,6 +12,9 @@
   - When using Door Lock Randomizer: Permanently locked doors do not show as "locked" in computer conversations.
   - When using Door Lock Randomizer: Level 0 thru Level 4 Doors that could be closed in the navigation room show up in the navigation conversation as locked, except when opened manually by the player before talking to the computer.
 - Fixed: It is no longer possible for the SA-X Monster form to jump out-of-bounds.
+- Removed: The nonlinear compilation flag was removed.
+- Removed: The randomizer compilation flag was removed and is now always forced.
+- Removed: the optimization compilation flag was removed and is now always forced.
 
 ### Room Adjustments
 
