@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased - 2025-??-??
+## Unreleased - 2026-??-??
+
+- Removed: The optimization compilation flag was removed and is now always forced.
+
+## 0.10.0 - 2026-01-03
 - Fixed: Energy values over 2099 now correctly render in-game.
 - Changed: Maximum Energy has been limited to 9999.
 - Fixed: Energy values over 2099 are now capped on the file screen to only show 20 E-tanks. A new `+` indicator will show next to your energy if you have more than 2099 max energy.
@@ -14,7 +18,6 @@
 - Fixed: It is no longer possible for the SA-X Monster form to jump out-of-bounds.
 - Removed: The nonlinear compilation flag was removed.
 - Removed: The randomizer compilation flag was removed and is now always forced.
-- Removed: the optimization compilation flag was removed and is now always forced.
 
 ### Room Adjustments
 
@@ -22,7 +25,7 @@
 - Changed: Given the doors in the "falling down"-variant of Operations Ventilations the hex IDs 0x92 and 0xCC (left and right respectively).
 
 #### Sector 2
-- Changed: The door between Cathedral and Cathedral Save Access has been changed from a Level-0 door to an open one.
+- Changed: The doors between Cathedral and Cathedral Save Access have been changed from a Level-0 door to an open one.
 
 ## 0.9.2 - 2025-09-26
 
