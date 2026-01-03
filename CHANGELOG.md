@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased - 2025-??-??
+## Unreleased - 2026-??-??
+
+## 0.10.0 - 2026-01-03
 - Fixed: Energy values over 2099 now correctly render in-game.
 - Changed: Maximum Energy has been limited to 9999.
 - Fixed: Energy values over 2099 are now capped on the file screen to only show 20 E-tanks. A new `+` indicator will show next to your energy if you have more than 2099 max energy.
