@@ -2,6 +2,8 @@
 
 ## Unreleased - 2026-??-??
 
+- Added: The following upgrade sprites: a Samus head, Walljump Boots, a Randovania icon, a colorful Archipelago icon, and a monochrome Archipelago icon.
+
 ## 0.10.0 - 2026-01-03
 - Fixed: Energy values over 2099 now correctly render in-game.
 - Changed: Maximum Energy has been limited to 9999.

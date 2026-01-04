@@ -619,6 +619,11 @@ UpgradeSprite_Anonymous equ 27
 UpgradeSprite_ShinyMissileTank equ 28
 UpgradeSprite_ShinyPowerBombTank equ 29
 UpgradeSprite_InfantMetroid equ 30
+UpgradeSprite_SamusHead equ 31
+UpgradeSprite_WalljumpBoots equ 32
+UpgradeSprite_Randovania equ 33
+UpgradeSprite_ArchipelagoColor equ 34
+UpgradeSprite_ArchipelagoMonochrome equ 35
 
 MajorLocation_MainDeckData equ 00h
 MajorLocation_Arachnus equ 01h
@@ -669,7 +674,7 @@ CreditsLineType_Copyright3 equ 0Ch
 CreditsLineType_Copyright4 equ 0Dh
 
 ; alternate palette
-AltTankPal0 equ 0000h
+AltTankPal0 equ 7C1Fh
 AltTankPal1 equ 0000h
 AltTankPal2 equ 294Ah
 AltTankPal3 equ 4210h
