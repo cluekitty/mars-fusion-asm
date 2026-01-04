@@ -14,9 +14,6 @@
 .ifndef ACCESSIBILITY
 .definelabel ACCESSIBILITY, 0
 .endif
-.ifndef RANDOMIZER
-.definelabel RANDOMIZER, 1
-.endif
 
 .ifndef BOMBLESS_PBS
 .definelabel BOMBLESS_PBS, 0
@@ -140,7 +137,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 ; Non-linearity patches
 ; Patches which mitigate or remove linear story restrictions
 ; Forced if randomizer flag is on
-.if RANDOMIZER
 .notice "Applying non-linearity patches..."
 .include "src/nonlinear/common.s"
 .include "src/nonlinear/hud-edits.s"
@@ -176,11 +172,9 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .if BOMBLESS_PBS
 .include "src/nonlinear/bombless-pbs.s"
 .endif
-.endif
 
 ; Randomizer patches
 ; Patches making randomization of the game possible
-.if RANDOMIZER
 .notice "Applying randomizer patches..."
 .include "src/randomizer/credits.s"
 .include "src/randomizer/hatch-fixes.s"
@@ -194,6 +188,5 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/nonlinear/tileset-edits.s"
 .include "src/randomizer/title-screen.s"
 .include "src/randomizer/room-name-display.s"
-.endif
 
 .close
