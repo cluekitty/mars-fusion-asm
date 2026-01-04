@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased - 2026-??-??
+- Fixed: Adjusted stop-enemy clipdata in Main Deck Operations Deck (S0-0D) to prevent a visual glitch when destroying the maintenance hallway cover.
 
 ## 0.10.0 - 2026-01-03
 - Fixed: Energy values over 2099 now correctly render in-game.
