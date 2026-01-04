@@ -316,6 +316,11 @@
     .db     0   ; shiny missile tank
     .db     0   ; shiny power bomb tank
     .db     1   ; infant metroid
+    .db     1   ; samus head 
+    .db     0   ; walljump boots
+    .db     1   ; randovania
+    .db     1   ; archipelago color
+    .db     0   ; archipelago monochrome
 .endautoregion
 
 ; tileset 08
