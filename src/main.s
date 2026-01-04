@@ -8,9 +8,6 @@
 .ifndef DEBUG
 .definelabel DEBUG, 1
 .endif
-.ifndef OPTIMIZE
-.definelabel OPTIMIZE, 1
-.endif
 .ifndef QOL
 .definelabel QOL, 1
 .endif
@@ -96,10 +93,9 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 
 ; Optimization patches
 ; Patches intended to produce identical behavior to vanilla, but optimized
-.if OPTIMIZE
 .notice "Applying optimization patches..."
+.include "src/optimization/item-check.s"
 .include "src/optimization/power-bomb-explosion.s"
-.endif
 
 ; Quality of life patches
 ; Patches providing non-essential but convenient features
@@ -180,7 +176,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 ; Randomizer patches
 ; Patches making randomization of the game possible
 .notice "Applying randomizer patches..."
-.include "src/optimization/item-check.s"
 .include "src/randomizer/credits.s"
 .include "src/randomizer/hatch-fixes.s"
 .include "src/randomizer/hints.s"
