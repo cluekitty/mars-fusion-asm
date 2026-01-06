@@ -1,8 +1,8 @@
-; Enforces intended Geron weaknesses (missiles, super missiles, power bombs)
+; Enforces intended Geron weaknesses (missiles (/charge beam), super missiles, power bombs)
 
 ; Atmospheric Geron weaknesses
 .org SpriteStats + AtmosphericStabilizerParasite_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_Missiles)
+    .db     (1 << SpriteWeakness_Missiles) | (1 << SpriteWeakness_ChargeBeam)
 
 ; Missile Geron weaknesses
 .org SpriteStats + XBarrierCoreNormal1_Id * SpriteStats_Size + SpriteStats_Weaknesses
