@@ -1,6 +1,13 @@
 # Changelog
 
 ## Unreleased - 2026-??-??
+- Fixed: Adjusted stop-enemy clipdata in Main Deck Operations Deck (S0-0D) to prevent a visual glitch when destroying the maintenance hallway cover.
+
+- Removed: The optimization compilation flag was removed and is now always forced.
+
+- Removed: The compilation flag for Bombless PBs. This is now always included.
+
+- Added: The following upgrade sprites: a Samus head, Walljump Boots, a Randovania icon, a colorful Archipelago icon, and a monochrome Archipelago icon.
 
 - Changed: The Geron weakness patch now makes Stabilizer Gerons weak to Charge Beam again.
 
