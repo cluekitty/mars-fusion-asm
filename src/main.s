@@ -188,4 +188,8 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/randomizer/room-name-display.s"
 ; End randomizer patches
 
+.if NERF_GERON_WEAKNESS
+.include "src/nonlinear/nerf-geron-weakness.s"
+.endif
+
 .close
