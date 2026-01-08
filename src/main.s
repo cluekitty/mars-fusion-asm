@@ -101,7 +101,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/physics/instant-morph.s"
 .include "src/qol/aim-lock.s"
 .include "src/qol/completion-seconds.s"
-.include "src/qol/consistency.s"
 .include "src/qol/cross-sector-maps.s"
 .include "src/qol/fast-doors.s"
 .include "src/qol/fast-elevators.s"
@@ -164,6 +163,9 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .if NERF_GERON_WEAKNESS
 .include "src/nonlinear/nerf-geron-weakness.s"
 .endif
+
+; Consistency patches
+.include "src/consistency/animals.s"
 
 .if !DEBUG
 .include "src/nonlinear/item-select.s"
