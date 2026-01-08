@@ -101,6 +101,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/physics/instant-morph.s"
 .include "src/qol/aim-lock.s"
 .include "src/qol/completion-seconds.s"
+.include "src/qol/consistency.s"
 .include "src/qol/cross-sector-maps.s"
 .include "src/qol/fast-doors.s"
 .include "src/qol/fast-elevators.s"
