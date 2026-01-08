@@ -5,3 +5,7 @@ flipscfg.bin
 *.gba
 *.exe
 *.sym
+
+# emulator save files and save states
+*.sav
+*.ss[123456789]
