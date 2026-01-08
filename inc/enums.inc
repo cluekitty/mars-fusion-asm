@@ -199,6 +199,7 @@ SamusPose_Unmorphing equ 0Fh
 SamusPose_MorphBallMidAir equ 10h
 SamusPose_WallJumping equ 16h
 SamusPose_ScrewAttacking equ 1Eh
+SamusPose_Shinesparking equ 24h
 SamusPose_Dying equ 3Eh
 SamusPose_FrozenRequest equ 0FBh
 
@@ -287,8 +288,9 @@ SpriteWeakness_BeamOrBombs equ 1
 SpriteWeakness_SuperMissiles equ 2
 SpriteWeakness_Missiles equ 3
 SpriteWeakness_PowerBombs equ 4
-SpriteWeakness_SpeedboosterOrScrew equ 5
+SpriteWeakness_ScrewAttack equ 5     ; In vanilla this is Speedbooster or Screw Attack, but we changed this here.
 SpriteWeakness_Freezable equ 6
+SpriteWeakness_Speedbooster equ 7
 
 Projectile_NormalBeam equ 0
 Projectile_ChargeBeam equ 1

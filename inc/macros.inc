@@ -60,6 +60,9 @@
 ; read pointer from source file
 .expfunc readptr(pos), readu32("metroid4.gba", pos & 0xFFFFFF)
 
+; read byte from source file
+.expfunc read_byte_at_current_pos(), readbyte("metroid4.gba", org() & 0xFFFFFF)
+
 ; create OAM frame for the nav lock sprite based on the security level
 .macro nav_lock_oam_frame, level
     .dh 4
@@ -123,4 +126,18 @@ label:
     .align 4
 label:
     .skip 4
+.endmacro
+
+; Goes through all sprites starting from start_value, to end_value (including), and if that sprite contains
+; a screw attack weakness, gets adjusted to also get a speed booster weakness.
+; stat_address is the base address for the sprite stats. Should be either `SpriteStats` or `SecondarySpriteStats`
+.macro adjust_speed_weakness_of_sprites, start_value, end_value, stat_address
+    .if start_value < (SpriteStats ? 0CEh : 081h) && start_value <= end_value
+        .org stat_address + (start_value * SpriteStats_Size) + SpriteStats_Weaknesses
+        .definelabel @@weakness, read_byte_at_current_pos()
+        .if @@weakness & (1 << SpriteWeakness_ScrewAttack)
+            .db @@weakness + (1 << SpriteWeakness_Speedbooster)
+        .endif
+        adjust_speed_weakness_of_sprites (start_value+1), end_value, stat_address
+    .endif
 .endmacro
