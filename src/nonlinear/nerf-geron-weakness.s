@@ -98,9 +98,8 @@
 .endautoregion
 
 .org 08041FA0h      ; in SuperMissileGeronInit
-.area 6
+.area 6, 0
     bl @SuperGeronInitHijack
-    nop
 .endarea
 
 ; Call GeronSetCollision at the end of SuperMissileGeronIdleInit
