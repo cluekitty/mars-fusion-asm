@@ -160,10 +160,6 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/nonlinear/bombless-pbs.s"
 ; End non-linearity patches
 
-.if NERF_GERON_WEAKNESS
-.include "src/nonlinear/nerf-geron-weakness.s"
-.endif
-
 ; Consistency patches
 .include "src/consistency/animals.s"
 
