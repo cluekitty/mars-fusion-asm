@@ -60,7 +60,7 @@
 ; read pointer from source file
 .expfunc readptr(pos), readu32("metroid4.gba", pos & 0xFFFFFF)
 
-; read byte from source file
+; read byte at the current position from source file
 .expfunc read_byte_at_current_pos(), readbyte("metroid4.gba", org() & 0xFFFFFF)
 
 ; create OAM frame for the nav lock sprite based on the security level
@@ -131,6 +131,7 @@ label:
 ; Goes through all sprites starting from start_value, to end_value (including), and if that sprite contains
 ; a screw attack weakness, gets adjusted to also get a speed booster weakness.
 ; stat_address is the base address for the sprite stats. Should be either `SpriteStats` or `SecondarySpriteStats`
+; This macro should only ever be called in steps of 128 (decimal), as otherwise armips will see it as an infinite loop and error.
 .macro adjust_speed_weakness_of_sprites, start_value, end_value, stat_address
     .if start_value < (stat_address == SpriteStats ? 0CEh : 081h) && start_value <= end_value
         .org stat_address + (start_value * SpriteStats_Size) + SpriteStats_Weaknesses
