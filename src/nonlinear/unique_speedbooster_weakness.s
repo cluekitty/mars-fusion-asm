@@ -45,7 +45,7 @@
     mov     r0, #0
 
 @@return:
-    mov     r1, SpriteWeakness_ScrewAttack
+    mov     r1, (1 << SpriteWeakness_ScrewAttack)
     pop     { pc }
 .endfunc
 .pool
