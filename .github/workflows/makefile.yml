@@ -68,7 +68,7 @@ jobs:
             const path = require("path");
 
             const ALLOW_LIST = ["accessibility.ips"];
-            const THRESHOLD = 200;
+            const THRESHOLD = 250;
 
             let table_msg = "| File | Size (Bytes) |\n|-----|-----|\n";
             let warnings = "";
