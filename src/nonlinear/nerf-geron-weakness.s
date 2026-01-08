@@ -79,8 +79,6 @@
 
 ; Make Super Missile Geron passable if it hasn't formed yet, but impoassable once it has formed.
 
-.definelabel @GeronSetCollision, 08029cf0h
-
 ; Changes the function in SuperMissileGeronInit, to only set collision if pose is not Spawning_From_X
 .autoregion
 .align 2
@@ -92,7 +90,7 @@
     cmp     r0, #5Ah        ; SPRITE_POSE_SPAWNING_FROM_X
     beq     @@return
     mov     r0, ClipdataAction_MakeSolid
-    bl 	    @GeronSetCollision
+    bl 	    GeronSetCollision
 @@return:
     pop     { pc }
 .endfunc
@@ -111,7 +109,7 @@
 .func @SuperGeronIdleInitHijack
     push    { lr }
     mov     r0, ClipdataAction_MakeSolid
-    bl      @GeronSetCollision
+    bl      GeronSetCollision
 
     ; Restore original code
     add     r2, r1, #00
