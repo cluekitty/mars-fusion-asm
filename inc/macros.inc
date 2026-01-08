@@ -132,11 +132,11 @@ label:
 ; a screw attack weakness, gets adjusted to also get a speed booster weakness.
 ; stat_address is the base address for the sprite stats. Should be either `SpriteStats` or `SecondarySpriteStats`
 .macro adjust_speed_weakness_of_sprites, start_value, end_value, stat_address
-    .if start_value < (SpriteStats ? 0CEh : 081h) && start_value <= end_value
+    .if start_value < (stat_address == SpriteStats ? 0CEh : 081h) && start_value <= end_value
         .org stat_address + (start_value * SpriteStats_Size) + SpriteStats_Weaknesses
         .definelabel @@weakness, read_byte_at_current_pos()
         .if @@weakness & (1 << SpriteWeakness_ScrewAttack)
-            .db @@weakness + (1 << SpriteWeakness_Speedbooster)
+            .db @@weakness | (1 << SpriteWeakness_Speedbooster)
         .endif
         adjust_speed_weakness_of_sprites (start_value+1), end_value, stat_address
     .endif
