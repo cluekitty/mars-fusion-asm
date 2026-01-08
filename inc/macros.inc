@@ -134,7 +134,7 @@ label:
 ; This macro should only ever be called in steps of 128 (decimal), as otherwise armips will see it as an infinite loop and error.
 .macro adjust_speed_weakness_of_sprites, start_value, end_value, stat_address
     .if start_value < (stat_address == SpriteStats ? 0CEh : 081h) && start_value <= end_value
-        .org stat_address + (start_value * SpriteStats_Size) + SpriteStats_Weaknesses
+        .org stat_address + (start_value * (stat_address == SpriteStats ? SpriteStats_Size : SecondarySpriteStats_Size)) + SpriteStats_Weaknesses
         .definelabel @@weakness, read_byte_at_current_pos()
         .if @@weakness & (1 << SpriteWeakness_ScrewAttack)
             .db @@weakness | (1 << SpriteWeakness_Speedbooster)

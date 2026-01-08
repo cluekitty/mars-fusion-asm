@@ -172,6 +172,7 @@ Sprite_Work5 equ 36h
 
 SpriteStats equ 082E4D4Ch
 SecondarySpriteStats equ 082E589Eh
+SecondarySpriteStats_Size equ 08h
 .sym off
 SpriteStats_Health equ 00h
 SpriteStats_Damage equ 02h
