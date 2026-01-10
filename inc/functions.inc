@@ -19,7 +19,9 @@ LoadNewSpriteGfx equ 0800F8ACh
 LoadNewSpritePal equ 0800F8F0h
 SpawnSecondarySprite equ 0800FAE0h
 SpawnPrimarySprite equ 0800FBC8h
+
 Nightmare_MakeMissilesFall equ 0805DD40h
+GeronSetCollision equ 08029cf0h
 
 LockHatches equ 08063070h
 ChangeSuit equ 08063190h

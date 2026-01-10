@@ -136,6 +136,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .notice "Applying non-linearity patches..."
 .include "src/nonlinear/common.s"
 .include "src/nonlinear/hud-edits.s"
+.include "src/nonlinear/unique_speedbooster_weakness.s"
 .include "src/nonlinear/beam-stacking.s"
 .include "src/nonlinear/bosses.s"
 .include "src/nonlinear/data-rooms.s"
@@ -160,9 +161,8 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/nonlinear/bombless-pbs.s"
 ; End non-linearity patches
 
-.if NERF_GERON_WEAKNESS
-.include "src/nonlinear/nerf-geron-weakness.s"
-.endif
+; Consistency patches
+.include "src/consistency/animals.s"
 
 .if !DEBUG
 .include "src/nonlinear/item-select.s"
@@ -184,5 +184,9 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .include "src/randomizer/title-screen.s"
 .include "src/randomizer/room-name-display.s"
 ; End randomizer patches
+
+.if NERF_GERON_WEAKNESS
+.include "src/nonlinear/nerf-geron-weakness.s"
+.endif
 
 .close

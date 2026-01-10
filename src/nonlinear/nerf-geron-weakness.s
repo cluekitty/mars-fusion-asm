@@ -76,10 +76,6 @@
 .org 08029E68h
     mov r0, ClipdataAction_MakeSolid
 
-; Super Missile Geron
-.org 08041FA0h
-    mov r0, ClipdataAction_MakeSolid
-
 ; Power Bomb Geron
 .org 08042310h
     mov r0, ClipdataAction_MakeSolid
@@ -97,10 +93,10 @@
     add     r1, Sprite_Pose
     ldrb    r0, [r1, #0]
     cmp     r0, #5Ah        ; SPRITE_POSE_SPAWNING_FROM_X
-    beq     @return
+    beq     @@return
     mov     r0, ClipdataAction_MakeSolid
     bl 	    GeronSetCollision
-@return:
+@@return:
     pop     { pc }
 .endfunc
 .pool
