@@ -9,7 +9,7 @@
 
 - Fixed: It's possible again to walk through the Super Missile Geron in Drain Pipe.
 
-- Changed: The Geron weakness patch now makes Stabilizer Gerons weak to Charge Beam again.
+- Changed: The Geron weakness patch now makes Stabilizer Gerons weak to Charge Beam again, and all Gerons weak to Speedbooster.
 
 ## 0.10.0 - 2026-01-03
 - Fixed: Energy values over 2099 now correctly render in-game.
