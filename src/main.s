@@ -136,6 +136,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 .notice "Applying non-linearity patches..."
 .include "src/nonlinear/common.s"
 .include "src/nonlinear/hud-edits.s"
+.include "src/nonlinear/unique_speedbooster_weakness.s"
 .include "src/nonlinear/beam-stacking.s"
 .include "src/nonlinear/bosses.s"
 .include "src/nonlinear/data-rooms.s"

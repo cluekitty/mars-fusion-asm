@@ -171,6 +171,8 @@ Sprite_Work5 equ 36h
 .sym on
 
 SpriteStats equ 082E4D4Ch
+SecondarySpriteStats equ 082E589Eh
+SecondarySpriteStats_Size equ 08h
 .sym off
 SpriteStats_Health equ 00h
 SpriteStats_Damage equ 02h
@@ -223,6 +225,7 @@ SamusStateBackup equ 03001270h
 SamusState_Unk00 equ 00h
 SamusState_Pose equ 01h
 SamusState_ForcedMovement equ 03h
+SamusState_SpeedboostingCounter equ 06h
 SamusState_ArmCannonDirection equ 07h
 SamusState_SecondaryWeaponSelect equ 08h
 SamusState_ProjectileType equ 09h
