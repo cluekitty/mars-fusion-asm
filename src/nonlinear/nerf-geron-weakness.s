@@ -81,6 +81,47 @@
     mov r0, ClipdataAction_MakeSolid
 
 
+; Increases the sideways hitbox of each Geron by 2 pixels, so that 
+; you can shinespark/speedboost through them without bonking against the solid collision
+; These are all modified in their respective Init functions.
+
+.definelabel @missile_geron_hitbox, 32h
+.definelabel @super_geron_hitbox, 32h
+.definelabel @pb_geron_hitbox, 40h
+
+; Missile Geron
+.org 08029E24h
+.area 1
+    .db (0FFh - @missile_geron_hitbox)
+.endarea
+
+.org 08029E18h
+.area 2
+    mov     r0, @missile_geron_hitbox
+.endarea
+
+; Super Missile Geron
+.org 08041F5Ch
+.area 1
+    .db (0FFh - @super_geron_hitbox)
+.endarea
+
+.org 08041f50h
+.area 2
+    mov     r0, @super_geron_hitbox
+.endarea
+
+; Power Bomb Geron
+.org 080422CCh
+.area 1
+    .db (0FFh - @pb_geron_hitbox)
+.endarea
+
+.org 080422C0h
+.area 2
+    mov     r0, @pb_geron_hitbox
+.endarea
+
 
 ; Make Super Missile Geron passable if it hasn't formed yet, but impoassable once it has formed.
 
