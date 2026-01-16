@@ -84,6 +84,7 @@
 ; Increases the sideways hitbox of each Geron, so that 
 ; you can shinespark/speedboost through them without bonking against the solid collision
 ; These are all modified in their respective Init functions.
+; FIXME: Instead of increasing hitboxes, create a new speedboostable clipdata type
 
 .definelabel @missile_geron_hitbox, 4Ah
 .definelabel @super_geron_hitbox, 4Ah
