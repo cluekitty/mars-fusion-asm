@@ -1,68 +1,73 @@
-; Enforces intended Geron weaknesses (missiles, super missiles, power bombs)
+; Enforces intended Geron weaknesses (charge, missiles, super missiles, power bombs, speed)
+; NOTE: Relies on unique_speedbooster_weakness!
+
+.definelabel @missile_and_speed_weakness, (1 << SpriteWeakness_Missiles) | (1 << SpriteWeakness_Speedbooster)
+.definelabel @supers_and_speed_weakness, (1 << SpriteWeakness_SuperMissiles) | (1 << SpriteWeakness_Speedbooster)
+.definelabel @pbs_and_speed_weakness, (1 << SpriteWeakness_PowerBombs) | (1 << SpriteWeakness_Speedbooster)
 
 ; Atmospheric Geron weaknesses
 .org SpriteStats + AtmosphericStabilizerParasite_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_Missiles)
+    .db     (1 << SpriteWeakness_ChargeBeam) | @missile_and_speed_weakness
 
 ; Missile Geron weaknesses
 .org SpriteStats + XBarrierCoreNormal1_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_Missiles)
+    .db     @missile_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreNormal2_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_Missiles)
+    .db     @missile_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreNormal3_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_Missiles)
+    .db     @missile_and_speed_weakness
 
 ; Super Missile Geron weaknesses
 .org SpriteStats + XBarrierCoreSuper1_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreSuper2_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreSuper3_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreSuper4_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreSuper5_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreSuper6_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreSuper7_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 .org SpriteStats + XBarrierCoreSuper8_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_SuperMissiles)
+    .db     @supers_and_speed_weakness
 
 ; Power Bomb Geron weaknesses
 .org SpriteStats + XBarrierCorePower1_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 .org SpriteStats + XBarrierCorePower2_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 .org SpriteStats + XBarrierCorePower3_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 .org SpriteStats + XBarrierCorePower4_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 .org SpriteStats + XBarrierCorePower5_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 .org SpriteStats + XBarrierCorePower6_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 .org SpriteStats + XBarrierCorePower7_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 .org SpriteStats + XBarrierCorePower8_Id * SpriteStats_Size + SpriteStats_Weaknesses
-    .db     (1 << SpriteWeakness_PowerBombs)
+    .db     @pbs_and_speed_weakness
 
 ; Changes the clipdata passed into function XBarrierCoreSetCollision (08029cf0h)
 ; to not allow the player to pass through using Screw Attack or Speed Booster
@@ -75,6 +80,48 @@
 .org 08042310h
     mov r0, ClipdataAction_MakeSolid
 
+
+; Increases the sideways hitbox of each Geron, so that 
+; you can shinespark/speedboost through them without bonking against the solid collision
+; These are all modified in their respective Init functions.
+; FIXME: Instead of increasing hitboxes, create a new speedboostable clipdata type
+
+.definelabel @missile_geron_hitbox, 4Ah
+.definelabel @super_geron_hitbox, 4Ah
+.definelabel @pb_geron_hitbox, 4Ah
+
+; Missile Geron
+.org 08029E64h
+.area 1
+    .db (100h - @missile_geron_hitbox)
+.endarea
+
+.org 08029E34h
+.area 2
+    mov     r0, @missile_geron_hitbox
+.endarea
+
+; Super Missile Geron
+.org 08041F9Ch
+.area 1
+    .db (100h - @super_geron_hitbox)
+.endarea
+
+.org 08041F6Ch
+.area 2
+    mov     r0, @super_geron_hitbox
+.endarea
+
+; Power Bomb Geron
+.org 0804230Ch
+.area 1
+    .db (100h - @pb_geron_hitbox)
+.endarea
+
+.org 080422DCh
+.area 2
+    mov     r0, @pb_geron_hitbox
+.endarea
 
 
 ; Make Super Missile Geron passable if it hasn't formed yet, but impoassable once it has formed.
