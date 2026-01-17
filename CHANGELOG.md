@@ -1,14 +1,14 @@
 # Changelog
 
 ## Unreleased - 2026-??-??
+
+## 0.11.0 - 2026-01-17
 - Fixed: Adjusted stop-enemy clipdata in Main Deck Operations Deck (S0-0D) to prevent a visual glitch when destroying the maintenance hallway cover.
 - Removed: The optimization compilation flag was removed and is now always forced.
 - Removed: The compilation flag for Bombless PBs. This is now always included.
 - Added: The following upgrade sprites: a Samus head, Walljump Boots, a Randovania icon, a colorful Archipelago icon, and a monochrome Archipelago icon.
 - Changed: Samus is now controllable during the animals sequence, removing an RNG consistency issue.
-
 - Fixed: It's possible again to walk through the Super Missile Geron in Drain Pipe.
-
 - Changed: The Geron weakness patch now makes Stabilizer Gerons weak to Charge Beam again, and all Gerons weak to Speedbooster.
 
 ## 0.10.0 - 2026-01-03
