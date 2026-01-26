@@ -124,7 +124,7 @@
 .endarea
 
 
-; Make Super Missile Geron passable if it hasn't formed yet, but impoassable once it has formed.
+; Make Super Missile Geron passable if it hasn't formed yet, but impassable once it has formed.
 
 ; Changes the function in SuperMissileGeronInit, to only set collision if pose is not Spawning_From_X
 .autoregion
