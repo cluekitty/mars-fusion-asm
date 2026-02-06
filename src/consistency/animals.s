@@ -1,10 +1,9 @@
 ; Allows Samus to be controlled during the animals event
 
-; The below removes a conditional branch of MiscPadAfterInteraction
-; which prevents movement during the animals exiting the enclosure sequence
-.org 08039654h
-.area 2
-    nop
+.org 0803964Eh
+.area 08039656h - 0803964Eh, 00
+; This section removes a conditional branch of MiscPadAfterInteraction
+;   which prevents movement during the animals exiting the enclosure sequence.
 .endarea
 
 .org 0804D6B0h
