@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased - 2026-??-??
+- Fixed: HUD no longer occassionally disappears after saving the animals.
 
 ## 0.11.0 - 2026-01-17
 - Fixed: Adjusted stop-enemy clipdata in Main Deck Operations Deck (S0-0D) to prevent a visual glitch when destroying the maintenance hallway cover.
