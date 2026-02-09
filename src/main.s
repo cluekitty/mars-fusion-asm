@@ -126,6 +126,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 ; Accessibility patches
 ; Patches which make the game more acccessible to people.
 .if ACCESSIBILITY
+.include "src/a11y/accessible-door-hatch-gfx.s"
 .include "src/a11y/accessible-enemy-gfx.s"
 .include "src/a11y/accessible-flashing.s"
 .endif

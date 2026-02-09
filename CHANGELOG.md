@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased - 2026-??-??
+- Changed: The hatch graphics have been changed to be more accessible to color blind people.
 - Fixed: HUD no longer occassionally disappears after saving the animals.
 
 ## 0.11.0 - 2026-01-17
