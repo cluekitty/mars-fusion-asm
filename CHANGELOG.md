@@ -2,6 +2,7 @@
 
 ## Unreleased - 2026-??-??
 - Fixed: HUD no longer occassionally disappears after saving the animals.
+- Fixed: Permanently locked hatches will no longer animate after certain events as if they can be opened.
 
 ## 0.11.0 - 2026-01-17
 - Fixed: Adjusted stop-enemy clipdata in Main Deck Operations Deck (S0-0D) to prevent a visual glitch when destroying the maintenance hallway cover.

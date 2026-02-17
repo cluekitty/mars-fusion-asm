@@ -166,3 +166,11 @@
 .area 32
     .incbin "data/nav-cutscene-gray-door.bin"
 .endarea
+
+; Early return from the DMA transfer responsible for changing the locked hatches' animated palette
+; Done at the end of UpdateHatchFlashingAnimation
+.org 08065BFCh
+.area 4
+    pop { r0 }
+    bx r0
+.endarea
