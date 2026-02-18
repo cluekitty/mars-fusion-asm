@@ -4,6 +4,7 @@
 - Changed: The hatch graphics have been changed to be more accessible to color blind people.
 - Fixed: HUD no longer occassionally disappears after saving the animals.
 - Fixed: Permanently locked hatches will no longer animate after certain events as if they can be opened.
+- Fixed: Discrepencies on the map and minimap regarding boss icons.
 - Removed: Removed the accessibility compile option and made it default.
 
 ### Room Adjustments
