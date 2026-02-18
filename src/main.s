@@ -11,9 +11,6 @@
 .ifndef QOL
 .definelabel QOL, 1
 .endif
-.ifndef ACCESSIBILITY
-.definelabel ACCESSIBILITY, 0
-.endif
 .ifndef MISSILES_WITHOUT_MAINS
 .definelabel MISSILES_WITHOUT_MAINS, 0
 .endif
@@ -125,11 +122,9 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 
 ; Accessibility patches
 ; Patches which make the game more acccessible to people.
-.if ACCESSIBILITY
 .include "src/a11y/accessible-door-hatch-gfx.s"
 .include "src/a11y/accessible-enemy-gfx.s"
 .include "src/a11y/accessible-flashing.s"
-.endif
 
 ; Non-linearity patches
 ; Patches which mitigate or remove linear story restrictions
