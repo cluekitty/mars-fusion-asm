@@ -111,7 +111,12 @@
     .db     DoorType_LockableHatch
 .endarea
 
-.org Sector2Doors + 6Eh * DoorEntry_Size + DoorEntry_Type
+.org Sector2Doors + 1Dh * DoorEntry_Size + DoorEntry_Type
+.area 1
+    .db     DoorType_OpenHatch
+.endarea
+
+.org Sector2Doors + 69h * DoorEntry_Size + DoorEntry_Type
 .area 1
     .db     DoorType_OpenHatch
 .endarea

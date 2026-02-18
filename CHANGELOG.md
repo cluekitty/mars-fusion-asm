@@ -4,6 +4,11 @@
 - Changed: The hatch graphics have been changed to be more accessible to color blind people.
 - Fixed: HUD no longer occassionally disappears after saving the animals.
 
+### Room Adjustments
+
+#### Sector 2
+- Fixed: The door in Cathedral that leads to Cathedral Save Access accidentally having the wrong door type.
+
 ## 0.11.0 - 2026-01-17
 - Fixed: Adjusted stop-enemy clipdata in Main Deck Operations Deck (S0-0D) to prevent a visual glitch when destroying the maintenance hallway cover.
 - Removed: The optimization compilation flag was removed and is now always forced.
