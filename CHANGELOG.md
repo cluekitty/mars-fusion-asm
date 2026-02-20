@@ -8,6 +8,9 @@
 
 ### Room Adjustments
 
+#### Sector 1
+- Changed: The Missile Geron in Yameba Corridor has been moved a bit to the left.
+
 #### Sector 2
 - Fixed: The door in Cathedral that leads to Cathedral Save Access accidentally having the wrong door type.
 

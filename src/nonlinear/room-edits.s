@@ -32,6 +32,7 @@
 
 ; Sector 1 (SRX) Changes
 .include "src/nonlinear/room-edits/sector-1/scrolls.s"
+.include "src/nonlinear/room-edits/sector-1/room-03.s"
 .include "src/nonlinear/room-edits/sector-1/room-04.s"
 .include "src/nonlinear/room-edits/sector-1/room-0A.s"
 .include "src/nonlinear/room-edits/sector-1/room-0C.s"
