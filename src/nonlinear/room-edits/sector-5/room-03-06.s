@@ -1,7 +1,5 @@
 ; Sector 5 - Nightmare Training Grounds
 ; TODO: Remove room 06 as it is unused in RDV
-; restructure the room to have a speedbooster runway across the top
-; add speedbooster blocks above the power bomb blocks
 .defineregion readptr(Sector5Levels + 03h * LevelMeta_Size + LevelMeta_Bg1), 486h
 .defineregion readptr(Sector5Levels + 03h * LevelMeta_Size + LevelMeta_Clipdata), 212h
 
