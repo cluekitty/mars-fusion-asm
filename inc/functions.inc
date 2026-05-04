@@ -30,7 +30,7 @@ RemoveNeverReformBlocksAndCollectedTanks equ 08064ADCh
 RemoveNeverReformBlocks equ 0806B130h
 SetBg1Tile equ 0806C614h
 SetSpecialBg1Tile equ 0806C6E4h
-SetClipdata equ 0806C82Ch
+SetClipdata equ 0806C82Ch ; r0 = Value, r1 = yPos, r2 = xPos
 SpawnParticleEffect equ 080730E4h
 SetEvent equ 08074890h
 

@@ -546,6 +546,7 @@ ClipdataTile_HorizontalBombChain1 equ 0074h
 ClipdataTile_HorizontalBombChain2 equ 0075h
 ClipdataTile_HorizontalBombChain3 equ 0076h
 ClipdataTile_HorizontalBombChain4 equ 0077h
+ClipdataTile_MakeSolid equ 800Fh
 
 ClipdataRevealed_Crumble equ 800Bh
 ClipdataRevealed_Weak equ 800Ch

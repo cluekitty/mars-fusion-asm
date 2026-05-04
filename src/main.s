@@ -131,6 +131,7 @@ DataFreeSpaceEnd equ DataFreeSpace + DataFreeSpaceLen
 ; Forced if randomizer flag is on
 .notice "Applying non-linearity patches..."
 .include "src/nonlinear/common.s"
+.include "src/nonlinear/gadora.s"
 .include "src/nonlinear/hud-edits.s"
 .include "src/nonlinear/unique_speedbooster_weakness.s"
 .include "src/nonlinear/beam-stacking.s"
