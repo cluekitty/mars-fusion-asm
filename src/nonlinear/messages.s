@@ -197,7 +197,7 @@
     strb    r2, [r4]
     pop     { r2 }
     ldr     r4, =CurrentSprite
-    strh    r0, [r4, Sprite_XParasiteTimer]
+    strh    r0, [r4, Sprite_WorkY]
     bx      lr
 .endfunc
 .pool

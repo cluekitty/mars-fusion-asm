@@ -468,7 +468,7 @@
     orr     r0, r1
     strh    r0, [r2, Sprite_Status]
     mov     r0, #2Ch
-    strh    r0, [r2, Sprite_XParasiteTimer]
+    strh    r0, [r2, Sprite_WorkY]
     add     r2, #20h
     mov     r0, #46h
     strb    r0, [r2, Sprite_Pose - 20h]

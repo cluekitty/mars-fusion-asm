@@ -20,6 +20,8 @@ LoadNewSpritePal equ 0800F8F0h
 SpawnSecondarySprite equ 0800FAE0h
 SpawnPrimarySprite equ 0800FBC8h
 
+TrySetAbsorbXFlag equ 08012818h
+
 Nightmare_MakeMissilesFall equ 0805DD40h
 GeronSetCollision equ 08029cf0h
 

@@ -131,8 +131,8 @@ SpriteList equ 03000140h
 Sprite_Status equ 00h
 Sprite_YPosition equ 02h
 Sprite_XPosition equ 04h
-Sprite_XParasiteTimer equ 06h
-Sprite_Unk08 equ 08h
+Sprite_WorkY equ 06h
+Sprite_WorkX equ 08h
 Sprite_BboxTop equ 0Ah
 Sprite_BboxBottom equ 0Ch
 Sprite_BboxLeft equ 0Eh
@@ -167,7 +167,7 @@ Sprite_FreezeTimer equ 32h
 Sprite_StandingOnFlag equ 33h
 Sprite_Properties equ 34h
 Sprite_FreezePaletteOffset equ 35h
-Sprite_Work5 equ 36h
+Sprite_NumberOfXToForm equ 36h
 .sym on
 
 SpriteStats equ 082E4D4Ch
@@ -384,6 +384,8 @@ HatchData_Status equ 00h
 HatchData_Animation equ 01h
 HatchData_XPosition equ 02h
 HatchData_YPosition equ 03h
+HatchData_Size equ 04h
+HatchData_Count equ 06h
 .sym on
 
 DestinationRoom equ 03004E3Ch
