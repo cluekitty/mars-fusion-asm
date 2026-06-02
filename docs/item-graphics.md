@@ -16,6 +16,6 @@ To add a new item graphic:
 - modify the above mentioned gfx
 - add a new entry to the [TankPalettes](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/blob/main/src/randomizer/tank-majors.s#L287), writing the byte of the graphics' palette as well as a comment indicating what it is
 - add an entry to the [UpgradeSprite](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/blob/a55335b11fd4ca78f6229f053ce5d707b2d1f1d9/inc/enums.inc#L591) enum.
-    - update the `UpgradeSprite_END` enum value to match match the last true item's value in the list.
+    - update the `UpgradeSprite_END` enum value to be the total count of item graphics.
 
 Note that the latter two have to be synced.

@@ -626,7 +626,7 @@ UpgradeSprite_WalljumpBoots equ 32
 UpgradeSprite_Randovania equ 33
 UpgradeSprite_ArchipelagoColor equ 34
 UpgradeSprite_ArchipelagoMonochrome equ 35
-UpgradeSprite_END equ 35 ; This value should match the last true item's value in this list.
+UpgradeSprite_END equ 36 ; This value should be the total count of the item graphics.
 
 MajorLocation_MainDeckData equ 00h
 MajorLocation_Arachnus equ 01h
