@@ -53,7 +53,7 @@
     add     r0, #53h
     strh    r0, [r2]
 @@load_tank_vram:
-    cmp     r4, #UpgradeSprite_InfantMetroid
+    cmp     r4, #UpgradeSprite_ArchipelagoMonochrome
     bls     @@load_tiles
     mov     r4, #UpgradeSprite_Empty
 @@load_tiles:
@@ -160,7 +160,7 @@
     lsl     r0, #7
     add     r1, r0
     ldrb    r0, [r4, RoomTanks_Sprite]
-    cmp     r0, #UpgradeSprite_InfantMetroid
+    cmp     r0, #UpgradeSprite_ArchipelagoMonochrome
     bls     @@load_tiles
     mov     r0, #UpgradeSprite_Empty
 @@load_tiles:
@@ -316,7 +316,7 @@
     .db     0   ; shiny missile tank
     .db     0   ; shiny power bomb tank
     .db     1   ; infant metroid
-    .db     1   ; samus head 
+    .db     1   ; samus head
     .db     0   ; walljump boots
     .db     1   ; randovania
     .db     1   ; archipelago color

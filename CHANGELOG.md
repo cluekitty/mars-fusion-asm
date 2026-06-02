@@ -1,6 +1,7 @@
 # Changelog
 
-## Unreleased - 2026-05-??
+## Unreleased - 2026-06-??
+- Fixed: Offworld item graphics no longer appear as an Empty Tank
 
 ## 0.12.2 - 2026-04-17
 - Fixed: Low-Health alarm now plays correctly when using the alternative Health Display.
