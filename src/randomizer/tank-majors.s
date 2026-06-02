@@ -53,7 +53,7 @@
     add     r0, #53h
     strh    r0, [r2]
 @@load_tank_vram:
-    cmp     r4, #UpgradeSprite_ArchipelagoMonochrome
+    cmp     r4, #UpgradeSprite_END
     bls     @@load_tiles
     mov     r4, #UpgradeSprite_Empty
 @@load_tiles:
@@ -160,7 +160,7 @@
     lsl     r0, #7
     add     r1, r0
     ldrb    r0, [r4, RoomTanks_Sprite]
-    cmp     r0, #UpgradeSprite_ArchipelagoMonochrome
+    cmp     r0, #UpgradeSprite_END
     bls     @@load_tiles
     mov     r0, #UpgradeSprite_Empty
 @@load_tiles:
