@@ -5,7 +5,7 @@
 
 ### Room Adjustments
 #### Sector 5
-- Changed: Training Grounds (S5-03) had speed booster runway lowered by 1 tile.
+- Changed: Training Grounds (S5-03) had its speed booster runway lowered by 1 tile.
 
 ## 0.12.2 - 2026-04-17
 - Fixed: Low-Health alarm now plays correctly when using the alternative Health Display.
