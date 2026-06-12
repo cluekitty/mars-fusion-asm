@@ -50,7 +50,7 @@
     sub     r1, r3
     asr     r1, #1Fh
     orr     r3, r1
-    ldr     r2, =#99
+    ldr     r2, =#999
     cmp     r3, r2      ; if missiles > 999
     bls     @@setCurrMissiles
     mov     r3, r2      ; cap missiles at 999
@@ -64,7 +64,7 @@
     sub     r1, r3
     asr     r1, #1Fh
     orr     r3, r1
-    ldr     r2, =#99
+    ldr     r2, =#999
     cmp     r3, r2      ; if missiles > 999
     bls     @@setMaxMissiles
     mov     r3, r2      ; cap missiles at 999
