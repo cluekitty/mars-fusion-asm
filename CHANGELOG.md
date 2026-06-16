@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased - 2026-06-??
+
+## 0.12.3 - 2026-06-16
 - Fixed: Offworld item graphics no longer appear as an Empty Tank
 - Fixed: Maximum ammo is now limited as defined
   - Missile Ammo: 999 Missiles maximum
