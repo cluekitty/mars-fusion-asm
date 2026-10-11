@@ -14,12 +14,13 @@
 @VfxInitialCountdownValue equ 10 ; in frames
 @ColdKnockbackFrameTreshold equ int(FramesPerSecond * 1.45)
 @SamusHurtGruntThreshold equ int((FramesPerSecond / 2) + (FramesPerSecond * 0.8))
-@LiquidHazardHurtSfxThreshold1 equ int((@SamusHurtGruntThreshold - @SamusHurtGruntThreshold) + 1)
+; These two should play at the start and midway to SamusHurtGrunt 
+@LiquidHazardHurtSfxThreshold1 equ 1
 @LiquidHazardHurtSfxThreshold2 equ int((@SamusHurtGruntThreshold / 2) + 1)
 
 ; Rewrite the entire SamusHazardDamage Function
 ; Function returns a bool in r0, indicating whether Samus should transition into a hurt pose.
-.org 08006290h
+.org SamusHazardDamage
 .area 168h
     push    { r4-r5, lr }
     ldr     r5, =SamusTimers
@@ -139,7 +140,7 @@
     b       @@check_knockback
 
 @@play_damage_grunt_sfx:
-    ; Play hurt grunt sfx and reset sfx timer.
+    ; Additionally also reset sfx timer.
     mov     r0, #SoundEffect_SamusHurtGrunt
     bl      MusicWrapper_unk3B78
     mov     r0, #0
@@ -228,20 +229,23 @@ EnvironmentalHazardDps:
     lsl     r0, #31 - SuitUpgrade_GravitySuit
     lsr     r0, #31
     add     r0, r1
-    ; Don't quite understand it this tbh, but vanilla code does it too.
+    ; Part 1 of restoring vanilla functionality
     lsl     r0, #1
     lsl     r1, r4, #1
     add     r1, r4
     lsl     r1, #1
     add     r0, r1
-    b       @@cont
+    b       @@continuation
 .endarea
-.area 0Ch
+; The reason the areas are split like that, is because in the vanilla code 
+; there is "pre-if stuff, two branches, pool, code for condition1, pool, code for condition2, pool"
+; Since there is code before our hijack that relies on the pool, we let the existing stuff intact
+.area 04h
     .skip 4
-    .pool
 .endarea
-.area 28h
-@@cont:
+.area (08h + 28h)
+@@continuation:
+    ; Part 2 of restoring vanilla functionality
     ldr     r1, =082E493Ch ; SuitDamageReductionPercent
     b       0800FEB8h ; back to vanilla code.
     .pool

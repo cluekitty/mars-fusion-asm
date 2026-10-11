@@ -44,6 +44,8 @@ MapScreenCountTanks equ 08075D28h
 InitStartingMap equ 08074FFCh
 NewGameInit equ 080803E4h
 
+SamusHazardDamage equ 08006290h
+
 DrawHudEnergy equ 08071C4Ch
 
 DetermineNavigationHatchesToLockForNavigationConversation equ 08065618h
