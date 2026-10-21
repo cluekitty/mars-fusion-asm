@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - 2026-??-??
+## 0.14.0 - 2026-10-21
 - Fixed: Go Mode music no longer turns off when disabling Charge or Missiles.
 - Added: An option to have the R-Button *toggle* between the secondary weapons and primary weapons instead of needing to hold for secondary weapons.
 - Changed: The timer that determines how much time needs to pass in a cold environment for knockback to occur now resets if you're not affected by cold, such as when equipping Varia Suit or going through a Door Transition.
