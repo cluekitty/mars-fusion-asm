@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased - 2026-11-??
+## Unreleased - 2026-??-??
+
+## 0.14.1 - 2026-10-24
 - Fixed: Mono audio can now be selected when stereo is set as the default option.
 
 ## 0.14.0 - 2026-10-21
